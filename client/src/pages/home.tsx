@@ -45,11 +45,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     if (!('speechSynthesis' in window)) {
       toast({
-        title: "Navegador no compatible",
-        description: "Tu navegador no soporta síntesis de voz. Recomendamos usar Chrome, Edge o Safari.",
-        variant: "destructive"
+        title: "Modo solo texto",
+        description: isMobile 
+          ? "Tu navegador móvil no soporta síntesis de voz. Usa Safari (iOS) o Chrome (Android) para audio, o continúa en modo lectura."
+          : "Tu navegador no soporta síntesis de voz. Usa Chrome, Edge o Safari para mejor experiencia.",
+        variant: "default",
+        duration: 8000
       });
       return;
     }
@@ -86,6 +91,13 @@ export default function Home() {
 
   const speakMantra = useCallback((): Promise<boolean> => {
     return new Promise((resolve) => {
+      // Si no hay soporte de voz, simplemente esperar un tiempo basado en la longitud del mantra
+      if (!('speechSynthesis' in window)) {
+        const readingTime = (currentMantra.texto.length * 100) / speed; // ~100ms por carácter
+        setTimeout(() => resolve(true), readingTime);
+        return;
+      }
+
       const utterance = new SpeechSynthesisUtterance(currentMantra.texto);
       utterance.rate = speed;
       utterance.pitch = pitch;
@@ -122,13 +134,14 @@ export default function Home() {
       return;
     }
 
-    if (!('speechSynthesis' in window)) {
+    const hasSpeech = 'speechSynthesis' in window;
+    if (!hasSpeech) {
       toast({
-        title: "Error",
-        description: "Tu navegador no soporta la síntesis de voz. Prueba con Chrome, Edge o Safari.",
-        variant: "destructive"
+        title: "Modo lectura activo",
+        description: "La app funcionará sin audio. Lee el mantra en pantalla durante la sesión.",
+        variant: "default",
+        duration: 5000
       });
-      return;
     }
 
     setIsPlaying(true);
@@ -161,12 +174,21 @@ export default function Home() {
   }, [isPlaying, durationMinutes, stopAll, mantraLoop, toast]);
 
   const playOnce = useCallback(async () => {
+    if (!('speechSynthesis' in window)) {
+      toast({
+        title: "Modo lectura",
+        description: "Lee el mantra en pantalla. Audio no disponible en este navegador.",
+        variant: "default",
+        duration: 3000
+      });
+      return;
+    }
     stopAll();
     setIsPlaying(true);
     setRepetitions(1);
     await speakMantra();
     setIsPlaying(false);
-  }, [stopAll, speakMantra]);
+  }, [stopAll, speakMantra, toast]);
 
   const handleCategoryChange = useCallback((category: string) => {
     stopAll();
