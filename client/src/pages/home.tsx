@@ -244,15 +244,18 @@ export default function Home() {
 
           {/* Columna derecha: Controles en 2 columnas */}
           <div className="grid grid-cols-2 gap-3 h-fit">
-            <TimerControls
-              durationMinutes={durationMinutes}
-              timeRemaining={timeRemaining}
-              isPlaying={isPlaying}
-              onDurationChange={setDurationMinutes}
-              onToggleSession={startSession}
-              onPlayOnce={playOnce}
-              sessionFinished={sessionFinished}
-            />
+            <div className="space-y-3">
+              <TimerControls
+                durationMinutes={durationMinutes}
+                timeRemaining={timeRemaining}
+                isPlaying={isPlaying}
+                onDurationChange={setDurationMinutes}
+                onToggleSession={startSession}
+                onPlayOnce={playOnce}
+                sessionFinished={sessionFinished}
+              />
+              <AmbientSounds isSessionActive={isPlaying} />
+            </div>
 
             <VoiceControls
               speed={speed}
@@ -267,10 +270,6 @@ export default function Home() {
               onCultureChange={handleCultureChange}
               onVoiceChange={handleVoiceChange}
             />
-
-            <div className="col-span-2">
-              <AmbientSounds isSessionActive={isPlaying} />
-            </div>
           </div>
         </div>
       </div>

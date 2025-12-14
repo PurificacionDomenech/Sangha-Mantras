@@ -28,54 +28,52 @@ export default function TimerControls({
   sessionFinished,
 }: TimerControlsProps) {
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3 h-full flex flex-col" data-testid="timer-controls">
-      <div className="flex-1 space-y-3">
-        <div>
-          <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between gap-2">
-            <span className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              Duración
-            </span>
-            <span className="text-xs text-stone-500">{durationMinutes} min</span>
-          </label>
-          <Slider
-            value={[durationMinutes]}
-            onValueChange={([v]) => onDurationChange(v)}
-            min={1}
-            max={60}
-            step={1}
-            className="mt-2"
-            disabled={isPlaying}
-            data-testid="duration-slider"
-          />
-        </div>
-
-        {timeRemaining > 0 && (
-          <div className="text-center py-2">
-            <div className="text-3xl font-light text-amber-800 dark:text-amber-300 font-mono" data-testid="time-display">
-              {formatTime(timeRemaining)}
-            </div>
-            <div className="text-xs text-stone-500 mt-0.5">restante</div>
-          </div>
-        )}
-
-        {sessionFinished && timeRemaining === 0 && (
-          <div className="text-center py-2 bg-green-100 dark:bg-green-900/30 rounded-lg" data-testid="session-finished">
-            <div className="text-sm text-green-800 dark:text-green-300 font-medium">
-              Sesión finalizada
-            </div>
-            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">
-              Namaste
-            </div>
-          </div>
-        )}
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-2" data-testid="timer-controls">
+      <div>
+        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center justify-between gap-2">
+          <span className="flex items-center gap-2">
+            <Clock className="w-4 h-4" />
+            Duración
+          </span>
+          <span className="text-xs text-stone-500">{durationMinutes} min</span>
+        </label>
+        <Slider
+          value={[durationMinutes]}
+          onValueChange={([v]) => onDurationChange(v)}
+          min={1}
+          max={60}
+          step={1}
+          className="mt-1.5"
+          disabled={isPlaying}
+          data-testid="duration-slider"
+        />
       </div>
 
-      <div className="space-y-2 mt-auto">
+      {timeRemaining > 0 && (
+        <div className="text-center py-1.5">
+          <div className="text-2xl font-light text-amber-800 dark:text-amber-300 font-mono" data-testid="time-display">
+            {formatTime(timeRemaining)}
+          </div>
+          <div className="text-xs text-stone-500">restante</div>
+        </div>
+      )}
+
+      {sessionFinished && timeRemaining === 0 && (
+        <div className="text-center py-1.5 bg-green-100 dark:bg-green-900/30 rounded-lg" data-testid="session-finished">
+          <div className="text-sm text-green-800 dark:text-green-300 font-medium">
+            Sesión finalizada
+          </div>
+          <div className="text-xs text-green-600 dark:text-green-400">
+            Namaste
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-1.5 pt-1">
         <Button
           onClick={onToggleSession}
           className="w-full text-sm"
-          size="default"
+          size="sm"
           variant={isPlaying ? "destructive" : "default"}
           data-testid="toggle-session-button"
         >
@@ -96,7 +94,7 @@ export default function TimerControls({
           onClick={onPlayOnce}
           variant="outline"
           className="w-full text-sm"
-          size="default"
+          size="sm"
           disabled={isPlaying}
           data-testid="play-once-button"
         >

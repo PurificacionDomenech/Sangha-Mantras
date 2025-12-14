@@ -293,24 +293,24 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
 
   return (
     <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3" data-testid="ambient-sounds">
-      <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center gap-2">
+      <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-2">
         <Volume2 className="w-4 h-4" />
         Sonidos Ambientales
       </h3>
-      <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-2">
+      <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-1.5">
         Puedes activar los sonidos solos o junto con los mantras
       </p>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {ambientSounds.map((sound) => {
           const IconComponent = iconMap[sound.icon];
           const soundState = sounds[sound.id];
           
           return (
-            <div key={sound.id} className="space-y-2">
+            <div key={sound.id} className="space-y-1">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  {IconComponent && <IconComponent className="w-4 h-4 text-stone-500 dark:text-stone-400" />}
-                  <span className="text-sm text-stone-700 dark:text-stone-300">{sound.nombre}</span>
+                <div className="flex items-center gap-2">
+                  {IconComponent && <IconComponent className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />}
+                  <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
                 </div>
                 <Switch
                   checked={soundState.active}
@@ -319,7 +319,7 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
                 />
               </div>
               {soundState.active && (
-                <div className="pl-7">
+                <div className="pl-5">
                   <Slider
                     value={[soundState.volume]}
                     onValueChange={([v]) => changeVolume(sound.id, v)}
