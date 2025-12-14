@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2 } from "lucide-react";
+import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -546,12 +546,45 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
     });
   }, [toast]);
 
+  const stopAllSounds = useCallback(() => {
+    // Detener todos los sonidos activos
+    Object.values(soundRefs.current).forEach(s => s.stop());
+    
+    // Desactivar todos los sonidos en el estado
+    setSounds(prev => {
+      const newState = { ...prev };
+      Object.keys(newState).forEach(soundId => {
+        newState[soundId] = { ...newState[soundId], active: false };
+      });
+      return newState;
+    });
+
+    toast({
+      title: "Sonidos detenidos",
+      description: "Todos los sonidos ambientales han sido desactivados",
+    });
+  }, [toast]);
+
   return (
     <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3" data-testid="ambient-sounds">
-      <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-2">
-        <Volume2 className="w-4 h-4" />
-        Sonidos Ambientales
-      </h3>
+      <div className="flex items-center justify-between mb-1.5">
+        <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 flex items-center gap-2">
+          <Volume2 className="w-4 h-4" />
+          Sonidos Ambientales
+        </h3>
+        {Object.values(sounds).some(s => s.active) && (
+          <Button
+            onClick={stopAllSounds}
+            size="sm"
+            variant="ghost"
+            className="h-6 px-2 text-xs gap-1"
+            title="Detener todos los sonidos"
+          >
+            <VolumeX className="w-3 h-3" />
+            Detener todos
+          </Button>
+        )}
+      </div>
       <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-1.5">
         Puedes activar los sonidos solos o junto con los mantras
       </p>
