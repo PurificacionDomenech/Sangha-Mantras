@@ -6,7 +6,7 @@ import MantraDisplay from "@/components/MantraDisplay";
 import VoiceControls from "@/components/VoiceControls";
 import TimerControls from "@/components/TimerControls";
 import AmbientSounds from "@/components/AmbientSounds";
-import InstructionsPanel from "@/components/InstructionsPanel";
+
 import { mantras } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
@@ -212,28 +212,14 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
       <Header />
 
-      <div className="max-w-6xl mx-auto px-4 pb-12">
+      <div className="max-w-7xl mx-auto px-4 pb-12">
         <CategorySelector
           selectedCategory={selectedCategory}
           onSelectCategory={handleCategoryChange}
         />
 
-        <div className="grid lg:grid-cols-[320px,1fr,340px] gap-6">
-          {/* Columna izquierda: Lista de mantras */}
-          <div className="space-y-3 lg:max-h-[calc(100vh-280px)] lg:overflow-y-auto lg:pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
-            {currentCategory.mantras.map((mantra, idx) => (
-              <MantraCard
-                key={`${selectedCategory}-${idx}`}
-                mantra={mantra}
-                isSelected={selectedMantraIndex === idx}
-                categoryColor={currentCategory.color}
-                onClick={() => handleMantraChange(idx)}
-                index={idx}
-              />
-            ))}
-          </div>
-
-          {/* Columna central: Display del mantra e instrucciones */}
+        <div className="grid lg:grid-cols-[1fr,420px] gap-8">
+          {/* Columna izquierda: Lista de mantras y display */}
           <div className="space-y-6">
             <MantraDisplay
               mantra={currentMantra}
@@ -241,8 +227,19 @@ export default function Home() {
               isPlaying={isPlaying}
               repetitions={repetitions}
             />
-            
-            <InstructionsPanel />
+
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+              {currentCategory.mantras.map((mantra, idx) => (
+                <MantraCard
+                  key={`${selectedCategory}-${idx}`}
+                  mantra={mantra}
+                  isSelected={selectedMantraIndex === idx}
+                  categoryColor={currentCategory.color}
+                  onClick={() => handleMantraChange(idx)}
+                  index={idx}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Columna derecha: Controles */}
