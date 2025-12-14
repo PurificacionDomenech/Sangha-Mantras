@@ -218,9 +218,9 @@ export default function Home() {
           onSelectCategory={handleCategoryChange}
         />
 
-        <div className="grid lg:grid-cols-[1fr,420px] gap-8">
+        <div className="grid lg:grid-cols-[1fr,420px] gap-6">
           {/* Columna izquierda: Lista de mantras y display */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <MantraDisplay
               mantra={currentMantra}
               categoryColor={currentCategory.color}
@@ -243,7 +243,7 @@ export default function Home() {
           </div>
 
           {/* Columna derecha: Controles */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <TimerControls
               durationMinutes={durationMinutes}
               timeRemaining={timeRemaining}
