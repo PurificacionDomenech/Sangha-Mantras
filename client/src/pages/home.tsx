@@ -218,7 +218,7 @@ export default function Home() {
           onSelectCategory={handleCategoryChange}
         />
 
-        <div className="grid lg:grid-cols-[1fr,380px] gap-4">
+        <div className="grid lg:grid-cols-[420px,1fr] gap-4">
           {/* Columna izquierda: Lista de mantras y display */}
           <div className="space-y-3">
             <MantraDisplay
@@ -228,7 +228,7 @@ export default function Home() {
               repetitions={repetitions}
             />
 
-            <div className="space-y-1.5 max-h-[550px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+            <div className="space-y-1.5 max-h-[520px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
               {currentCategory.mantras.map((mantra, idx) => (
                 <MantraCard
                   key={`${selectedCategory}-${idx}`}
@@ -242,36 +242,35 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Columna derecha: Controles */}
-          <div className="space-y-2.5">
-            {/* Grid de 2 columnas para Duración y Tradición Cultural */}
-            <div className="grid grid-cols-2 gap-2.5">
-              <TimerControls
-                durationMinutes={durationMinutes}
-                timeRemaining={timeRemaining}
-                isPlaying={isPlaying}
-                onDurationChange={setDurationMinutes}
-                onToggleSession={startSession}
-                onPlayOnce={playOnce}
-                sessionFinished={sessionFinished}
-              />
+          {/* Columna derecha: Controles en 2 columnas */}
+          <div className="grid grid-cols-2 gap-3 h-fit">
+            <TimerControls
+              durationMinutes={durationMinutes}
+              timeRemaining={timeRemaining}
+              isPlaying={isPlaying}
+              onDurationChange={setDurationMinutes}
+              onToggleSession={startSession}
+              onPlayOnce={playOnce}
+              sessionFinished={sessionFinished}
+            />
 
-              <VoiceControls
-                speed={speed}
-                pitch={pitch}
-                volume={volume}
-                selectedCulture={selectedCulture}
-                voices={voices}
-                selectedVoice={selectedVoice}
-                onSpeedChange={setSpeed}
-                onPitchChange={setPitch}
-                onVolumeChange={setVolume}
-                onCultureChange={handleCultureChange}
-                onVoiceChange={handleVoiceChange}
-              />
+            <VoiceControls
+              speed={speed}
+              pitch={pitch}
+              volume={volume}
+              selectedCulture={selectedCulture}
+              voices={voices}
+              selectedVoice={selectedVoice}
+              onSpeedChange={setSpeed}
+              onPitchChange={setPitch}
+              onVolumeChange={setVolume}
+              onCultureChange={handleCultureChange}
+              onVoiceChange={handleVoiceChange}
+            />
+
+            <div className="col-span-2">
+              <AmbientSounds isSessionActive={isPlaying} />
             </div>
-
-            <AmbientSounds isSessionActive={isPlaying} />
           </div>
         </div>
       </div>
