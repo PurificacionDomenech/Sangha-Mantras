@@ -47,6 +47,12 @@ class OscillatorSound {
       case 'bells':
         this.createBellsSound();
         break;
+      case 'bells-high':
+        this.createBellsHighSound();
+        break;
+      case 'bells-low':
+        this.createBellsLowSound();
+        break;
       case 'wind':
         this.createWindSound();
         break;
@@ -56,8 +62,17 @@ class OscillatorSound {
       case 'bowls':
         this.createBowlsSound();
         break;
+      case 'bowls-crystal':
+        this.createBowlsCrystalSound();
+        break;
+      case 'bowls-deep':
+        this.createBowlsDeepSound();
+        break;
       case 'gong':
         this.createGongSound();
+        break;
+      case 'gong-small':
+        this.createGongSmallSound();
         break;
     }
   }
@@ -194,6 +209,111 @@ class OscillatorSound {
     this.oscillator = setInterval(playBowl, 6000 + Math.random() * 4000) as any;
   }
 
+  private createBellsHighSound() {
+    const playBell = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      const frequencies = [880, 1046.50, 1318.51, 1568]; // Campanas más agudas
+      osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
+      osc.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.25, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 2.5);
+      
+      osc.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 2.5);
+    };
+
+    playBell();
+    this.oscillator = setInterval(playBell, 3500 + Math.random() * 2500) as any;
+  }
+
+  private createBellsLowSound() {
+    const playBell = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      const frequencies = [261.63, 329.63, 392, 493.88]; // Campanas más graves
+      osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
+      osc.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.35, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 4);
+      
+      osc.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 4);
+    };
+
+    playBell();
+    this.oscillator = setInterval(playBell, 5000 + Math.random() * 3500) as any;
+  }
+
+  private createBowlsCrystalSound() {
+    const playBowl = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      // Cuencos de cristal tienen tonos más puros y agudos
+      const frequencies = [432, 528, 639, 741, 852];
+      osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
+      osc.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.35, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 10);
+      
+      osc.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 10);
+    };
+
+    playBowl();
+    this.oscillator = setInterval(playBowl, 7000 + Math.random() * 5000) as any;
+  }
+
+  private createBowlsDeepSound() {
+    const playBowl = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc1 = this.audioContext.createOscillator();
+      const osc2 = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      // Cuencos profundos con armónicos graves
+      const frequencies = [110, 146.83, 174, 196];
+      const baseFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
+      osc1.frequency.value = baseFreq;
+      osc2.frequency.value = baseFreq * 1.5; // Armónico
+      osc1.type = 'sine';
+      osc2.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.45, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 9);
+      
+      osc1.connect(oscGain);
+      osc2.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc1.start();
+      osc2.start();
+      osc1.stop(this.audioContext.currentTime + 9);
+      osc2.stop(this.audioContext.currentTime + 9);
+    };
+
+    playBowl();
+    this.oscillator = setInterval(playBowl, 8000 + Math.random() * 4500) as any;
+  }
+
   private createGongSound() {
     const playGong = () => {
       if (!this.audioContext || !this.gainNode) return;
@@ -222,6 +342,36 @@ class OscillatorSound {
 
     playGong();
     this.oscillator = setInterval(playGong, 15000 + Math.random() * 10000) as any;
+  }
+
+  private createGongSmallSound() {
+    const playGong = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc1 = this.audioContext.createOscillator();
+      const osc2 = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      // Gong pequeño, más agudo y corto
+      osc1.frequency.value = 220; // Más agudo que el gong grande
+      osc2.frequency.value = 330; // Armónico
+      osc1.type = 'triangle';
+      osc2.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.4, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 6);
+      
+      osc1.connect(oscGain);
+      osc2.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc1.start();
+      osc2.start();
+      osc1.stop(this.audioContext.currentTime + 6);
+      osc2.stop(this.audioContext.currentTime + 6);
+    };
+
+    playGong();
+    this.oscillator = setInterval(playGong, 8000 + Math.random() * 6000) as any;
   }
 
   setVolume(volume: number) {
@@ -301,35 +451,48 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
         Puedes activar los sonidos solos o junto con los mantras
       </p>
       <div className="space-y-1.5">
-        {ambientSounds.map((sound) => {
+        {ambientSounds.map((sound, index) => {
           const IconComponent = iconMap[sound.icon];
           const soundState = sounds[sound.id];
+          const isFirstNatural = sound.id === 'water';
           
           return (
-            <div key={sound.id} className="space-y-1">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {IconComponent && <IconComponent className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />}
-                  <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
-                </div>
-                <Switch
-                  checked={soundState.active}
-                  onCheckedChange={() => toggleSound(sound.id)}
-                  data-testid={`ambient-toggle-${sound.id}`}
-                />
-              </div>
-              {soundState.active && (
-                <div className="pl-5">
-                  <Slider
-                    value={[soundState.volume]}
-                    onValueChange={([v]) => changeVolume(sound.id, v)}
-                    min={0}
-                    max={1}
-                    step={0.05}
-                    data-testid={`ambient-volume-${sound.id}`}
-                  />
+            <div key={sound.id}>
+              {isFirstNatural && (
+                <div className="pt-2 pb-1.5 border-t border-stone-200 dark:border-stone-600 mt-2">
+                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Naturales</span>
                 </div>
               )}
+              {index === 0 && (
+                <div className="pb-1.5">
+                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Orientales</span>
+                </div>
+              )}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {IconComponent && <IconComponent className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />}
+                    <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
+                  </div>
+                  <Switch
+                    checked={soundState.active}
+                    onCheckedChange={() => toggleSound(sound.id)}
+                    data-testid={`ambient-toggle-${sound.id}`}
+                  />
+                </div>
+                {soundState.active && (
+                  <div className="pl-5">
+                    <Slider
+                      value={[soundState.volume]}
+                      onValueChange={([v]) => changeVolume(sound.id, v)}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      data-testid={`ambient-volume-${sound.id}`}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}

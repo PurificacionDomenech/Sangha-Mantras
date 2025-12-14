@@ -305,11 +305,18 @@ export interface AmbientSound {
 }
 
 export const ambientSounds: AmbientSound[] = [
+  // Sonidos Orientales
+  { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell' },
+  { id: 'bells-high', nombre: 'Campanas Agudas', icon: 'Bell' },
+  { id: 'bells-low', nombre: 'Campanas Graves', icon: 'Bell' },
+  { id: 'bowls', nombre: 'Cuencos Tibetanos', icon: 'Circle' },
+  { id: 'bowls-crystal', nombre: 'Cuencos de Cristal', icon: 'Circle' },
+  { id: 'bowls-deep', nombre: 'Cuencos Profundos', icon: 'Circle' },
+  { id: 'gong', nombre: 'Gong Tibetano', icon: 'Disc3' },
+  { id: 'gong-small', nombre: 'Gong Pequeño', icon: 'Disc3' },
+  // Sonidos Naturales
   { id: 'water', nombre: 'Agua', icon: 'Droplets' },
   { id: 'nature', nombre: 'Naturaleza', icon: 'TreePine' },
-  { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell' },
-  { id: 'bowls', nombre: 'Cuencos Tibetanos', icon: 'Circle' },
-  { id: 'gong', nombre: 'Gong Tibetano', icon: 'Disc3' },
   { id: 'wind', nombre: 'Viento', icon: 'Wind' },
   { id: 'rain', nombre: 'Lluvia', icon: 'CloudRain' }
 ];
