@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3 } from "lucide-react";
+import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { ambientSounds, type AmbientSound } from "@/lib/mantras-data";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ambientSounds, type AmbientSound, type SoundPreset } from "@/lib/mantras-data";
+import { useToast } from "@/hooks/use-toast";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Droplets,
@@ -430,9 +433,16 @@ class OscillatorSound {
 }
 
 export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
+  const { toast } = useToast();
   const [sounds, setSounds] = useState<Record<string, SoundState>>(() =>
     ambientSounds.reduce((acc, s) => ({ ...acc, [s.id]: { active: false, volume: 0.5 } }), {})
   );
+  const [presets, setPresets] = useState<SoundPreset[]>(() => {
+    const saved = localStorage.getItem('soundPresets');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [presetName, setPresetName] = useState('');
+  const [showSaveInput, setShowSaveInput] = useState(false);
 
   const soundRefs = useRef<Record<string, OscillatorSound>>({});
 
@@ -469,6 +479,69 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
     };
   }, []);
 
+  // Guardar presets en localStorage cuando cambien
+  useEffect(() => {
+    localStorage.setItem('soundPresets', JSON.stringify(presets));
+  }, [presets]);
+
+  const savePreset = useCallback(() => {
+    if (!presetName.trim()) {
+      toast({
+        title: "Nombre requerido",
+        description: "Por favor ingresa un nombre para tu favorito",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newPreset: SoundPreset = {
+      id: Date.now().toString(),
+      nombre: presetName.trim(),
+      sounds: { ...sounds },
+      createdAt: Date.now()
+    };
+
+    setPresets(prev => [...prev, newPreset]);
+    setPresetName('');
+    setShowSaveInput(false);
+    
+    toast({
+      title: "Favorito guardado",
+      description: `"${newPreset.nombre}" se ha guardado correctamente`,
+    });
+  }, [presetName, sounds, toast]);
+
+  const loadPreset = useCallback((preset: SoundPreset) => {
+    // Detener todos los sonidos actuales
+    Object.values(soundRefs.current).forEach(s => s.stop());
+
+    // Cargar la configuración del preset
+    setSounds(preset.sounds);
+
+    // Reiniciar los sonidos activos
+    Object.entries(preset.sounds).forEach(([soundId, state]) => {
+      if (state.active) {
+        if (!soundRefs.current[soundId]) {
+          soundRefs.current[soundId] = new OscillatorSound();
+        }
+        soundRefs.current[soundId].start(soundId, state.volume);
+      }
+    });
+
+    toast({
+      title: "Favorito cargado",
+      description: `"${preset.nombre}" activado`,
+    });
+  }, [toast]);
+
+  const deletePreset = useCallback((presetId: string) => {
+    setPresets(prev => prev.filter(p => p.id !== presetId));
+    toast({
+      title: "Favorito eliminado",
+      description: "El favorito se ha eliminado correctamente",
+    });
+  }, [toast]);
+
   return (
     <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3" data-testid="ambient-sounds">
       <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-2">
@@ -478,6 +551,90 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
       <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-1.5">
         Puedes activar los sonidos solos o junto con los mantras
       </p>
+
+      {/* Sección de Favoritos */}
+      {presets.length > 0 && (
+        <div className="mb-3 p-2 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <Star className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <span className="text-[10px] font-medium text-amber-700 dark:text-amber-400">
+              Mis Favoritos
+            </span>
+          </div>
+          <div className="space-y-1">
+            {presets.map((preset) => (
+              <div
+                key={preset.id}
+                className="flex items-center gap-1.5 bg-white dark:bg-stone-800 rounded px-2 py-1.5"
+              >
+                <button
+                  onClick={() => loadPreset(preset)}
+                  className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                >
+                  {preset.nombre}
+                </button>
+                <button
+                  onClick={() => deletePreset(preset.id)}
+                  className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                  title="Eliminar favorito"
+                >
+                  <Trash2 className="w-3 h-3 text-red-500" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Botón para guardar nuevo favorito */}
+      <div className="mb-2">
+        {!showSaveInput ? (
+          <Button
+            onClick={() => setShowSaveInput(true)}
+            size="sm"
+            variant="outline"
+            className="w-full h-7 text-xs gap-1.5"
+          >
+            <Save className="w-3 h-3" />
+            Guardar como favorito
+          </Button>
+        ) : (
+          <div className="flex gap-1.5">
+            <Input
+              value={presetName}
+              onChange={(e) => setPresetName(e.target.value)}
+              placeholder="Nombre del favorito..."
+              className="h-7 text-xs"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') savePreset();
+                if (e.key === 'Escape') {
+                  setShowSaveInput(false);
+                  setPresetName('');
+                }
+              }}
+              autoFocus
+            />
+            <Button
+              onClick={savePreset}
+              size="sm"
+              className="h-7 px-2"
+            >
+              <Save className="w-3 h-3" />
+            </Button>
+            <Button
+              onClick={() => {
+                setShowSaveInput(false);
+                setPresetName('');
+              }}
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2"
+            >
+              ✕
+            </Button>
+          </div>
+        )}
+      </div>
       <div className="space-y-1.5">
         {ambientSounds.map((sound, index) => {
           const IconComponent = iconMap[sound.icon];

@@ -304,6 +304,18 @@ export interface AmbientSound {
   frequency?: number;
 }
 
+export interface SoundPreset {
+  id: string;
+  nombre: string;
+  sounds: {
+    [soundId: string]: {
+      active: boolean;
+      volume: number;
+    };
+  };
+  createdAt: number;
+}
+
 export const ambientSounds: AmbientSound[] = [
   // Sonidos Orientales
   { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell' },
