@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -197,7 +198,6 @@ class OscillatorSound {
       const osc = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Frecuencias de cuencos tibetanos (más graves y resonantes)
       const frequencies = [174, 285, 396, 417, 528];
       osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
       osc.type = 'sine';
@@ -222,7 +222,7 @@ class OscillatorSound {
       const osc = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      const frequencies = [880, 1046.50, 1318.51, 1568]; // Campanas más agudas
+      const frequencies = [880, 1046.50, 1318.51, 1568];
       osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
       osc.type = 'sine';
 
@@ -246,7 +246,7 @@ class OscillatorSound {
       const osc = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      const frequencies = [261.63, 329.63, 392, 493.88]; // Campanas más graves
+      const frequencies = [261.63, 329.63, 392, 493.88];
       osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
       osc.type = 'sine';
 
@@ -270,7 +270,6 @@ class OscillatorSound {
       const osc = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Cuencos de cristal tienen tonos más puros y agudos
       const frequencies = [432, 528, 639, 741, 852];
       osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
       osc.type = 'sine';
@@ -296,11 +295,10 @@ class OscillatorSound {
       const osc2 = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Cuencos profundos con armónicos graves
       const frequencies = [110, 146.83, 174, 196];
       const baseFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
       osc1.frequency.value = baseFreq;
-      osc2.frequency.value = baseFreq * 1.5; // Armónico
+      osc2.frequency.value = baseFreq * 1.5;
       osc1.type = 'sine';
       osc2.type = 'sine';
 
@@ -328,9 +326,8 @@ class OscillatorSound {
       const osc2 = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Gong tiene múltiples frecuencias armónicas
-      osc1.frequency.value = 110; // Fundamental grave
-      osc2.frequency.value = 165; // Armónico
+      osc1.frequency.value = 110;
+      osc2.frequency.value = 165;
       osc1.type = 'triangle';
       osc2.type = 'sine';
 
@@ -358,9 +355,8 @@ class OscillatorSound {
       const osc2 = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Gong pequeño, más agudo y corto
-      osc1.frequency.value = 220; // Más agudo que el gong grande
-      osc2.frequency.value = 330; // Armónico
+      osc1.frequency.value = 220;
+      osc2.frequency.value = 330;
       osc1.type = 'triangle';
       osc2.type = 'sine';
 
@@ -387,7 +383,6 @@ class OscillatorSound {
       const osc = this.audioContext.createOscillator();
       const oscGain = this.audioContext.createGain();
 
-      // Sonido de click corto y percusivo
       osc.frequency.value = 1000;
       osc.type = 'sine';
 
@@ -401,7 +396,6 @@ class OscillatorSound {
     };
 
     playClick();
-    // 60 BPM = 1 segundo entre beats
     this.oscillator = setInterval(playClick, 1000) as any;
   }
 
@@ -483,7 +477,6 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
     };
   }, []);
 
-  // Guardar presets en localStorage cuando cambien
   useEffect(() => {
     localStorage.setItem('soundPresets', JSON.stringify(presets));
   }, [presets]);
@@ -516,13 +509,10 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
   }, [presetName, sounds, toast]);
 
   const loadPreset = useCallback((preset: SoundPreset) => {
-    // Detener todos los sonidos actuales
     Object.values(soundRefs.current).forEach(s => s.stop());
 
-    // Cargar la configuración del preset
     setSounds(preset.sounds);
 
-    // Reiniciar los sonidos activos
     Object.entries(preset.sounds).forEach(([soundId, state]) => {
       if (state.active) {
         if (!soundRefs.current[soundId]) {
@@ -547,10 +537,8 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
   }, [toast]);
 
   const stopAllSounds = useCallback(() => {
-    // Detener todos los sonidos activos
     Object.values(soundRefs.current).forEach(s => s.stop());
     
-    // Desactivar todos los sonidos en el estado
     setSounds(prev => {
       const newState = { ...prev };
       Object.keys(newState).forEach(soundId => {
@@ -566,8 +554,9 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
   }, [toast]);
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3" data-testid="ambient-sounds">
-      <div className="flex items-center justify-between mb-1.5">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-4" data-testid="ambient-sounds">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 flex items-center gap-2">
           <Volume2 className="w-4 h-4" />
           Sonidos Ambientales
@@ -577,62 +566,66 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
             onClick={stopAllSounds}
             size="sm"
             variant="ghost"
-            className="h-6 px-2 text-xs gap-1"
+            className="h-7 px-2 text-xs gap-1.5"
             title="Detener todos los sonidos"
           >
-            <VolumeX className="w-3 h-3" />
+            <VolumeX className="w-3.5 h-3.5" />
             Detener todos
           </Button>
         )}
       </div>
-      <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-1.5">
+
+      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
         Puedes activar los sonidos solos o junto con los mantras
       </p>
 
       {/* Sección de Favoritos */}
       {presets.length > 0 && (
-        <div className="mb-3 p-2 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Star className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-            <span className="text-[10px] font-medium text-amber-700 dark:text-amber-400">
+        <div className="mb-4 p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
+          <div className="flex items-center gap-2 mb-2">
+            <Star className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
               Mis Favoritos
             </span>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {presets.map((preset) => (
               <div
                 key={preset.id}
-                className="flex items-center gap-1.5 bg-white dark:bg-stone-800 rounded px-2 py-1.5"
+                className="flex items-center gap-2 bg-white dark:bg-stone-800 rounded px-2.5 py-2"
               >
-                <button
+                <Button
                   onClick={() => loadPreset(preset)}
-                  className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                  variant="ghost"
+                  className="flex-1 justify-start h-auto p-0 text-xs text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 font-normal"
                 >
                   {preset.nombre}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => deletePreset(preset.id)}
-                  className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 hover:bg-red-50 dark:hover:bg-red-900/20"
                   title="Eliminar favorito"
                 >
-                  <Trash2 className="w-3 h-3 text-red-500" />
-                </button>
+                  <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                </Button>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Botón para guardar nuevo favorito */}
-      <div className="mb-2">
+      {/* Guardar nuevo favorito */}
+      <div className="mb-4">
         {!showSaveInput ? (
           <Button
             onClick={() => setShowSaveInput(true)}
             size="sm"
             variant="outline"
-            className="w-full h-7 text-xs gap-1.5"
+            className="w-full h-8 text-xs gap-2"
           >
-            <Save className="w-3 h-3" />
+            <Save className="w-3.5 h-3.5" />
             Guardar como favorito
           </Button>
         ) : (
@@ -641,7 +634,7 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
               value={presetName}
               onChange={(e) => setPresetName(e.target.value)}
               placeholder="Nombre del favorito..."
-              className="h-7 text-xs"
+              className="h-8 text-xs"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') savePreset();
                 if (e.key === 'Escape') {
@@ -654,9 +647,9 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
             <Button
               onClick={savePreset}
               size="sm"
-              className="h-7 px-2"
+              className="h-8 px-3"
             >
-              <Save className="w-3 h-3" />
+              <Save className="w-3.5 h-3.5" />
             </Button>
             <Button
               onClick={() => {
@@ -665,73 +658,72 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
               }}
               size="sm"
               variant="ghost"
-              className="h-7 px-2"
+              className="h-8 px-3"
             >
               ✕
             </Button>
           </div>
         )}
       </div>
-      <div className="space-y-1.5">
+
+      {/* Lista de sonidos */}
+      <div className="space-y-2">
         {ambientSounds.map((sound, index) => {
           const IconComponent = iconMap[sound.icon];
           const soundState = sounds[sound.id];
           const isFirstNatural = sound.id === 'water';
           const isMetronome = sound.id === 'metronome';
 
-          // Si no existe el estado del sonido, inicializarlo
-          if (!soundState) {
-            console.warn(`Sound state missing for ${sound.id}`);
-            return null;
-          }
+          if (!soundState) return null;
 
           return (
             <div key={sound.id}>
               {isFirstNatural && (
-                <div className="pt-2 pb-1.5 border-t border-stone-200 dark:border-stone-600 mt-2">
-                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Naturales</span>
+                <div className="pt-3 pb-2 border-t border-stone-200 dark:border-stone-600 mt-2">
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Naturales</span>
                 </div>
               )}
               {isMetronome && (
-                <div className="pt-2 pb-1.5 border-t border-stone-200 dark:border-stone-600 mt-2">
-                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Ritmo</span>
+                <div className="pt-3 pb-2 border-t border-stone-200 dark:border-stone-600 mt-2">
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Ritmo</span>
                 </div>
               )}
               {index === 0 && (
-                <div className="pb-1.5">
-                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Orientales</span>
+                <div className="pb-2">
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Orientales</span>
                 </div>
               )}
-              <div
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+              
+              <div className="space-y-2">
+                <div className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-all ${
                   soundState.active
                     ? 'bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 shadow-sm'
                     : 'hover:bg-stone-100 dark:hover:bg-stone-700/30'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  {IconComponent && <IconComponent className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />}
-                  <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
-                </div>
-                <Switch
-                  checked={soundState.active}
-                  onCheckedChange={() => toggleSound(sound.id)}
-                  data-testid={`ambient-toggle-${sound.id}`}
-                  className="ml-auto"
-                />
-              </div>
-              {soundState.active && (
-                <div className="pl-5 pt-1">
-                  <Slider
-                    value={[soundState.volume]}
-                    onValueChange={([v]) => changeVolume(sound.id, v)}
-                    min={0}
-                    max={1}
-                    step={0.05}
-                    data-testid={`ambient-volume-${sound.id}`}
+                }`}>
+                  <div className="flex items-center gap-2">
+                    {IconComponent && <IconComponent className="w-4 h-4 text-stone-500 dark:text-stone-400" />}
+                    <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
+                  </div>
+                  <Switch
+                    checked={soundState.active}
+                    onCheckedChange={() => toggleSound(sound.id)}
+                    data-testid={`ambient-toggle-${sound.id}`}
                   />
                 </div>
-              )}
+                
+                {soundState.active && (
+                  <div className="px-3">
+                    <Slider
+                      value={[soundState.volume]}
+                      onValueChange={([v]) => changeVolume(sound.id, v)}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      data-testid={`ambient-volume-${sound.id}`}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}
