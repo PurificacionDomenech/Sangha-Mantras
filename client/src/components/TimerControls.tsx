@@ -28,7 +28,7 @@ export default function TimerControls({
   sessionFinished,
 }: TimerControlsProps) {
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-2xl p-4 space-y-4" data-testid="timer-controls">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-2.5" data-testid="timer-controls">
       <div>
         <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between gap-2">
           <span className="flex items-center gap-2">
@@ -55,40 +55,40 @@ export default function TimerControls({
 
       {timeRemaining > 0 && (
         <div className="text-center">
-          <div className="text-4xl font-light text-amber-800 dark:text-amber-300 font-mono" data-testid="time-display">
+          <div className="text-2xl font-light text-amber-800 dark:text-amber-300 font-mono" data-testid="time-display">
             {formatTime(timeRemaining)}
           </div>
-          <div className="text-sm text-stone-500 mt-1">restante</div>
+          <div className="text-xs text-stone-500 mt-0.5">restante</div>
         </div>
       )}
 
       {sessionFinished && timeRemaining === 0 && (
-        <div className="text-center py-4 bg-green-100 dark:bg-green-900/30 rounded-lg" data-testid="session-finished">
-          <div className="text-green-800 dark:text-green-300 font-medium">
+        <div className="text-center py-2 bg-green-100 dark:bg-green-900/30 rounded-lg" data-testid="session-finished">
+          <div className="text-sm text-green-800 dark:text-green-300 font-medium">
             Sesión finalizada
           </div>
-          <div className="text-sm text-green-600 dark:text-green-400 mt-1">
+          <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">
             Namaste
           </div>
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         <Button
           onClick={onToggleSession}
-          className="w-full"
-          size="lg"
+          className="w-full text-sm"
+          size="default"
           variant={isPlaying ? "destructive" : "default"}
           data-testid="toggle-session-button"
         >
           {isPlaying ? (
             <>
-              <Pause className="w-5 h-5 mr-2" />
+              <Pause className="w-4 h-4 mr-2" />
               DETENER SESIÓN
             </>
           ) : (
             <>
-              <Play className="w-5 h-5 mr-2" />
+              <Play className="w-4 h-4 mr-2" />
               INICIAR SESIÓN
             </>
           )}
@@ -97,7 +97,8 @@ export default function TimerControls({
         <Button
           onClick={onPlayOnce}
           variant="outline"
-          className="w-full"
+          className="w-full text-sm"
+          size="default"
           disabled={isPlaying}
           data-testid="play-once-button"
         >

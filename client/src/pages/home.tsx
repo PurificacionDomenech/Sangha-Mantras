@@ -218,9 +218,9 @@ export default function Home() {
           onSelectCategory={handleCategoryChange}
         />
 
-        <div className="grid lg:grid-cols-[1fr,420px] gap-6">
+        <div className="grid lg:grid-cols-[1fr,380px] gap-4">
           {/* Columna izquierda: Lista de mantras y display */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <MantraDisplay
               mantra={currentMantra}
               categoryColor={currentCategory.color}
@@ -228,7 +228,7 @@ export default function Home() {
               repetitions={repetitions}
             />
 
-            <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+            <div className="space-y-1.5 max-h-[550px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
               {currentCategory.mantras.map((mantra, idx) => (
                 <MantraCard
                   key={`${selectedCategory}-${idx}`}
@@ -243,7 +243,7 @@ export default function Home() {
           </div>
 
           {/* Columna derecha: Controles */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <TimerControls
               durationMinutes={durationMinutes}
               timeRemaining={timeRemaining}

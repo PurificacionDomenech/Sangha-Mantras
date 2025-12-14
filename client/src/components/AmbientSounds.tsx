@@ -292,15 +292,15 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
   }, []);
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-2xl p-4" data-testid="ambient-sounds">
-      <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-3 flex items-center gap-2">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3" data-testid="ambient-sounds">
+      <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center gap-2">
         <Volume2 className="w-4 h-4" />
         Sonidos Ambientales
       </h3>
-      <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
+      <p className="text-[10px] text-stone-500 dark:text-stone-400 mb-2">
         Puedes activar los sonidos solos o junto con los mantras
       </p>
-      <div className="space-y-3">
+      <div className="space-y-2">
         {ambientSounds.map((sound) => {
           const IconComponent = iconMap[sound.icon];
           const soundState = sounds[sound.id];

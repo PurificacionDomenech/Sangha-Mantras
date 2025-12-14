@@ -48,7 +48,7 @@ export default function VoiceControls({
   };
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-2xl p-4 space-y-4" data-testid="voice-controls">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-2.5" data-testid="voice-controls">
       <div>
         <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-3 flex items-center gap-2">
           <Mic className="w-4 h-4" />
