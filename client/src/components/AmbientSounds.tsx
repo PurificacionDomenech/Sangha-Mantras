@@ -74,6 +74,9 @@ class OscillatorSound {
       case 'gong-small':
         this.createGongSmallSound();
         break;
+      case 'metronome':
+        this.createMetronomeSound();
+        break;
     }
   }
 
@@ -374,6 +377,31 @@ class OscillatorSound {
     this.oscillator = setInterval(playGong, 8000 + Math.random() * 6000) as any;
   }
 
+  private createMetronomeSound() {
+    const playClick = () => {
+      if (!this.audioContext || !this.gainNode) return;
+      
+      const osc = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+      
+      // Sonido de click corto y percusivo
+      osc.frequency.value = 1000;
+      osc.type = 'sine';
+      
+      oscGain.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.05);
+      
+      osc.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 0.05);
+    };
+
+    playClick();
+    // 60 BPM = 1 segundo entre beats
+    this.oscillator = setInterval(playClick, 1000) as any;
+  }
+
   setVolume(volume: number) {
     if (this.gainNode) {
       this.gainNode.gain.value = volume * 0.3;
@@ -455,12 +483,18 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
           const IconComponent = iconMap[sound.icon];
           const soundState = sounds[sound.id];
           const isFirstNatural = sound.id === 'water';
+          const isMetronome = sound.id === 'metronome';
           
           return (
             <div key={sound.id}>
               {isFirstNatural && (
                 <div className="pt-2 pb-1.5 border-t border-stone-200 dark:border-stone-600 mt-2">
                   <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Naturales</span>
+                </div>
+              )}
+              {isMetronome && (
+                <div className="pt-2 pb-1.5 border-t border-stone-200 dark:border-stone-600 mt-2">
+                  <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Ritmo</span>
                 </div>
               )}
               {index === 0 && (
