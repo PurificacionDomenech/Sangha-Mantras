@@ -290,9 +290,7 @@ export const mantras: Mantras = {
 
 export const culturas = [
   { id: 'hi-IN', nombre: 'Hindi (Sánscrito)', icon: 'ॐ' },
-  { id: 'bo-CN', nombre: 'Tibetano', icon: 'ༀ' },
   { id: 'ja-JP', nombre: 'Japonés (Zen)', icon: '禅' },
-  { id: 'zh-CN', nombre: 'Chino (Taoísta)', icon: '道' },
   { id: 'th-TH', nombre: 'Tailandés', icon: 'ॐ' },
   { id: 'es-ES', nombre: 'Español', icon: 'Es' }
 ];
