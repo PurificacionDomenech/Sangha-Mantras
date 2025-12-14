@@ -28,7 +28,7 @@ export default function TimerControls({
   sessionFinished,
 }: TimerControlsProps) {
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-2xl p-6 space-y-6" data-testid="timer-controls">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-2xl p-4 space-y-4" data-testid="timer-controls">
       <div>
         <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between gap-2">
           <span className="flex items-center gap-2">

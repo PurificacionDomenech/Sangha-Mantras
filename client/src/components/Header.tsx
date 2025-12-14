@@ -18,12 +18,10 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-              <Volume2 className="w-7 h-7 text-white" />
-            </div>
+            <div className="text-5xl">ༀ</div>
             <div>
-              <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100">
-                Sangha Mantras
+              <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100 tracking-widest">
+                SANGHA MANTRAS
               </h1>
               <p className="text-sm text-stone-600 dark:text-stone-400">
                 Práctica de mantras budistas

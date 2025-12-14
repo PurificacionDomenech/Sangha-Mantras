@@ -228,7 +228,7 @@ export default function Home() {
               repetitions={repetitions}
             />
 
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+            <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
               {currentCategory.mantras.map((mantra, idx) => (
                 <MantraCard
                   key={`${selectedCategory}-${idx}`}
@@ -243,7 +243,7 @@ export default function Home() {
           </div>
 
           {/* Columna derecha: Controles */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <TimerControls
               durationMinutes={durationMinutes}
               timeRemaining={timeRemaining}
