@@ -434,9 +434,13 @@ class OscillatorSound {
 
 export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
   const { toast } = useToast();
-  const [sounds, setSounds] = useState<Record<string, SoundState>>(() =>
-    ambientSounds.reduce((acc, s) => ({ ...acc, [s.id]: { active: false, volume: 0.5 } }), {})
-  );
+  const [sounds, setSounds] = useState<Record<string, SoundState>>(() => {
+    const initialState: Record<string, SoundState> = {};
+    ambientSounds.forEach(s => {
+      initialState[s.id] = { active: false, volume: 0.5 };
+    });
+    return initialState;
+  });
   const [presets, setPresets] = useState<SoundPreset[]>(() => {
     const saved = localStorage.getItem('soundPresets');
     return saved ? JSON.parse(saved) : [];
@@ -642,8 +646,11 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
           const isFirstNatural = sound.id === 'water';
           const isMetronome = sound.id === 'metronome';
 
-          // Si no existe el estado del sonido, no renderizar
-          if (!soundState) return null;
+          // Si no existe el estado del sonido, inicializarlo
+          if (!soundState) {
+            console.warn(`Sound state missing for ${sound.id}`);
+            return null;
+          }
 
           return (
             <div key={sound.id}>
@@ -662,8 +669,7 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
                   <span className="text-[10px] font-medium text-stone-500 dark:text-stone-400">Orientales</span>
                 </div>
               )}
-              <button
-                onClick={() => toggleSound(sound.id)}
+              <div
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
                   soundState.active
                     ? 'bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 shadow-sm'
@@ -680,7 +686,7 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
                   data-testid={`ambient-toggle-${sound.id}`}
                   className="ml-auto"
                 />
-              </button>
+              </div>
               {soundState.active && (
                 <div className="pl-5 pt-1">
                   <Slider
