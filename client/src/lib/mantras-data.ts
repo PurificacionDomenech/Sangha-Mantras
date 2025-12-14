@@ -330,9 +330,7 @@ export const ambientSounds: AmbientSound[] = [
   { id: 'rain', nombre: 'Lluvia', icon: 'CloudRain', category: 'natural' },
   { id: 'ocean', nombre: 'Océano', icon: 'Droplets', category: 'natural' },
   { id: 'wind', nombre: 'Viento', icon: 'Wind', category: 'natural' },
-  { id: 'birds', nombre: 'Pájaros', icon: 'TreePine', category: 'natural' },
-  { id: 'fire', nombre: 'Fuego', icon: 'Star', category: 'natural' },
-  { id: 'nature', nombre: 'Bosque', icon: 'TreePine', category: 'natural' },
+  { id: 'nature', nombre: 'Río', icon: 'TreePine', category: 'natural' },
   // Ritmo
   { id: 'metronome', nombre: 'Metrónomo', icon: 'Bell', category: 'rhythm' }
 ];
