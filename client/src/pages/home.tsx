@@ -244,29 +244,32 @@ export default function Home() {
 
           {/* Columna derecha: Controles */}
           <div className="space-y-2.5">
-            <TimerControls
-              durationMinutes={durationMinutes}
-              timeRemaining={timeRemaining}
-              isPlaying={isPlaying}
-              onDurationChange={setDurationMinutes}
-              onToggleSession={startSession}
-              onPlayOnce={playOnce}
-              sessionFinished={sessionFinished}
-            />
+            {/* Grid de 2 columnas para Duración y Tradición Cultural */}
+            <div className="grid grid-cols-2 gap-2.5">
+              <TimerControls
+                durationMinutes={durationMinutes}
+                timeRemaining={timeRemaining}
+                isPlaying={isPlaying}
+                onDurationChange={setDurationMinutes}
+                onToggleSession={startSession}
+                onPlayOnce={playOnce}
+                sessionFinished={sessionFinished}
+              />
 
-            <VoiceControls
-              speed={speed}
-              pitch={pitch}
-              volume={volume}
-              selectedCulture={selectedCulture}
-              voices={voices}
-              selectedVoice={selectedVoice}
-              onSpeedChange={setSpeed}
-              onPitchChange={setPitch}
-              onVolumeChange={setVolume}
-              onCultureChange={handleCultureChange}
-              onVoiceChange={handleVoiceChange}
-            />
+              <VoiceControls
+                speed={speed}
+                pitch={pitch}
+                volume={volume}
+                selectedCulture={selectedCulture}
+                voices={voices}
+                selectedVoice={selectedVoice}
+                onSpeedChange={setSpeed}
+                onPitchChange={setPitch}
+                onVolumeChange={setVolume}
+                onCultureChange={handleCultureChange}
+                onVoiceChange={handleVoiceChange}
+              />
+            </div>
 
             <AmbientSounds isSessionActive={isPlaying} />
           </div>

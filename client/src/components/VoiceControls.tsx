@@ -48,114 +48,107 @@ export default function VoiceControls({
   };
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-2.5" data-testid="voice-controls">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3 h-full flex flex-col" data-testid="voice-controls">
       <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-3 flex items-center gap-2">
+        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center gap-2">
           <Mic className="w-4 h-4" />
-          Tradición Cultural
+          Tradición
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+        <div className="grid grid-cols-2 gap-1.5">
           {culturas.map((cultura) => (
             <button
               key={cultura.id}
               onClick={() => onCultureChange(cultura.id)}
               data-testid={`culture-${cultura.id}`}
-              className={`p-2 rounded-lg text-xs transition-all border ${
+              className={`p-1.5 rounded text-xs transition-all border ${
                 selectedCulture === cultura.id
                   ? 'bg-amber-100 dark:bg-amber-900/50 border-amber-300 dark:border-amber-600 text-amber-900 dark:text-amber-200'
                   : 'bg-white/50 dark:bg-stone-700/50 border-stone-200 dark:border-stone-600 text-stone-600 dark:text-stone-400'
               }`}
             >
-              <span className="font-medium">{cultura.icon}</span>
-              <span className="block mt-1 text-xs truncate">{cultura.nombre}</span>
+              <span className="text-base">{cultura.icon}</span>
+              <span className="block text-[10px] truncate">{cultura.nombre}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {voicesToShow.length > 0 ? (
-        <div>
-          <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
-            Voz {filteredVoices.length === 0 && '(usando voz genérica)'}
-          </label>
-          <Select 
-            value={selectedVoice?.voiceURI || ''} 
-            onValueChange={onVoiceChange}
-          >
-            <SelectTrigger className="w-full" data-testid="voice-select">
-              <SelectValue placeholder="Seleccionar voz" />
-            </SelectTrigger>
-            <SelectContent>
-              {voicesToShow.map((voice) => (
-                <SelectItem key={voice.voiceURI} value={voice.voiceURI}>
-                  {voice.name} ({voice.lang})
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {filteredVoices.length === 0 && (
-            <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800">
-              ℹ️ No hay voces nativas de {getCultureName()} instaladas. Se usará una voz genérica. Para obtener mejores resultados, instala voces de {getCultureName()} en la configuración de tu sistema operativo.
-            </p>
-          )}
+      <div className="flex-1 space-y-2.5">
+        {voicesToShow.length > 0 ? (
+          <div>
+            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+              Voz
+            </label>
+            <Select 
+              value={selectedVoice?.voiceURI || ''} 
+              onValueChange={onVoiceChange}
+            >
+              <SelectTrigger className="w-full h-8 text-xs" data-testid="voice-select">
+                <SelectValue placeholder="Seleccionar" />
+              </SelectTrigger>
+              <SelectContent>
+                {voicesToShow.map((voice) => (
+                  <SelectItem key={voice.voiceURI} value={voice.voiceURI} className="text-xs">
+                    {voice.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        ) : null}
+
+        <div className="space-y-2">
+          <div>
+            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+              <span>Velocidad</span>
+              <span className="text-xs text-stone-500">{speed.toFixed(1)}x</span>
+            </label>
+            <Slider
+              value={[speed]}
+              onValueChange={([v]) => onSpeedChange(v)}
+              min={0.5}
+              max={1.5}
+              step={0.1}
+              className="mt-1"
+              data-testid="speed-slider"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+              <span>Tono</span>
+              <span className="text-xs text-stone-500">{pitch.toFixed(1)}</span>
+            </label>
+            <Slider
+              value={[pitch]}
+              onValueChange={([v]) => onPitchChange(v)}
+              min={0.5}
+              max={2.0}
+              step={0.1}
+              className="mt-1"
+              data-testid="pitch-slider"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between gap-2">
+              <span className="flex items-center gap-1.5">
+                <Volume2 className="w-3.5 h-3.5" />
+                Volumen
+              </span>
+              <span className="text-xs text-stone-500">{Math.round(volume * 100)}%</span>
+            </label>
+            <Slider
+              value={[volume]}
+              onValueChange={([v]) => onVolumeChange(v)}
+              min={0}
+              max={1}
+              step={0.05}
+              className="mt-1"
+              data-testid="volume-slider"
+            />
+          </div>
         </div>
-      ) : (
-        <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded border border-red-200 dark:border-red-800">
-          <p className="text-sm text-red-700 dark:text-red-300">
-            ⚠️ No hay voces disponibles en tu navegador. Por favor, verifica la configuración de síntesis de voz de tu sistema.
-          </p>
-        </div>
-      )}
-
-      <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between">
-          <span>Velocidad</span>
-          <span className="text-xs text-stone-500">{speed.toFixed(1)}x</span>
-        </label>
-        <Slider
-          value={[speed]}
-          onValueChange={([v]) => onSpeedChange(v)}
-          min={0.5}
-          max={1.5}
-          step={0.1}
-          className="mt-2"
-          data-testid="speed-slider"
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between">
-          <span>Tono</span>
-          <span className="text-xs text-stone-500">{pitch.toFixed(1)}</span>
-        </label>
-        <Slider
-          value={[pitch]}
-          onValueChange={([v]) => onPitchChange(v)}
-          min={0.5}
-          max={2.0}
-          step={0.1}
-          className="mt-2"
-          data-testid="pitch-slider"
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center justify-between gap-2">
-          <span className="flex items-center gap-2">
-            <Volume2 className="w-4 h-4" />
-            Volumen
-          </span>
-          <span className="text-xs text-stone-500">{Math.round(volume * 100)}%</span>
-        </label>
-        <Slider
-          value={[volume]}
-          onValueChange={([v]) => onVolumeChange(v)}
-          min={0}
-          max={1}
-          step={0.05}
-          className="mt-2"
-          data-testid="volume-slider"
-        />
       </div>
     </div>
   );
