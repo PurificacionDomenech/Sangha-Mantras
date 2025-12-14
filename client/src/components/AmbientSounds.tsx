@@ -1,10 +1,11 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX } from "lucide-react";
+import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX, Flame } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ambientSounds, type AmbientSound, type SoundPreset } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,6 +17,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Disc3,
   Wind,
   CloudRain,
+  Star,
 };
 
 interface SoundState {
@@ -80,6 +82,15 @@ class OscillatorSound {
         break;
       case 'metronome':
         this.createMetronomeSound();
+        break;
+      case 'birds':
+        this.createBirdsSound();
+        break;
+      case 'fire':
+        this.createFireSound();
+        break;
+      case 'ocean':
+        this.createOceanSound();
         break;
     }
   }
@@ -399,6 +410,74 @@ class OscillatorSound {
     this.oscillator = setInterval(playClick, 1000) as any;
   }
 
+  private createBirdsSound() {
+    const playBird = () => {
+      if (!this.audioContext || !this.gainNode) return;
+
+      const osc = this.audioContext.createOscillator();
+      const oscGain = this.audioContext.createGain();
+
+      const frequencies = [2000, 2500, 3000, 3500, 4000];
+      osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
+      osc.type = 'sine';
+
+      oscGain.gain.setValueAtTime(0.15, this.audioContext.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+
+      osc.connect(oscGain);
+      oscGain.connect(this.gainNode);
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 0.3);
+    };
+
+    playBird();
+    this.oscillator = setInterval(playBird, 2000 + Math.random() * 3000) as any;
+  }
+
+  private createFireSound() {
+    this.noiseNode = this.audioContext!.createBufferSource();
+    this.noiseNode.buffer = this.createNoiseBuffer();
+    this.noiseNode.loop = true;
+
+    this.filterNode = this.audioContext!.createBiquadFilter();
+    this.filterNode.type = 'lowpass';
+    this.filterNode.frequency.value = 600;
+
+    const lfo = this.audioContext!.createOscillator();
+    lfo.frequency.value = 0.5;
+    const lfoGain = this.audioContext!.createGain();
+    lfoGain.gain.value = 100;
+    lfo.connect(lfoGain);
+    lfoGain.connect(this.filterNode.frequency);
+    lfo.start();
+
+    this.noiseNode.connect(this.filterNode);
+    this.filterNode.connect(this.gainNode!);
+    this.noiseNode.start();
+  }
+
+  private createOceanSound() {
+    this.noiseNode = this.audioContext!.createBufferSource();
+    this.noiseNode.buffer = this.createNoiseBuffer();
+    this.noiseNode.loop = true;
+
+    this.filterNode = this.audioContext!.createBiquadFilter();
+    this.filterNode.type = 'lowpass';
+    this.filterNode.frequency.value = 500;
+
+    const lfo = this.audioContext!.createOscillator();
+    lfo.frequency.value = 0.15;
+    const lfoGain = this.audioContext!.createGain();
+    lfoGain.gain.value = 0.3;
+    lfo.connect(lfoGain);
+    lfoGain.connect(this.gainNode!.gain);
+    lfo.start();
+
+    this.noiseNode.connect(this.filterNode);
+    this.filterNode.connect(this.gainNode!);
+    this.noiseNode.start();
+  }
+
   setVolume(volume: number) {
     if (this.gainNode) {
       this.gainNode.gain.value = volume * 0.3;
@@ -553,6 +632,50 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
     });
   }, [toast]);
 
+  const renderSound = (sound: AmbientSound) => {
+    const IconComponent = iconMap[sound.icon];
+    const soundState = sounds[sound.id];
+    
+    if (!soundState) return null;
+
+    return (
+      <div key={sound.id} className="space-y-2">
+        <div className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-all ${
+          soundState.active
+            ? 'bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 shadow-sm'
+            : 'hover:bg-stone-100 dark:hover:bg-stone-700/30'
+        }`}>
+          <div className="flex items-center gap-2">
+            {IconComponent && <IconComponent className="w-4 h-4 text-stone-500 dark:text-stone-400" />}
+            <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
+          </div>
+          <Switch
+            checked={soundState.active}
+            onCheckedChange={() => toggleSound(sound.id)}
+            data-testid={`ambient-toggle-${sound.id}`}
+          />
+        </div>
+        
+        {soundState.active && (
+          <div className="px-3">
+            <Slider
+              value={[soundState.volume]}
+              onValueChange={([v]) => changeVolume(sound.id, v)}
+              min={0}
+              max={1}
+              step={0.05}
+              data-testid={`ambient-volume-${sound.id}`}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const orientalSounds = ambientSounds.filter(s => s.category === 'oriental');
+  const naturalSounds = ambientSounds.filter(s => s.category === 'natural');
+  const rhythmSounds = ambientSounds.filter(s => s.category === 'rhythm');
+
   return (
     <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-4" data-testid="ambient-sounds">
       {/* Header */}
@@ -666,68 +789,52 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
         )}
       </div>
 
-      {/* Lista de sonidos */}
-      <div className="space-y-2">
-        {ambientSounds.map((sound, index) => {
-          const IconComponent = iconMap[sound.icon];
-          const soundState = sounds[sound.id];
-          const isFirstNatural = sound.id === 'water';
-          const isMetronome = sound.id === 'metronome';
-
-          if (!soundState) return null;
-
-          return (
-            <div key={sound.id}>
-              {isFirstNatural && (
-                <div className="pt-3 pb-2 border-t border-stone-200 dark:border-stone-600 mt-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Naturales</span>
-                </div>
-              )}
-              {isMetronome && (
-                <div className="pt-3 pb-2 border-t border-stone-200 dark:border-stone-600 mt-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Ritmo</span>
-                </div>
-              )}
-              {index === 0 && (
-                <div className="pb-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Orientales</span>
-                </div>
-              )}
-              
-              <div className="space-y-2">
-                <div className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-all ${
-                  soundState.active
-                    ? 'bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 shadow-sm'
-                    : 'hover:bg-stone-100 dark:hover:bg-stone-700/30'
-                }`}>
-                  <div className="flex items-center gap-2">
-                    {IconComponent && <IconComponent className="w-4 h-4 text-stone-500 dark:text-stone-400" />}
-                    <span className="text-xs text-stone-700 dark:text-stone-300">{sound.nombre}</span>
-                  </div>
-                  <Switch
-                    checked={soundState.active}
-                    onCheckedChange={() => toggleSound(sound.id)}
-                    data-testid={`ambient-toggle-${sound.id}`}
-                  />
-                </div>
-                
-                {soundState.active && (
-                  <div className="px-3">
-                    <Slider
-                      value={[soundState.volume]}
-                      onValueChange={([v]) => changeVolume(sound.id, v)}
-                      min={0}
-                      max={1}
-                      step={0.05}
-                      data-testid={`ambient-volume-${sound.id}`}
-                    />
-                  </div>
-                )}
-              </div>
+      {/* Acordeones para categorías */}
+      <Accordion type="multiple" defaultValue={['orientales', 'naturales']} className="space-y-2">
+        {/* Orientales */}
+        <AccordionItem value="orientales" className="border-none">
+          <AccordionTrigger className="py-2 px-3 bg-stone-50 dark:bg-stone-700/30 rounded-lg hover:no-underline">
+            <span className="text-xs font-medium text-stone-700 dark:text-stone-300">
+              Orientales
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="pt-2 pb-0">
+            <div className="space-y-2">
+              {orientalSounds.map(sound => renderSound(sound))}
             </div>
-          );
-        })}
-      </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Naturales */}
+        <AccordionItem value="naturales" className="border-none">
+          <AccordionTrigger className="py-2 px-3 bg-stone-50 dark:bg-stone-700/30 rounded-lg hover:no-underline">
+            <span className="text-xs font-medium text-stone-700 dark:text-stone-300">
+              Naturales
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="pt-2 pb-0">
+            <div className="space-y-2">
+              {naturalSounds.map(sound => renderSound(sound))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Ritmo */}
+        {rhythmSounds.length > 0 && (
+          <AccordionItem value="ritmo" className="border-none">
+            <AccordionTrigger className="py-2 px-3 bg-stone-50 dark:bg-stone-700/30 rounded-lg hover:no-underline">
+              <span className="text-xs font-medium text-stone-700 dark:text-stone-300">
+                Ritmo
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-0">
+              <div className="space-y-2">
+                {rhythmSounds.map(sound => renderSound(sound))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        )}
+      </Accordion>
     </div>
   );
 }

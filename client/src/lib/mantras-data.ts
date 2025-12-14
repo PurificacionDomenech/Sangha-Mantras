@@ -299,6 +299,7 @@ export interface AmbientSound {
   id: string;
   nombre: string;
   icon: string;
+  category?: 'oriental' | 'natural' | 'rhythm';
   frequency?: number;
 }
 
@@ -316,18 +317,22 @@ export interface SoundPreset {
 
 export const ambientSounds: AmbientSound[] = [
   // Sonidos Orientales
-  { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell' },
-  { id: 'bells-high', nombre: 'Campanas Agudas', icon: 'Bell' },
-  { id: 'bells-low', nombre: 'Campanas Graves', icon: 'Bell' },
-  { id: 'bowls', nombre: 'Cuencos Tibetanos', icon: 'Circle' },
-  { id: 'bowls-crystal', nombre: 'Cuencos de Cristal', icon: 'Circle' },
-  { id: 'bowls-deep', nombre: 'Cuencos Profundos', icon: 'Circle' },
-  { id: 'gong', nombre: 'Gong Tibetano', icon: 'Disc3' },
-  { id: 'gong-small', nombre: 'Gong Pequeño', icon: 'Disc3' },
+  { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell', category: 'oriental' },
+  { id: 'bells-high', nombre: 'Campanas Agudas', icon: 'Bell', category: 'oriental' },
+  { id: 'bells-low', nombre: 'Campanas Graves', icon: 'Bell', category: 'oriental' },
+  { id: 'bowls', nombre: 'Cuencos Tibetanos', icon: 'Circle', category: 'oriental' },
+  { id: 'bowls-crystal', nombre: 'Cuencos de Cristal', icon: 'Circle', category: 'oriental' },
+  { id: 'bowls-deep', nombre: 'Cuencos Profundos', icon: 'Circle', category: 'oriental' },
+  { id: 'gong', nombre: 'Gong Tibetano', icon: 'Disc3', category: 'oriental' },
+  { id: 'gong-small', nombre: 'Gong Pequeño', icon: 'Disc3', category: 'oriental' },
   // Sonidos Naturales
-  { id: 'water', nombre: 'Agua', icon: 'Droplets' },
-  { id: 'nature', nombre: 'Naturaleza', icon: 'TreePine' },
-  { id: 'wind', nombre: 'Viento', icon: 'Wind' },
-  { id: 'rain', nombre: 'Lluvia', icon: 'CloudRain' },
-  { id: 'metronome', nombre: 'Metrónomo', icon: 'Bell' }
+  { id: 'water', nombre: 'Agua', icon: 'Droplets', category: 'natural' },
+  { id: 'rain', nombre: 'Lluvia', icon: 'CloudRain', category: 'natural' },
+  { id: 'ocean', nombre: 'Océano', icon: 'Droplets', category: 'natural' },
+  { id: 'wind', nombre: 'Viento', icon: 'Wind', category: 'natural' },
+  { id: 'birds', nombre: 'Pájaros', icon: 'TreePine', category: 'natural' },
+  { id: 'fire', nombre: 'Fuego', icon: 'Star', category: 'natural' },
+  { id: 'nature', nombre: 'Bosque', icon: 'TreePine', category: 'natural' },
+  // Ritmo
+  { id: 'metronome', nombre: 'Metrónomo', icon: 'Bell', category: 'rhythm' }
 ];
