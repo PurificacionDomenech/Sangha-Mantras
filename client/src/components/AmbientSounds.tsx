@@ -790,7 +790,7 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
       </div>
 
       {/* Acordeones para categorías */}
-      <Accordion type="multiple" defaultValue={['orientales', 'naturales']} className="space-y-2">
+      <Accordion type="multiple" defaultValue={[]} className="space-y-2">
         {/* Orientales */}
         <AccordionItem value="orientales" className="border-none">
           <AccordionTrigger className="py-2 px-3 bg-stone-50 dark:bg-stone-700/30 rounded-lg hover:no-underline">
