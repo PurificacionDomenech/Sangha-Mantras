@@ -256,13 +256,13 @@ export default function NombresSagrados() {
             <button
               key={key}
               onClick={() => handleCategoryChange(key)}
-              className={`py-4 px-4 rounded-lg transition-all text-center ${
+              className={`py-3 px-3 rounded-lg transition-all text-center ${
                 selectedCategory === key
-                  ? `bg-gradient-to-br ${categoria.color} shadow-xl border-2 border-amber-300 dark:border-amber-600`
+                  ? `bg-gradient-to-br ${categoria.color} shadow-lg border-2 border-amber-300 dark:border-amber-600`
                   : 'bg-white/70 dark:bg-stone-800/70 hover:bg-white dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700'
               }`}
             >
-              <div className={`text-sm font-semibold ${
+              <div className={`text-xs font-medium ${
                 selectedCategory === key ? 'text-stone-800 dark:text-stone-900' : 'text-stone-700 dark:text-stone-300'
               }`}>
                 {categoria.nombre}
@@ -275,27 +275,27 @@ export default function NombresSagrados() {
           {/* Panel izquierdo: Display actual y lista */}
           <div className="space-y-3">
             <div 
-              className={`bg-gradient-to-br ${currentCategory.color} rounded-lg p-6 shadow-md border border-amber-200 dark:border-amber-700`}
+              className={`bg-gradient-to-br ${currentCategory.color} rounded-lg p-6 shadow-xl border-2 border-amber-300 dark:border-amber-600`}
               data-testid="nombre-display"
             >
               <div className="text-center">
-                <div className="text-xs uppercase tracking-wide text-stone-600 dark:text-stone-700 mb-2">
+                <div className="text-xs uppercase tracking-widest text-stone-600 dark:text-stone-700 mb-2 font-medium">
                   Nombre Sagrado Actual
                 </div>
                 <div 
-                  className={`text-5xl font-serif leading-snug mb-3 text-stone-800 dark:text-stone-900 ${isPlaying ? 'animate-pulse' : ''}`}
+                  className={`text-5xl font-serif leading-tight mb-3 text-stone-800 dark:text-stone-900 ${isPlaying ? 'animate-pulse' : ''}`}
                   style={{ fontFamily: "'Frank Ruhl Libre', serif", direction: 'rtl' }}
                 >
                   {currentNombre.hebreo}
                 </div>
-                <div className="text-base mb-2 font-semibold text-stone-800 dark:text-stone-900">
+                <div className="text-lg mb-2 font-semibold text-stone-800 dark:text-stone-900">
                   {currentNombre.nombre}
                 </div>
-                <div className="text-sm border-t border-stone-800/20 pt-3 text-stone-700 dark:text-stone-800">
+                <div className="text-sm border-t border-stone-800/20 pt-3 text-stone-700 dark:text-stone-800 leading-relaxed">
                   {currentNombre.significado}
                 </div>
                 {repetitions > 0 && (
-                  <div className="mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 bg-white/50 dark:bg-white/30 rounded-full">
+                  <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white/50 dark:bg-white/30 rounded-full">
                     <span className="text-xs font-medium text-amber-800 dark:text-amber-900" data-testid="repetition-counter">
                       {repetitions} repeticiones
                     </span>
