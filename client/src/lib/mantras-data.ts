@@ -305,6 +305,50 @@ export const mantras: Mantras = {
   }
 };
 
+export interface ChantingStyle {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  speedMultiplier: number;
+  pitchMultiplier: number;
+  vowelElongation: number;
+}
+
+export const chantingStyles: ChantingStyle[] = [
+  {
+    id: 'normal',
+    nombre: 'Normal',
+    descripcion: 'Recitación estándar',
+    speedMultiplier: 1.0,
+    pitchMultiplier: 1.0,
+    vowelElongation: 1.0
+  },
+  {
+    id: 'japanese-zen',
+    nombre: 'Canto Zen (Japonés)',
+    descripcion: 'Vocales prolongadas con ritmo poético',
+    speedMultiplier: 0.6,
+    pitchMultiplier: 0.95,
+    vowelElongation: 2.5
+  },
+  {
+    id: 'tibetan-throat',
+    nombre: 'Canto de Garganta (Tibetano)',
+    descripcion: 'Vocales extremadamente alargadas con resonancia profunda',
+    speedMultiplier: 0.4,
+    pitchMultiplier: 0.7,
+    vowelElongation: 4.0
+  },
+  {
+    id: 'theravada',
+    nombre: 'Canto Theravada',
+    descripcion: 'Vocales alargadas con tono medio',
+    speedMultiplier: 0.7,
+    pitchMultiplier: 1.0,
+    vowelElongation: 2.0
+  }
+];
+
 export const culturas = [
   { id: 'hi-IN', nombre: 'Hindi (Sánscrito)', icon: 'ॐ' },
   { id: 'ja-JP', nombre: 'Japonés (Zen)', icon: '禅' },

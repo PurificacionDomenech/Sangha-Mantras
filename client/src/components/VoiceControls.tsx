@@ -1,7 +1,7 @@
-import { Volume2, Mic } from "lucide-react";
+import { Volume2, Mic, Music } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { culturas, culturasJudias } from "@/lib/mantras-data";
+import { culturas, culturasJudias, chantingStyles } from "@/lib/mantras-data";
 
 interface VoiceControlsProps {
   speed: number;
@@ -16,6 +16,8 @@ interface VoiceControlsProps {
   onCultureChange: (value: string) => void;
   onVoiceChange: (voiceURI: string) => void;
   useJewishCultures?: boolean;
+  chantingStyle?: string;
+  onChantingStyleChange?: (value: string) => void;
 }
 
 export default function VoiceControls({
@@ -31,8 +33,11 @@ export default function VoiceControls({
   onCultureChange,
   onVoiceChange,
   useJewishCultures = false,
+  chantingStyle = 'normal',
+  onChantingStyleChange,
 }: VoiceControlsProps) {
   const culturasToUse = useJewishCultures ? culturasJudias : culturas;
+  const currentStyle = chantingStyles.find(s => s.id === chantingStyle) || chantingStyles[0];
 
   const filteredVoices = voices.filter(v => {
     if (selectedCulture === 'hi-IN') return v.lang.startsWith('hi') || v.lang.startsWith('sa');
@@ -80,6 +85,30 @@ export default function VoiceControls({
       </div>
 
       <div className="flex-1 space-y-2.5">
+        {!useJewishCultures && onChantingStyleChange && (
+          <div>
+            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1.5">
+              <Music className="w-3.5 h-3.5" />
+              Estilo de Canto
+            </label>
+            <Select value={chantingStyle} onValueChange={onChantingStyleChange}>
+              <SelectTrigger className="w-full h-8 text-xs" data-testid="chanting-style-select">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {chantingStyles.map((style) => (
+                  <SelectItem key={style.id} value={style.id} className="text-xs">
+                    <div>
+                      <div className="font-medium">{style.nombre}</div>
+                      <div className="text-[10px] text-stone-500">{style.descripcion}</div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
         {voicesToShow.length > 0 ? (
           <div>
             <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">

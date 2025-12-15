@@ -10,6 +10,13 @@ import AmbientSounds from "@/components/AmbientSounds";
 import { mantras } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
+// Define chanting styles
+const chantingStyles = [
+  { id: "normal", name: "Normal", speedMultiplier: 1.0, pitchMultiplier: 1.0 },
+  { id: "buddhist", name: "Canto Budista (Vocales Alargadas)", speedMultiplier: 0.8, pitchMultiplier: 0.9 },
+  { id: "tibetan", name: "Canto Tibetano (Garganta)", speedMultiplier: 0.7, pitchMultiplier: 0.7 },
+];
+
 export default function Home() {
   const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState("compasion");
@@ -25,6 +32,7 @@ export default function Home() {
   const [selectedCulture, setSelectedCulture] = useState("hi-IN");
   const [repetitions, setRepetitions] = useState(0);
   const [sessionFinished, setSessionFinished] = useState(false);
+  const [chantingStyle, setChantingStyle] = useState("normal"); // State for chanting style
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number | null>(null);
@@ -46,11 +54,11 @@ export default function Home() {
 
   useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     if (!('speechSynthesis' in window)) {
       toast({
         title: "Modo solo texto",
-        description: isMobile 
+        description: isMobile
           ? "Tu navegador móvil no soporta síntesis de voz. Usa Safari (iOS) o Chrome (Android) para audio, o continúa en modo lectura."
           : "Tu navegador no soporta síntesis de voz. Usa Chrome, Edge o Safari para mejor experiencia.",
         variant: "default",
@@ -99,8 +107,14 @@ export default function Home() {
       }
 
       const utterance = new SpeechSynthesisUtterance(currentMantra.texto);
-      utterance.rate = speed;
-      utterance.pitch = pitch;
+      const styleObj = chantingStyles.find(s => s.id === chantingStyle);
+
+      // Aplicar ajustes de estilo si existen
+      const effectiveSpeed = styleObj ? 0.9 * styleObj.speedMultiplier : speed;
+      const effectivePitch = styleObj ? 1.0 * styleObj.pitchMultiplier : pitch;
+
+      utterance.rate = effectiveSpeed;
+      utterance.pitch = effectivePitch;
       utterance.volume = volume;
       utterance.lang = selectedCulture;
 
@@ -113,7 +127,7 @@ export default function Home() {
 
       window.speechSynthesis.speak(utterance);
     });
-  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice]);
+  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice, chantingStyle]); // Añadido chantingStyle a las dependencias
 
   const mantraLoop = useCallback(async () => {
     while (isPlayingRef.current) {
@@ -230,6 +244,17 @@ export default function Home() {
     }
   }, [voices]);
 
+  const handleChantingStyleChange = useCallback((style: string) => {
+    setChantingStyle(style);
+    const styleObj = chantingStyles.find(s => s.id === style);
+    if (styleObj) {
+      // Ajustar automáticamente velocidad y tono base según el estilo
+      setSpeed(0.9 * styleObj.speedMultiplier);
+      setPitch(1.0 * styleObj.pitchMultiplier);
+    }
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
       <Header />
@@ -250,7 +275,7 @@ export default function Home() {
               repetitions={repetitions}
             />
 
-            <div className="space-y-1.5 max-h-[520px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+            <div className="space-h-[520px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
               {currentCategory.mantras.map((mantra, idx) => (
                 <MantraCard
                   key={`${selectedCategory}-${idx}`}
@@ -288,6 +313,9 @@ export default function Home() {
                 onVolumeChange={setVolume}
                 onCultureChange={handleCultureChange}
                 onVoiceChange={handleVoiceChange}
+                chantingStyles={chantingStyles} // Pasar los estilos de canto
+                selectedChantingStyle={chantingStyle} // Pasar el estilo seleccionado
+                onChantingStyleChange={handleChantingStyleChange} // Pasar el manejador de cambio de estilo
               />
             </div>
 
