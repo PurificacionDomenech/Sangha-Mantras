@@ -1,0 +1,122 @@
+<style>
+  /* Importamos fuentes: una para títulos, una para texto, una para Hebreo */
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Frank+Ruhl+Libre:wght@500&family=Lato:wght@300;400&display=swap');
+
+  :root {
+    --bg-gradient: radial-gradient(circle at top, #1a2a6c, #b21f1f, #fdbb2d); /* Opción colorida */
+    --bg-deep: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); /* Opción Azul Profundo */
+    --card-bg: rgba(255, 255, 255, 0.05); /* Efecto cristal */
+    --text-main: #e0e0e0;
+    --gold: #d4af37; /* Dorado sagrado */
+    --gold-glow: #f3e5ab;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg-deep); /* Fondo oscuro místico */
+    color: var(--text-main);
+    padding: 20px;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  /* Pestañas Elegantes */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--gold);
+    padding: 10px 25px;
+    font-family: 'Cinzel', serif; /* Fuente elegante */
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .tab-btn:hover { background: rgba(212, 175, 55, 0.1); }
+  
+  .tab-btn.active {
+    background: var(--gold);
+    color: #0f2027;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+
+  .content-section { display: none; animation: fadeIn 0.8s ease; }
+  .content-section.active { display: block; }
+
+  /* Títulos de Categoría */
+  .category-title {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    border-bottom: 1px solid var(--gold);
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  }
+
+  /* Grid y Tarjetas */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px); /* Difumina el fondo detrás de la tarjeta */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+
+  .card h3 {
+    margin: 0;
+    color: var(--gold-glow);
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* Texto Hebreo Sagrado */
+  .hebrew-text {
+    font-family: 'Frank Ruhl Libre', serif; /* Fuente especial hebrea */
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    direction: rtl; /* Derecha a izquierda */
+    margin: 15px 0;
+    font-weight: 500;
+  }
+
+  .meaning {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.4;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 10px;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
