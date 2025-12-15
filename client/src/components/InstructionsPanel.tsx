@@ -14,28 +14,28 @@ export default function InstructionsPanel() {
         </li>
         <li className="flex gap-3">
           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xs font-medium">2</span>
-          <span>Selecciona una categoría según tu intención de práctica</span>
+          <span>Elige entre Mantras o Nombres Sagrados según tu práctica</span>
         </li>
         <li className="flex gap-3">
           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xs font-medium">3</span>
-          <span>Elige el mantra que resuene contigo en este momento</span>
+          <span>Selecciona una categoría y el mantra o nombre que resuene contigo</span>
         </li>
         <li className="flex gap-3">
           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xs font-medium">4</span>
-          <span>Configura la duración y los sonidos ambientales si lo deseas</span>
+          <span>Elige la tradición cultural y personaliza la voz guía</span>
         </li>
         <li className="flex gap-3">
           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xs font-medium">5</span>
-          <span>Respira profundamente y comienza la sesión</span>
+          <span>Configura la duración y añade sonidos ambientales si lo deseas</span>
         </li>
         <li className="flex gap-3">
           <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xs font-medium">6</span>
-          <span>Recita el mantra en voz alta o mentalmente junto con la voz guía</span>
+          <span>Respira profundamente y comienza la sesión meditativa</span>
         </li>
       </ol>
       <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
         <p className="text-xs text-amber-800 dark:text-amber-300 italic">
-          "El mantra es una herramienta para calmar la mente y conectar con la esencia más profunda de nuestro ser."
+          "La recitación consciente de mantras y nombres sagrados es un puente hacia la paz interior y la conexión espiritual."
         </p>
       </div>
     </div>
