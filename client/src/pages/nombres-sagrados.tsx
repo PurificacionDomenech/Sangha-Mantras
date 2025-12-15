@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function NombresSagrados() {
   const { toast } = useToast();
-  const [selectedCategory, setSelectedCategory] = useState("principales");
+  const [selectedCategory, setSelectedCategory] = useState("tetragramaton");
   const [selectedNombreIndex, setSelectedNombreIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [durationMinutes, setDurationMinutes] = useState(5);
@@ -250,8 +250,8 @@ export default function NombresSagrados() {
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
-        {/* Selector de Categorías */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        {/* Selector de Categorías - 10 Sefirot */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
           {Object.entries(nombresSagrados).map(([key, categoria]) => (
             <button
               key={key}
