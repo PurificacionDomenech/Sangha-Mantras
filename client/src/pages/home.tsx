@@ -7,15 +7,8 @@ import VoiceControls from "@/components/VoiceControls";
 import TimerControls from "@/components/TimerControls";
 import AmbientSounds from "@/components/AmbientSounds";
 
-import { mantras } from "@/lib/mantras-data";
+import { mantras, chantingStyles } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
-
-// Define chanting styles
-const chantingStyles = [
-  { id: "normal", name: "Normal", speedMultiplier: 1.0, pitchMultiplier: 1.0 },
-  { id: "buddhist", name: "Canto Budista (Vocales Alargadas)", speedMultiplier: 0.8, pitchMultiplier: 0.9 },
-  { id: "tibetan", name: "Canto Tibetano (Garganta)", speedMultiplier: 0.7, pitchMultiplier: 0.7 },
-];
 
 export default function Home() {
   const { toast } = useToast();
@@ -101,20 +94,25 @@ export default function Home() {
     return new Promise((resolve) => {
       // Si no hay soporte de voz, simplemente esperar un tiempo basado en la longitud del mantra
       if (!('speechSynthesis' in window)) {
-        const readingTime = (currentMantra.texto.length * 100) / speed; // ~100ms por carácter
+        const readingTime = (currentMantra.texto.length * 100) / speed;
         setTimeout(() => resolve(true), readingTime);
         return;
       }
 
       const utterance = new SpeechSynthesisUtterance(currentMantra.texto);
-      const styleObj = chantingStyles.find(s => s.id === chantingStyle);
+      
+      // Obtener el estilo de canto desde mantras-data.ts
+      const currentStyle = chantingStyles.find(s => s.id === chantingStyle);
 
-      // Aplicar ajustes de estilo si existen
-      const effectiveSpeed = styleObj ? 0.9 * styleObj.speedMultiplier : speed;
-      const effectivePitch = styleObj ? 1.0 * styleObj.pitchMultiplier : pitch;
+      // Aplicar los multiplicadores del estilo de canto
+      if (currentStyle) {
+        utterance.rate = speed * currentStyle.speedMultiplier;
+        utterance.pitch = pitch * currentStyle.pitchMultiplier;
+      } else {
+        utterance.rate = speed;
+        utterance.pitch = pitch;
+      }
 
-      utterance.rate = effectiveSpeed;
-      utterance.pitch = effectivePitch;
       utterance.volume = volume;
       utterance.lang = selectedCulture;
 
@@ -127,7 +125,7 @@ export default function Home() {
 
       window.speechSynthesis.speak(utterance);
     });
-  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice, chantingStyle]); // Añadido chantingStyle a las dependencias
+  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice, chantingStyle]);
 
   const mantraLoop = useCallback(async () => {
     while (isPlayingRef.current) {
@@ -246,12 +244,6 @@ export default function Home() {
 
   const handleChantingStyleChange = useCallback((style: string) => {
     setChantingStyle(style);
-    const styleObj = chantingStyles.find(s => s.id === style);
-    if (styleObj) {
-      // Ajustar automáticamente velocidad y tono base según el estilo
-      setSpeed(0.9 * styleObj.speedMultiplier);
-      setPitch(1.0 * styleObj.pitchMultiplier);
-    }
   }, []);
 
 
