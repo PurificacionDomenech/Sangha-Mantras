@@ -9,25 +9,43 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [location] = useLocation();
 
   return (
-    <header className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-stone-900 dark:to-stone-800 border-b border-amber-200 dark:border-stone-700">
-      <div className="max-w-6xl mx-auto px-4 py-6">
+    <header className="bg-white/80 dark:bg-stone-900/80 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 mb-8">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="text-5xl">ༀ</div>
-            <div>
-              <h1 className="text-2xl font-bold text-stone-800 dark:text-stone-100 tracking-widest">
-                SANGHA MANTRAS
-              </h1>
-              <p className="text-sm text-stone-600 dark:text-stone-400">
-                Práctica de mantras budistas
-              </p>
-            </div>
+            <div className="text-3xl">ༀ</div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              SANGHA MANTRAS
+            </h1>
           </div>
+
+          <nav className="flex gap-2">
+            <Link href="/">
+              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                location === '/'
+                  ? 'bg-amber-500 text-white shadow-lg'
+                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+              }`}>
+                Mantras
+              </a>
+            </Link>
+            <Link href="/nombres-sagrados">
+              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                location === '/nombres-sagrados'
+                  ? 'bg-indigo-600 text-white shadow-lg'
+                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-indigo-100 dark:hover:bg-stone-700'
+              }`}>
+                Nombres Sagrados
+              </a>
+            </Link>
+          </nav>
 
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>

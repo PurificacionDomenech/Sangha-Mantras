@@ -11,6 +11,23 @@ export interface Categoria {
   mantras: Mantra[];
 }
 
+export interface NombreSagrado {
+  nombre: string;
+  hebreo: string;
+  significado: string;
+  audioVersiones: string[]; // Opciones: 'hebreo', 'melodico', 'significado', 'shofar-tekiah', etc.
+}
+
+export interface CategoriaNombres {
+  nombre: string;
+  color: string;
+  nombres: NombreSagrado[];
+}
+
+export interface NombresSagrados {
+  [key: string]: CategoriaNombres;
+}
+
 export interface Mantras {
   [key: string]: Categoria;
 }
@@ -314,6 +331,99 @@ export interface SoundPreset {
   };
   createdAt: number;
 }
+
+export const nombresSagrados: NombresSagrados = {
+  principales: {
+    nombre: "Nombres Principales",
+    color: "from-indigo-900 to-purple-900",
+    nombres: [
+      {
+        nombre: "YHWH",
+        hebreo: "יהוה",
+        significado: "Yo Soy el que Soy / El Eterno",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "Elohim",
+        hebreo: "אֱלֹהִים",
+        significado: "Dios (Poder creador y justicia)",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "El Shaddai",
+        hebreo: "אֵל שַׁדַּי",
+        significado: "Dios Todopoderoso",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "Adonai",
+        hebreo: "אֲדֹנָי",
+        significado: "Mi Señor",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      }
+    ]
+  },
+  compuestos: {
+    nombre: "Nombres Compuestos",
+    color: "from-blue-900 to-indigo-900",
+    nombres: [
+      {
+        nombre: "YHWH Yireh",
+        hebreo: "יהוה יִרְאֶה",
+        significado: "El Señor Proveerá",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "YHWH Rafa",
+        hebreo: "יהוה רֹפְא",
+        significado: "El Señor que Sana",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "YHWH Shalom",
+        hebreo: "יהוה שָׁלוֹם",
+        significado: "El Señor es Paz",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "YHWH Nissi",
+        hebreo: "יהוה נִסִּי",
+        significado: "El Señor es mi Bandera",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      }
+    ]
+  },
+  otros: {
+    nombre: "Otros Nombres",
+    color: "from-purple-900 to-pink-900",
+    nombres: [
+      {
+        nombre: "Hashem",
+        hebreo: "הַשֵּׁם",
+        significado: "El Nombre (Uso cotidiano)",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      },
+      {
+        nombre: "Ehyeh Asher Ehyeh",
+        hebreo: "אֶהְיֶה אֲשֶׁר אֶהְיֶה",
+        significado: "Yo Soy el que Soy",
+        audioVersiones: ['hebreo', 'melodico', 'significado']
+      }
+    ]
+  },
+  herramientas: {
+    nombre: "Elementos Sagrados",
+    color: "from-amber-900 to-orange-900",
+    nombres: [
+      {
+        nombre: "El Shofar",
+        hebreo: "שׁוֹפָר",
+        significado: "Cuerno de carnero (Sonido de despertar)",
+        audioVersiones: ['shofar-tekiah', 'shofar-shevarim', 'shofar-teruah', 'significado']
+      }
+    ]
+  }
+};
 
 export const ambientSounds: AmbientSound[] = [
   // Sonidos Orientales
