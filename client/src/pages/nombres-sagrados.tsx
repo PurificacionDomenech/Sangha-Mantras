@@ -126,6 +126,17 @@ export default function NombresSagrados() {
       return;
     }
 
+    // Verificar que el nombre actual sea reproducible
+    if (currentNombre.audioVersiones.length === 0) {
+      toast({
+        title: "Nombre no reproducible",
+        description: "Por respeto a la tradición, YHWH no puede ser pronunciado. Por favor selecciona otro nombre sagrado.",
+        variant: "default",
+        duration: 5000
+      });
+      return;
+    }
+
     const hasSpeech = 'speechSynthesis' in window;
     if (!hasSpeech) {
       toast({
@@ -166,6 +177,17 @@ export default function NombresSagrados() {
   }, [isPlaying, durationMinutes, stopAll, nombreLoop, toast]);
 
   const playOnce = useCallback(async () => {
+    // Verificar que el nombre actual sea reproducible
+    if (currentNombre.audioVersiones.length === 0) {
+      toast({
+        title: "Nombre no reproducible",
+        description: "Por respeto a la tradición, YHWH no puede ser pronunciado.",
+        variant: "default",
+        duration: 3000
+      });
+      return;
+    }
+
     if (!('speechSynthesis' in window)) {
       toast({
         title: "Modo lectura",
@@ -185,7 +207,11 @@ export default function NombresSagrados() {
   const handleCategoryChange = useCallback((category: string) => {
     stopAll();
     setSelectedCategory(category);
-    setSelectedNombreIndex(0);
+    // Si es la categoría del Tetragrámaton, mantener YHWH visible pero no seleccionable
+    // Seleccionar el primer nombre reproducible
+    const newCategory = nombresSagrados[category];
+    const firstPlayableIndex = newCategory.nombres.findIndex(n => n.audioVersiones.length > 0);
+    setSelectedNombreIndex(firstPlayableIndex >= 0 ? firstPlayableIndex : 0);
     setSessionFinished(false);
   }, [stopAll]);
 

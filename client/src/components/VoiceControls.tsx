@@ -41,7 +41,6 @@ export default function VoiceControls({
     if (selectedCulture === 'zh-CN') return v.lang.startsWith('zh');
     if (selectedCulture === 'th-TH') return v.lang.startsWith('th');
     if (selectedCulture === 'he-IL') return v.lang.startsWith('he');
-    if (selectedCulture === 'yi') return v.lang.startsWith('yi') || v.lang.startsWith('he');
     if (selectedCulture === 'ar') return v.lang.startsWith('ar');
     if (selectedCulture === 'es-ES') return v.lang.startsWith('es');
     return false;

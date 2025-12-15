@@ -314,7 +314,6 @@ export const culturas = [
 
 export const culturasJudias = [
   { id: 'he-IL', nombre: 'Hebreo', icon: 'א' },
-  { id: 'yi', nombre: 'Yiddish', icon: 'ײ' },
   { id: 'ar', nombre: 'Árabe', icon: 'ع' },
   { id: 'es-ES', nombre: 'Español', icon: 'Es' }
 ];
@@ -340,16 +339,22 @@ export interface SoundPreset {
 }
 
 export const nombresSagrados: NombresSagrados = {
-  principales: {
-    nombre: "Nombres Principales",
-    color: "from-indigo-900 to-purple-900",
+  tetragramaton: {
+    nombre: "El Tetragrámaton",
+    color: "from-amber-700 to-yellow-600",
     nombres: [
       {
         nombre: "YHWH",
         hebreo: "יהוה",
-        significado: "Yo Soy el que Soy / El Eterno",
-        audioVersiones: ['hebreo', 'melodico', 'significado']
-      },
+        significado: "El Tetragrámaton - El nombre más sagrado de Dios, representa la esencia eterna. Por respeto a la tradición, este nombre se muestra pero no se pronuncia.",
+        audioVersiones: [] // No reproducible por respeto
+      }
+    ]
+  },
+  principales: {
+    nombre: "Nombres Principales",
+    color: "from-amber-600 to-orange-600",
+    nombres: [
       {
         nombre: "Elohim",
         hebreo: "אֱלֹהִים",
@@ -372,7 +377,7 @@ export const nombresSagrados: NombresSagrados = {
   },
   compuestos: {
     nombre: "Nombres Compuestos",
-    color: "from-blue-900 to-indigo-900",
+    color: "from-orange-600 to-amber-700",
     nombres: [
       {
         nombre: "YHWH Yireh",
@@ -402,7 +407,7 @@ export const nombresSagrados: NombresSagrados = {
   },
   otros: {
     nombre: "Otros Nombres",
-    color: "from-purple-900 to-pink-900",
+    color: "from-yellow-700 to-amber-600",
     nombres: [
       {
         nombre: "Hashem",
@@ -418,9 +423,129 @@ export const nombresSagrados: NombresSagrados = {
       }
     ]
   },
+  nombres72_1_9: {
+    nombre: "72 Nombres (1-9)",
+    color: "from-amber-500 to-yellow-500",
+    nombres: [
+      { nombre: "Vehuel", hebreo: "וְהוּא", significado: "Fortaleza, Resistencia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yeli", hebreo: "יְלִי", significado: "Revelación, Sabiduría", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Sit", hebreo: "סִית", significado: "Milagros, Claridad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Aelem", hebreo: "עֵלֶם", significado: "Protección Contra el Mal de Ojo", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mahash", hebreo: "מָהַשׁ", significado: "Sanación, Desintoxicación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Lelah", hebreo: "לָלָה", significado: "Sueños Proféticos, Juicios Justos", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Akah", hebreo: "אַכָה", significado: "Eliminar Bloqueos, Paciencia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Cahetel", hebreo: "כָהָת", significado: "Paternidad, Bendiciones", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Haziel", hebreo: "הֲזִי", significado: "Misericordia, Perdón", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_10_18: {
+    nombre: "72 Nombres (10-18)",
+    color: "from-yellow-500 to-amber-500",
+    nombres: [
+      { nombre: "Aladiah", hebreo: "אֶלֶד", significado: "Visión Retrospectiva, Gracia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Laviah", hebreo: "לָוַ", significado: "Puente Espiritual, Viajes", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hahiah", hebreo: "הַהַ", significado: "Amor Incondicional, Protección", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yezalel", hebreo: "יְזַל", significado: "Unión de Parejas, Armonía", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mebahael", hebreo: "מָבַה", significado: "Verdad y Honestidad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hariel", hebreo: "הַרִי", significado: "Conocimiento de Secretos, Lógica", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hakamiah", hebreo: "הָקָם", significado: "Lealtad, Superar la Envidia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Lauviah", hebreo: "לָאו", significado: "Victoria y Éxito, Revelaciones Nocturnas", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Cali", hebreo: "כְּלִי", significado: "Fertilidad, Maternidad", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_19_27: {
+    nombre: "72 Nombres (19-27)",
+    color: "from-amber-500 to-orange-500",
+    nombres: [
+      { nombre: "Leuvo", hebreo: "לָווּ", significado: "Reducir el Ego, Transición", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Pahali", hebreo: "פָּהַל", significado: "Liberación de Adicciones", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Nelchael", hebreo: "נָלַכ", significado: "Victoria sobre la Ignorancia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yeiayel", hebreo: "יְיָאִי", significado: "Fama, Riqueza, Suerte", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Melahael", hebreo: "מָלָכ", significado: "Protección contra Peligros", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Chahuiah", hebreo: "חָוַה", significado: "Buscar lo Escondido, Verdad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Netah", hebreo: "נָתָה", significado: "Sabiduría, Revelaciones", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Haaiah", hebreo: "הָאָה", significado: "Oráculos, Amor Divino", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yerathel", hebreo: "יְרָת", significado: "Propagación de la Luz, Confianza", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_28_36: {
+    nombre: "72 Nombres (28-36)",
+    color: "from-orange-500 to-amber-600",
+    nombres: [
+      { nombre: "Shaah", hebreo: "שָׁאַה", significado: "Alma Gemela, Unión", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Reyel", hebreo: "רָיָע", significado: "Liberación de Enemigos", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Omael", hebreo: "אוּמַל", significado: "Fertilidad y Nuevos Comienzos", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Lecavel", hebreo: "לָכַב", significado: "Abundancia, Provisión", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Vasariah", hebreo: "וָשַׂר", significado: "Memoria, Retorno", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yehuiyah", hebreo: "יְחוּי", significado: "Fin de la Adicción, Orden", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Lehahel", hebreo: "לָהַח", significado: "Salud, Curación, Energía Vital", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Chavakhiah", hebreo: "חָוַק", significado: "Paz en la Familia, Reconciliación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Menadel", hebreo: "מָנַד", significado: "Trabajo, Sostén, Libertad", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_37_45: {
+    nombre: "72 Nombres (37-45)",
+    color: "from-amber-600 to-yellow-600",
+    nombres: [
+      { nombre: "Aniel", hebreo: "אָנִי", significado: "Romper Círculos Viciosos", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Haamiah", hebreo: "חָעַם", significado: "Protección Contra la Mentira", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Rehael", hebreo: "רָהַע", significado: "Sumisión, Obediencia, Curación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yeyazel", hebreo: "יְיָז", significado: "Visión y Luz, Consuelo", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hahahel", hebreo: "הָהֵה", significado: "Misión, Destino, Propósito", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Michael", hebreo: "מִיכָא", significado: "Reconocimiento Espiritual", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Vehul", hebreo: "וָהֶל", significado: "Equilibrio, Reconstrucción", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yeloh", hebreo: "יְלוֹ", significado: "Victoria, Protección", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Seal", hebreo: "סָאַל", significado: "Prosperidad, Sustento", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_46_54: {
+    nombre: "72 Nombres (46-54)",
+    color: "from-yellow-600 to-orange-600",
+    nombres: [
+      { nombre: "Asar", hebreo: "עָשַׁר", significado: "Juicio Justo, Transformación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Miah", hebreo: "מִיכָא", significado: "Orden, Control de Emociones", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Vaho", hebreo: "וָהוּ", significado: "Sanación y Restauración", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Daniel", hebreo: "דָנִי", significado: "Perdón Radical, Retorno", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hahas", hebreo: "הָחָס", significado: "Conocimiento de Dios", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Amamiah", hebreo: "אָמָם", significado: "Integridad y Confianza", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Nanael", hebreo: "נָנַע", significado: "Lógica, Claridad Mental", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Nitel", hebreo: "נִיט", significado: "Propagación de la Luz, Enseñanza", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mebah", hebreo: "מָבָה", significado: "Fuerza Interior, Motivación", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_55_63: {
+    nombre: "72 Nombres (55-63)",
+    color: "from-orange-600 to-amber-700",
+    nombres: [
+      { nombre: "Poiel", hebreo: "פּוֹי", significado: "Misericordia, Apoyo Divino", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Nemamiah", hebreo: "נָמַמ", significado: "Escuchar la Voz Interior", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yeyalel", hebreo: "יְיָל", significado: "Poder de Sanación Mental", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Harahael", hebreo: "הָרָה", significado: "Visión y Profecía", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mizrael", hebreo: "מָצַר", significado: "Compensación, Reparación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Umael", hebreo: "אוּמָא", significado: "Paz, Calma, Meditación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hahael", hebreo: "חָהָא", significado: "Purificación, Liberación", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Anauel", hebreo: "אָנַו", significado: "Conexión, Liderazgo", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mehiel", hebreo: "מָחִי", significado: "Unión, Éxito en el Arte", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
+  nombres72_64_72: {
+    nombre: "72 Nombres (64-72)",
+    color: "from-amber-700 to-yellow-700",
+    nombres: [
+      { nombre: "Damabiah", hebreo: "דָמַב", significado: "Claridad en el Propósito", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Menakel", hebreo: "מָנַק", significado: "Librar de Miedos, Intuición", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Ayel", hebreo: "אֵיעָ", significado: "Visión Cósmica, Conexión", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Habuiah", hebreo: "חָבִי", significado: "Sanación de la Enfermedad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Rochel", hebreo: "רָוָכ", significado: "Restauración de la Propiedad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yabamiah", hebreo: "יָבָמ", significado: "Amor, Paz, Unidad", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Hayiel", hebreo: "חָיֵל", significado: "Luz, Despertar de la Conciencia", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Mumiah", hebreo: "מוּמַ", significado: "Purificación, Finalización", audioVersiones: ['hebreo', 'melodico', 'significado'] },
+      { nombre: "Yelahiah", hebreo: "יָלָה", significado: "Liberación de la Culpa, Victoria", audioVersiones: ['hebreo', 'melodico', 'significado'] }
+    ]
+  },
   herramientas: {
     nombre: "Elementos Sagrados",
-    color: "from-amber-900 to-orange-900",
+    color: "from-yellow-700 to-amber-700",
     nombres: [
       {
         nombre: "El Shofar",
