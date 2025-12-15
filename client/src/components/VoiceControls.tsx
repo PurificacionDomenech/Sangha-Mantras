@@ -1,7 +1,7 @@
 import { Volume2, Mic } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { culturas } from "@/lib/mantras-data";
+import { culturas, culturasJudias } from "@/lib/mantras-data";
 
 interface VoiceControlsProps {
   speed: number;
@@ -15,6 +15,7 @@ interface VoiceControlsProps {
   onVolumeChange: (value: number) => void;
   onCultureChange: (value: string) => void;
   onVoiceChange: (voiceURI: string) => void;
+  useJewishCultures?: boolean;
 }
 
 export default function VoiceControls({
@@ -29,13 +30,19 @@ export default function VoiceControls({
   onVolumeChange,
   onCultureChange,
   onVoiceChange,
+  useJewishCultures = false,
 }: VoiceControlsProps) {
+  const culturasToUse = useJewishCultures ? culturasJudias : culturas;
+
   const filteredVoices = voices.filter(v => {
     if (selectedCulture === 'hi-IN') return v.lang.startsWith('hi') || v.lang.startsWith('sa');
     if (selectedCulture === 'bo-CN') return v.lang.startsWith('bo') || v.lang.startsWith('zh') || v.lang.startsWith('hi');
     if (selectedCulture === 'ja-JP') return v.lang.startsWith('ja');
     if (selectedCulture === 'zh-CN') return v.lang.startsWith('zh');
     if (selectedCulture === 'th-TH') return v.lang.startsWith('th');
+    if (selectedCulture === 'he-IL') return v.lang.startsWith('he');
+    if (selectedCulture === 'yi') return v.lang.startsWith('yi') || v.lang.startsWith('he');
+    if (selectedCulture === 'ar') return v.lang.startsWith('ar');
     if (selectedCulture === 'es-ES') return v.lang.startsWith('es');
     return false;
   });
@@ -43,7 +50,7 @@ export default function VoiceControls({
   const voicesToShow = filteredVoices.length > 0 ? filteredVoices : voices;
   
   const getCultureName = () => {
-    const cultura = culturas.find(c => c.id === selectedCulture);
+    const cultura = culturasToUse.find(c => c.id === selectedCulture);
     return cultura?.nombre || 'esta cultura';
   };
 
@@ -55,7 +62,7 @@ export default function VoiceControls({
           Tradición
         </label>
         <div className="grid grid-cols-2 gap-1.5">
-          {culturas.map((cultura) => (
+          {culturasToUse.map((cultura) => (
             <button
               key={cultura.id}
               onClick={() => onCultureChange(cultura.id)}

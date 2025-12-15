@@ -40,24 +40,24 @@ export default function NombreSagradoCard({
     <button
       onClick={onClick}
       data-testid={`nombre-card-${index}`}
-      className={`w-full text-left p-4 rounded-lg transition-all ${
+      className={`w-full text-left p-2 rounded-lg transition-all ${
         isSelected
-          ? `bg-gradient-to-br ${categoryColor} shadow-xl border-2 border-amber-400 dark:border-amber-500`
-          : 'bg-white/10 dark:bg-stone-900/30 hover:bg-white/20 dark:hover:bg-stone-900/40 border border-white/20 dark:border-stone-700/50 backdrop-blur-md'
+          ? `bg-gradient-to-br ${categoryColor} shadow-lg border-2 border-amber-300 dark:border-amber-600`
+          : 'bg-white/70 dark:bg-stone-800/70 hover:bg-white dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700'
       }`}
     >
-      <div className="text-xs uppercase tracking-wide text-amber-300 dark:text-amber-400 mb-1 font-semibold">
+      <div className="text-[10px] uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-0.5">
         {nombre.nombre}
       </div>
       
       <div 
-        className="text-3xl font-serif text-white mb-2 direction-rtl" 
+        className="text-xl font-serif text-stone-800 dark:text-stone-200 mb-0.5" 
         style={{ fontFamily: "'Frank Ruhl Libre', serif", direction: 'rtl' }}
       >
         {nombre.hebreo}
       </div>
       
-      <div className="text-xs text-stone-200 dark:text-stone-300 leading-snug mb-3 border-t border-white/10 pt-2">
+      <div className="text-[10px] text-stone-600 dark:text-stone-400 leading-snug line-clamp-1">
         {nombre.significado}
       </div>
 

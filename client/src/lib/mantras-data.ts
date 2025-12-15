@@ -312,6 +312,13 @@ export const culturas = [
   { id: 'es-ES', nombre: 'Español', icon: 'Es' }
 ];
 
+export const culturasJudias = [
+  { id: 'he-IL', nombre: 'Hebreo', icon: 'א' },
+  { id: 'yi', nombre: 'Yiddish', icon: 'ײ' },
+  { id: 'ar', nombre: 'Árabe', icon: 'ع' },
+  { id: 'es-ES', nombre: 'Español', icon: 'Es' }
+];
+
 export interface AmbientSound {
   id: string;
   nombre: string;
