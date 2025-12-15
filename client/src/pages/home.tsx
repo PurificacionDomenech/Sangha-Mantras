@@ -313,9 +313,8 @@ export default function Home() {
                 onVolumeChange={setVolume}
                 onCultureChange={handleCultureChange}
                 onVoiceChange={handleVoiceChange}
-                chantingStyles={chantingStyles} // Pasar los estilos de canto
-                selectedChantingStyle={chantingStyle} // Pasar el estilo seleccionado
-                onChantingStyleChange={handleChantingStyleChange} // Pasar el manejador de cambio de estilo
+                chantingStyle={chantingStyle}
+                onChantingStyleChange={handleChantingStyleChange}
               />
             </div>
 
