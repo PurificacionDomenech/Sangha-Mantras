@@ -22,7 +22,7 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <div className="text-3xl">ༀ</div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-              SANGHA MANTRAS
+              MEDIT@
             </h1>
           </div>
 
@@ -39,8 +39,8 @@ export default function Header() {
             <Link href="/nombres-sagrados">
               <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 location === '/nombres-sagrados'
-                  ? 'bg-indigo-600 text-white shadow-lg'
-                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-indigo-100 dark:hover:bg-stone-700'
+                  ? 'bg-amber-500 text-white shadow-lg'
+                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
               }`}>
                 Nombres Sagrados
               </a>
