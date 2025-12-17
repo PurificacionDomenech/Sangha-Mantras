@@ -78,31 +78,52 @@ export default function Meditaciones() {
     if (!('speechSynthesis' in window)) return;
 
     const cleanedText = cleanText(currentMeditacion.texto);
-    const utterance = new SpeechSynthesisUtterance(cleanedText);
-
-    utterance.rate = speed;
-    utterance.pitch = pitch;
-    utterance.volume = volume;
-    utterance.lang = 'es-ES';
     
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
-    }
+    // Dividir el texto en segmentos (por oraciones)
+    const segments = cleanedText
+      .split(/(?<=[.!?])\s+/)
+      .filter(s => s.trim().length > 0);
+    
+    let currentSegmentIndex = 0;
 
-    utterance.onend = () => {
-      stopMeditation();
-      toast({
-        title: "Meditación completada",
-        description: "La meditación ha finalizado. Namaste.",
-      });
+    const speakNextSegment = () => {
+      if (!isPlayingRef.current || currentSegmentIndex >= segments.length) {
+        if (currentSegmentIndex >= segments.length) {
+          stopMeditation();
+          toast({
+            title: "Meditación completada",
+            description: "La meditación ha finalizado. Namaste.",
+          });
+        }
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(segments[currentSegmentIndex]);
+      
+      // Aplicar parámetros ACTUALES (se actualizarán en cada segmento)
+      utterance.rate = speed;
+      utterance.pitch = pitch;
+      utterance.volume = volume;
+      utterance.lang = 'es-ES';
+      
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+
+      utterance.onend = () => {
+        currentSegmentIndex++;
+        speakNextSegment();
+      };
+
+      utterance.onerror = () => {
+        stopMeditation();
+      };
+
+      currentUtteranceRef.current = utterance;
+      window.speechSynthesis.speak(utterance);
     };
 
-    utterance.onerror = () => {
-      stopMeditation();
-    };
-
-    currentUtteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
+    speakNextSegment();
   }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast]);
 
   const togglePlayPause = useCallback(() => {
@@ -113,9 +134,8 @@ export default function Meditaciones() {
       isPlayingRef.current = true;
       speakMeditation();
     } else if (isPaused) {
-      // Reanudar - reiniciar con parámetros actualizados
-      window.speechSynthesis.cancel();
-      speakMeditation();
+      // Reanudar
+      window.speechSynthesis.resume();
       setIsPaused(false);
     } else {
       // Pausar
