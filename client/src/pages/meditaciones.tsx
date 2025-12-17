@@ -212,6 +212,9 @@ export default function Meditaciones() {
         return;
       }
 
+      // Fix para Android: cancelar síntesis previa
+      window.speechSynthesis.cancel();
+
       const segment = segments[currentSegmentIndex];
       const utterance = new SpeechSynthesisUtterance(segment.text);
 
@@ -225,25 +228,53 @@ export default function Meditaciones() {
         utterance.voice = selectedVoice;
       }
 
+      let hasEnded = false;
+      const segmentTimeout = setTimeout(() => {
+        if (!hasEnded) {
+          hasEnded = true;
+          console.warn('Speech segment timeout - Android compatibility');
+          currentSegmentIndex++;
+          speakNextSegment();
+        }
+      }, 15000);
+
       utterance.onend = async () => {
-        // Calcular pausa: base + 2 segundos extra si hay salto de línea
-        const pauseDuration = segment.hasLineBreakAfter 
-          ? (pauseBetweenPhrases + 2) * 1000 
-          : pauseBetweenPhrases * 1000;
+        if (!hasEnded) {
+          hasEnded = true;
+          clearTimeout(segmentTimeout);
+          
+          // Calcular pausa: base + 2 segundos extra si hay salto de línea
+          const pauseDuration = segment.hasLineBreakAfter 
+            ? (pauseBetweenPhrases + 2) * 1000 
+            : pauseBetweenPhrases * 1000;
 
-        // Esperar la pausa antes de continuar
-        await new Promise(resolve => setTimeout(resolve, pauseDuration));
+          // Esperar la pausa antes de continuar
+          await new Promise(resolve => setTimeout(resolve, pauseDuration));
 
-        currentSegmentIndex++;
-        speakNextSegment();
+          currentSegmentIndex++;
+          speakNextSegment();
+        }
       };
 
-      utterance.onerror = () => {
-        stopMeditation();
+      utterance.onerror = (event) => {
+        if (!hasEnded) {
+          hasEnded = true;
+          clearTimeout(segmentTimeout);
+          console.error('Speech segment error:', event);
+          // Reintentar el segmento una vez
+          setTimeout(() => {
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+          }, 100);
+        }
       };
 
       currentUtteranceRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
+      
+      // Fix para Android: pequeño delay antes de hablar
+      setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 50);
     };
 
     speakNextSegment();

@@ -31,12 +31,26 @@ export default function NombresSagrados() {
   const currentNombre = currentCategory.nombres[selectedNombreIndex];
 
   const loadVoices = useCallback(() => {
+    // Fix para Android: forzar actualización de voces
+    window.speechSynthesis.cancel();
+    
     const loadedVoices = window.speechSynthesis.getVoices();
     if (loadedVoices.length > 0) {
       setVoices(loadedVoices);
       const hebrewVoice = loadedVoices.find(v => v.lang.startsWith('he'));
       const defaultVoice = hebrewVoice || loadedVoices[0];
       setSelectedVoice(defaultVoice);
+    } else {
+      // Reintentar en Android después de un delay
+      setTimeout(() => {
+        const retryVoices = window.speechSynthesis.getVoices();
+        if (retryVoices.length > 0) {
+          setVoices(retryVoices);
+          const hebrewVoice = retryVoices.find(v => v.lang.startsWith('he'));
+          const defaultVoice = hebrewVoice || retryVoices[0];
+          setSelectedVoice(defaultVoice);
+        }
+      }, 100);
     }
   }, []);
 
@@ -93,6 +107,9 @@ export default function NombresSagrados() {
         return;
       }
 
+      // Fix para Android: cancelar cualquier síntesis previa
+      window.speechSynthesis.cancel();
+
       const utterance = new SpeechSynthesisUtterance(currentNombre.nombre);
       utterance.rate = speed;
       utterance.pitch = pitch;
@@ -103,10 +120,41 @@ export default function NombresSagrados() {
         utterance.voice = selectedVoice;
       }
 
-      utterance.onend = () => resolve(true);
-      utterance.onerror = () => resolve(false);
+      let resolved = false;
+      const timeout = setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          console.warn('Speech timeout - Android compatibility issue');
+          resolve(false);
+        }
+      }, 15000);
 
-      window.speechSynthesis.speak(utterance);
+      utterance.onend = () => {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timeout);
+          resolve(true);
+        }
+      };
+
+      utterance.onerror = (event) => {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timeout);
+          console.error('Speech error:', event);
+          // Reintentar una vez en caso de error (común en Android)
+          setTimeout(() => {
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+          }, 100);
+          resolve(false);
+        }
+      };
+
+      // Fix para Android: pequeño delay antes de hablar
+      setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 50);
     });
   }, [currentNombre.nombre, speed, pitch, volume, selectedCulture, selectedVoice]);
 

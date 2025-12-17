@@ -34,6 +34,9 @@ export default function Home() {
   const currentMantra = currentCategory.mantras[selectedMantraIndex];
 
   const loadVoices = useCallback(() => {
+    // Fix para Android: forzar actualización de voces
+    window.speechSynthesis.cancel();
+    
     const loadedVoices = window.speechSynthesis.getVoices();
     if (loadedVoices.length > 0) {
       setVoices(loadedVoices);
@@ -41,6 +44,18 @@ export default function Home() {
       const asianVoice = loadedVoices.find(v => v.lang.startsWith('ja') || v.lang.startsWith('zh'));
       const defaultVoice = hindiVoice || asianVoice || loadedVoices[0];
       setSelectedVoice(defaultVoice);
+    } else {
+      // Reintentar en Android después de un delay
+      setTimeout(() => {
+        const retryVoices = window.speechSynthesis.getVoices();
+        if (retryVoices.length > 0) {
+          setVoices(retryVoices);
+          const hindiVoice = retryVoices.find(v => v.lang.startsWith('hi'));
+          const asianVoice = retryVoices.find(v => v.lang.startsWith('ja') || v.lang.startsWith('zh'));
+          const defaultVoice = hindiVoice || asianVoice || retryVoices[0];
+          setSelectedVoice(defaultVoice);
+        }
+      }, 100);
     }
   }, []);
 
@@ -98,6 +113,9 @@ export default function Home() {
         return;
       }
 
+      // Fix para Android: cancelar cualquier síntesis previa
+      window.speechSynthesis.cancel();
+
       const utterance = new SpeechSynthesisUtterance(currentMantra.texto);
 
       // Tono más alegre y natural para cantar
@@ -110,10 +128,41 @@ export default function Home() {
         utterance.voice = selectedVoice;
       }
 
-      utterance.onend = () => resolve(true);
-      utterance.onerror = () => resolve(false);
+      let resolved = false;
+      const timeout = setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          console.warn('Speech timeout - Android compatibility issue');
+          resolve(false);
+        }
+      }, 15000); // Timeout de 15 segundos
 
-      window.speechSynthesis.speak(utterance);
+      utterance.onend = () => {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timeout);
+          resolve(true);
+        }
+      };
+
+      utterance.onerror = (event) => {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timeout);
+          console.error('Speech error:', event);
+          // Reintentar una vez en caso de error (común en Android)
+          setTimeout(() => {
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+          }, 100);
+          resolve(false);
+        }
+      };
+
+      // Fix para Android: pequeño delay antes de hablar
+      setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 50);
     });
   }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice]);
 
