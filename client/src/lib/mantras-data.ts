@@ -529,6 +529,261 @@ export const nombresSagrados: NombresSagrados = {
   }
 };
 
+export interface Meditacion {
+  titulo: string;
+  categoria: string;
+  duracion: string;
+  texto: string;
+  descripcion: string;
+}
+
+export interface CategoriasMeditacion {
+  nombre: string;
+  color: string;
+  meditaciones: Meditacion[];
+}
+
+export interface MeditacionesGuiadas {
+  [key: string]: CategoriasMeditacion;
+}
+
+export interface EstiloNarracion {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  speedMultiplier: number;
+  pitchMultiplier: number;
+  volumeMultiplier: number;
+}
+
+export const estilosNarracion: EstiloNarracion[] = [
+  {
+    id: 'normal',
+    nombre: 'Normal/Calmado',
+    descripcion: 'Voz natural y relajada, suave y cálida',
+    speedMultiplier: 0.75,
+    pitchMultiplier: 1.0,
+    volumeMultiplier: 1.0
+  },
+  {
+    id: 'susurro',
+    nombre: 'Susurro (Whisper)',
+    descripcion: 'Íntimo y sensorial, perfecto para sueño profundo',
+    speedMultiplier: 0.65,
+    pitchMultiplier: 0.95,
+    volumeMultiplier: 0.7
+  },
+  {
+    id: 'etereo',
+    nombre: 'Suave y Etéreo',
+    descripcion: 'Voz baja con respiración audible, ideal para visualizaciones',
+    speedMultiplier: 0.7,
+    pitchMultiplier: 1.05,
+    volumeMultiplier: 0.85
+  },
+  {
+    id: 'profundo',
+    nombre: 'Profundo y Resonante',
+    descripcion: 'Voz grave que transmite estabilidad y seguridad',
+    speedMultiplier: 0.7,
+    pitchMultiplier: 0.85,
+    volumeMultiplier: 1.0
+  },
+  {
+    id: 'maternal',
+    nombre: 'Cálido y Maternal',
+    descripcion: 'Efectivo para relajación emocional y autocompasión',
+    speedMultiplier: 0.75,
+    pitchMultiplier: 1.1,
+    volumeMultiplier: 0.9
+  },
+  {
+    id: 'hipnotico',
+    nombre: 'Hipnótico (Eriksonian)',
+    descripcion: 'Voz monótona y rítmica para inducir trance',
+    speedMultiplier: 0.6,
+    pitchMultiplier: 0.95,
+    volumeMultiplier: 0.95
+  }
+];
+
+export const meditacionesGuiadas: MeditacionesGuiadas = {
+  viajes: {
+    nombre: "Viajes Místicos",
+    color: "from-purple-100 to-indigo-100",
+    meditaciones: [
+      {
+        titulo: "Viaje a Través de los 7 Niveles de la Realidad",
+        categoria: "Viaje Místico",
+        duracion: "18-22 min",
+        descripcion: "Un viaje guiado desde la realidad cotidiana hasta lo inconocible, explorando la percepción, creencia, ciencia cuántica, simulación y unión mística.",
+        texto: `Bueno, gente... ¿qué tal? ¿Cómo estáis todos?
+
+Hoy vamos a hacer algo especial. Un viaje guiado a través de los 7 niveles de la realidad que no alcanzarás... hasta que lo hagas.
+
+Encuentra un lugar cómodo. Siéntate o acuéstate. Cierra los ojos.
+
+Respira conmigo: inhala... [pausa 3 seg]
+exhala... [pausa 4 seg]
+Una vez más... inhala... [pausa] exhala... [pausa]
+
+Estás seguro. Estás aquí. Y estás listo para despertar.
+
+[pausa 5 seg]
+
+Imagina que estás de pie en un vasto paisaje al amanecer.
+El sol naciente tiñe el cielo de dorado.
+Ante ti se extiende un camino luminoso... que serpentea hacia horizontes desconocidos.
+Cada paso te llevará a un nuevo nivel.
+
+Toma una respiración profunda... y da el primer paso.
+
+[pausa 5 seg]
+
+Nivel 1: La Realidad del Consenso
+
+Siente el suelo firme bajo tus pies.
+Este es el mundo que conoces.
+Toca el aire: fresco, tangible.
+Escucha tus pasos... el viento entre árboles que se mecen con certeza.
+El agua moja tus dedos. El dolor de un golpe es real.
+
+Aquí todo parece obvio, sólido.
+Respira profundamente... ancla tu cuerpo aquí.
+Nota la comodidad... pero también la sutil curiosidad: ¿es esto todo?
+
+[pausa 6 seg]
+
+Da un paso adelante... el camino se ilumina más.
+
+[pausa 4 seg]
+
+Nivel 2: El Reino de la Percepción
+
+Los colores se intensifican.
+¿Son reales... o es tu mente quien los pinta?
+Tus sentidos capturan fragmentos: ondas de luz, vibraciones de aire.
+Tu cerebro edita en tiempo real... tejiendo caos en coherencia.
+
+Imagina una ilusión óptica: una figura que cambia según cómo la mires.
+Toca una flor... ¿su suavidad es absoluta... o tu interpretación?
+
+Aquí la realidad se construye dentro de ti.
+Respira... siente la fluidez.
+
+[pausa 7 seg]
+
+El velo se adelgaza... avanza.
+
+[pausa 4 seg]
+
+Nivel 3: El Reino de la Creencia
+
+El camino se bifurca en redes invisibles de significado.
+Siente cómo creencias intangibles dan forma a tu mundo:
+El dinero, un simple papel... dicta tu libertad.
+Fronteras imaginarias... te confinan o liberan.
+
+Visualiza esa red luminosa a tu alrededor... tejida de ideas colectivas.
+Toca la red... es tan sólida como la tierra.
+¿Qué creencias te suspenden?
+
+Respira... abraza el poder de tus convicciones.
+
+[pausa 8 seg]
+
+El viaje se profundiza... da un paso más.
+
+[pausa 4 seg]
+
+Nivel 4: El Nivel de la Ciencia
+
+El suelo se vuelve etéreo... revela paradojas.
+Lo que tocas es mayormente vacío.
+Extiende tu mano... no tocas realmente la mesa.
+Solo sientes repulsión de campos invisibles.
+
+El tiempo se estira... se dobla.
+Las partículas bailan como ondas de probabilidad... colapsan cuando las observas.
+La luz: ¿onda o partícula? Depende de tu mirada.
+
+Siente la extrañeza onírica del universo.
+Respira... abraza esta estructura paradójica.
+
+[pausa 9 seg]
+
+El camino brilla con código cuántico... avanza.
+
+[pausa 4 seg]
+
+Nivel 5: La Capa de la Simulación
+
+El paisaje se digitaliza... píxeles en una pantalla infinita.
+La gravedad es un algoritmo.
+El tiempo... un renderizado.
+
+Imagina un videojuego vasto: la ciudad lejana no se carga hasta que te acercas.
+¿Qué pasa si nadie observa? ¿Existe aún?
+
+Siente la probabilidad: esto es más simulación que realidad base.
+Respira... cuestiona: ¿eres jugador... o avatar?
+
+[pausa 10 seg]
+
+El velo se disuelve... prosigue.
+
+[pausa 5 seg]
+
+Nivel 6: La Realidad Mística
+
+Los límites se funden... en unión vasta.
+El "yo" se disuelve.
+La silla, el suelo, tu cuerpo... todo es un campo continuo de conciencia.
+El velo de la ilusión se levanta: maya, samsara.
+Lo físico es solo el comienzo.
+
+Siente la interconexión: eres el árbol, el viento, el cosmos.
+Paz absoluta te envuelve.
+
+Respira profundamente... fusionándote con esta unidad.
+
+[pausa 12 seg]
+
+Un paso final... hacia lo inefable.
+
+[pausa 5 seg]
+
+Nivel 7: El Reino de lo Inconocible
+
+Aquí... el camino se disuelve en silencio puro.
+No hay palabras. No hay descripciones.
+Solo el misterio detrás de la existencia.
+
+Visualiza un vacío luminoso... el Tao eterno que no puede ser nombrado.
+Todo lo anterior se apila aquí... ocurriendo a la vez.
+
+Respira en este espacio sin límites.
+No intentes capturarlo... solo sé.
+
+[pausa 15 seg]
+
+Ahora... gentilmente regresa.
+Siente cómo los niveles se integran en ti... como capas de un pastel infinito.
+El camino reaparece... te guía de vuelta al paisaje inicial.
+
+Inhala integración... exhala claridad.
+
+Cuando estés listo... abre los ojos.
+
+Has viajado a través de los siete niveles.
+Ahora el mundo es más vasto... más tuyo.
+
+Namaste.`
+      }
+    ]
+  }
+};
+
 export const ambientSounds: AmbientSound[] = [
   // Sonidos Orientales
   { id: 'bells', nombre: 'Campanas Tibetanas', icon: 'Bell', category: 'oriental' },

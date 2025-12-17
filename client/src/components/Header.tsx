@@ -45,6 +45,15 @@ export default function Header() {
                 Nombres Sagrados
               </a>
             </Link>
+            <Link href="/meditaciones">
+              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                location === '/meditaciones'
+                  ? 'bg-amber-500 text-white shadow-lg'
+                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+              }`}>
+                Meditaciones
+              </a>
+            </Link>
           </nav>
 
           <Dialog open={open} onOpenChange={setOpen}>

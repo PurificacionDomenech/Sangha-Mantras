@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import NombresSagrados from "@/pages/nombres-sagrados";
+import Meditaciones from "@/pages/meditaciones";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -12,6 +13,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/nombres-sagrados" component={NombresSagrados} />
+      <Route path="/meditaciones" component={Meditaciones} />
       <Route component={NotFound} />
     </Switch>
   );
