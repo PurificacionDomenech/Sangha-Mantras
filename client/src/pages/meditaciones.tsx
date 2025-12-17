@@ -389,7 +389,7 @@ export default function Meditaciones() {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'url(/bg-meditaciones.jpg)' }}>
-      <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60"></div>
+      <div className="absolute inset-0 bg-stone-900/20 dark:bg-stone-900/40"></div>
       <div className="relative z-10">
       <Header />
 
