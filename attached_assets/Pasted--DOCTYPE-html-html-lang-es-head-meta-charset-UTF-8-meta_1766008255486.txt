@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>72 Nombres de Dios</title>
+    <style>
+        /* --- ESTÉTICA GENERAL --- */
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #000000 100%);
+            color: white;
+            font-family: 'Cinzel', serif; /* Fuente estilo clásico/mágico */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* --- EL ABANICO DE CARTAS --- */
+        #card-fan {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+            transition: opacity 0.5s;
+        }
+
+        .mini-card {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            left: 50%;
+            bottom: 0;
+            transform-origin: bottom center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, bottom 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .mini-card:hover {
+            bottom: 20px; /* Efecto de sacar la carta */
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            z-index: 100;
+        }
+
+        /* --- CARTA GRANDE (ACTIVADA) --- */
+        #active-stage {
+            display: none;
+            perspective: 1000px;
+            width: 300px;
+            height: 480px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Caras de la carta */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            
+            /* Efecto Vidrio Oscuro Translúcido */
+            background: rgba(30, 30, 40, 0.75);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* --- EFECTO ORO VIVO (Texto Hebreo) --- */
+        .hebrew-name {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            
+            /* Magia del oro en movimiento */
+            background: linear-gradient(
+                110deg, 
+                #bf953f 20%, 
+                #fcf6ba 40%, 
+                #b38728 60%, 
+                #fbf5b7 80%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shine 3s linear infinite;
+            
+            /* Relieve */
+            filter: drop-shadow(0px 2px 0px rgba(0,0,0,0.8));
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .translation {
+            color: #ddd;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Cara Trasera */
+        .card-back {
+            transform: rotateY(180deg);
+            background: rgba(20, 10, 20, 0.85); /* Un poco más oscuro atrás */
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .meaning-title {
+            color: #bf953f;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #bf953f;
+            padding-bottom: 10px;
+        }
+
+        .meaning-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        /* Botón de regreso */
+        .reset-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #bf953f;
+            color: #bf953f;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            display: none; /* Se muestra solo al elegir carta */
+        }
+        .reset-btn:hover {
+            background: #bf953f;
+            color: #000;
+            box-shadow: 0 0 15px #bf953f;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h3 style="opacity: 0.5; letter-spacing: 5px; margin-bottom: 40px;">SHEM HAMEPHORASH</h3>
+
+    <div id="card-fan"></div>
+
+    <div id="active-stage">
+        <div class="card-inner" onclick="flipCard()">
+            <div class="card-front">
+                <div class="hebrew-name" id="card-hebrew"></div>
+                <div class="translation" id="card-trans"></div>
+                <div style="font-size: 0.8rem; opacity: 0.5; margin-top:20px;">Pulsa para revelar</div>
+            </div>
+            <div class="card-back">
+                <div class="meaning-title">Significado</div>
+                <div class="meaning-text" id="card-meaning"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="reset-btn" id="reset-btn" onclick="resetApp()">Elegir otra carta</button>
+
+    <script>
+        // --- BASE DE DATOS (Ejemplo con 3, aquí irían los 72) ---
+        const namesOfGod = [
+            { 
+                hebrew: "והו", 
+                trans: "Vehuiah", 
+                meaning: "Voluntad y creación nueva. Ayuda a emprender cosas nuevas y difíciles. Otorga una voluntad poderosa." 
+            },
+            { 
+                hebrew: "ילי", 
+                trans: "Jeliel", 
+                meaning: "Amor y sabiduría. Calma las revueltas populares y restablece la paz en las parejas. Simboliza la fecundidad." 
+            },
+            { 
+                hebrew: "סיט", 
+                trans: "Sitael", 
+                meaning: "Construcción del universo. Protege contra la adversidad y ayuda a descubrir la verdad. Constructor de mundos." 
+            },
+            { 
+                hebrew: "עלם", 
+                trans: "Elemiah", 
+                meaning: "Poder Divino. Ayuda a evitar crisis en empresas y protege en los viajes. Otorga paz interior." 
+            },
+            { 
+                hebrew: "מהש", 
+                trans: "Mahasiah", 
+                meaning: "Curación y rectificación. Capacidad para vivir en paz con todo el mundo. Rectifica el carácter." 
+            }
+        ];
+
+        // --- LÓGICA DEL SISTEMA ---
+
+        const cardFan = document.getElementById('card-fan');
+        const activeStage = document.getElementById('active-stage');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Elementos de la carta activa
+        const uiHebrew = document.getElementById('card-hebrew');
+        const uiTrans = document.getElementById('card-trans');
+        const uiMeaning = document.getElementById('card-meaning');
+        const cardInner = document.querySelector('.card-inner');
+
+        // Función para barajar (Algoritmo Fisher-Yates)
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Renderizar el abanico
+        function renderFan() {
+            cardFan.innerHTML = '';
+            // Mezclamos el array para que siempre sea distinto
+            const deck = shuffle([...namesOfGod]); 
+            
+            // Cantidad de cartas a mostrar en el abanico (para demo visual)
+            // En la app real, podrías mostrar 20-30 para no saturar o agrupar por Sefirot.
+            const totalCards = deck.length; 
+            const angleStep = 10; // Grados entre cartas
+            const baseAngle = -((totalCards - 1) * angleStep) / 2;
+
+            deck.forEach((data, index) => {
+                const el = document.createElement('div');
+                el.className = 'mini-card';
+                
+                // Cálculo de rotación para el abanico
+                const rotation = baseAngle + (index * angleStep);
+                
+                el.style.transform = `rotate(${rotation}deg) translateY(${Math.abs(rotation)*0.5}px)`;
+                
+                // Evento al pulsar
+                el.onclick = () => selectCard(data);
+                
+                cardFan.appendChild(el);
+            });
+        }
+
+        // Seleccionar una carta
+        function selectCard(data) {
+            // Ocultar abanico
+            cardFan.style.display = 'none';
+            document.querySelector('h3').style.display = 'none';
+            
+            // Rellenar datos
+            uiHebrew.innerText = data.hebrew;
+            uiTrans.innerText = data.trans;
+            uiMeaning.innerText = data.meaning;
+            
+            // Mostrar escenario
+            activeStage.style.display = 'block';
+            resetBtn.style.display = 'block';
+
+            // Asegurar que empieza cara frontal
+            cardInner.classList.remove('flipped');
+        }
+
+        // Dar la vuelta a la carta
+        function flipCard() {
+            cardInner.classList.toggle('flipped');
+        }
+
+        // Reiniciar
+        function resetApp() {
+            activeStage.style.display = 'none';
+            resetBtn.style.display = 'none';
+            cardFan.style.display = 'block';
+            document.querySelector('h3').style.display = 'block';
+            
+            // Volver a generar el abanico (cambia el orden)
+            renderFan();
+        }
+
+        // Iniciar al cargar
+        renderFan();
+
+    </script>
+</body>
+</html>
