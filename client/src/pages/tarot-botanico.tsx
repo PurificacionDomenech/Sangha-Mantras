@@ -302,10 +302,6 @@ export default function TarotBotanico() {
       fullText += `${card.fullMeaning} `;
     });
     
-    if (drawnCards.length > 1) {
-      fullText += "Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida. Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.";
-    }
-    
     speakText(fullText);
   };
 
@@ -328,8 +324,12 @@ export default function TarotBotanico() {
             <h1 className="text-5xl font-bold gold-text-animated mb-2" style={{ fontFamily: "'Cinzel', serif" }}>
               🌱 TAROT BOTÁNICO 🌱
             </h1>
-            <p className="text-xl text-[#8ba888] italic tracking-wider">
+            <p className="text-xl text-[#8ba888] italic tracking-wider mb-4">
               Del Loco al Mundo - Un viaje desde la semilla hasta el ecosistema
+            </p>
+            <p className="text-base text-[#aaa] italic max-w-3xl mx-auto">
+              Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida. 
+              Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.
             </p>
           </header>
 
@@ -482,12 +482,6 @@ export default function TarotBotanico() {
                       </p>
                     )
                   ))}
-                  {drawnCards.length > 1 && (
-                    <p className="text-[#aaa] italic mt-6 text-center">
-                      Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida.
-                      Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.
-                    </p>
-                  )}
                 </div>
               )}
 
