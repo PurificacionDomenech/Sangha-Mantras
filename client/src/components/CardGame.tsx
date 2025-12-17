@@ -37,8 +37,8 @@ export default function CardGame({ nombres, onClose, categoria }: CardGameProps)
       window.speechSynthesis.cancel();
       
       const textToRead = isFlipped 
-        ? `${selectedCard.nombre}. ${selectedCard.significado}`
-        : selectedCard.nombre;
+        ? `${selectedCard.nombre}. ${selectedCard.hebreo}. ${selectedCard.significado}${categoria ? `. ${categoria}` : ''}`
+        : `${selectedCard.nombre}. ${selectedCard.hebreo}`;
       
       const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.lang = 'es-ES';
