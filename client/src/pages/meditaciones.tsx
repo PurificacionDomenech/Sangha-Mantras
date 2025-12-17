@@ -53,6 +53,18 @@ export default function Meditaciones() {
     ? meditacionesPersonalizadas[selectedCustomIndex]
     : currentCategory.meditaciones[selectedMeditacionIndex];
 
+  // Validar que currentMeditacion existe
+  if (!currentMeditacion) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 py-12 text-center">
+          <p className="text-stone-600 dark:text-stone-400">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Función para limpiar el texto (eliminar corchetes y paréntesis con contenido)
   const cleanText = (text: string): string => {
     return text
@@ -302,12 +314,19 @@ export default function Meditaciones() {
 
   const deleteCustomMeditation = useCallback((id: string) => {
     const medToDelete = meditacionesPersonalizadas.find(m => m.id === id);
-    setMeditacionesPersonalizadas(prev => prev.filter(m => m.id !== id));
     
-    // Si estamos reproduciendo la que se borra, detener
+    // Si estamos reproduciendo la que se borra, detener y volver a predefinidas
     if (isCustomMeditation && meditacionesPersonalizadas[selectedCustomIndex]?.id === id) {
       stopMeditation();
+      setIsCustomMeditation(false);
+      setSelectedMeditacionIndex(0);
     }
+    
+    setMeditacionesPersonalizadas(prev => {
+      const newMeds = prev.filter(m => m.id !== id);
+      localStorage.setItem('meditacionesPersonalizadas', JSON.stringify(newMeds));
+      return newMeds;
+    });
     
     toast({
       title: "Meditación eliminada",
@@ -408,19 +427,21 @@ export default function Meditaciones() {
 
             {/* Sección de Meditaciones Personalizadas */}
             <div className="mt-4">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
-                  Mis Meditaciones
-                </h4>
+              <div className="mb-3">
                 <Button
                   onClick={() => openCustomDialog()}
-                  size="sm"
-                  variant="outline"
-                  className="h-8 gap-1.5"
+                  size="lg"
+                  className="w-full gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg"
                 >
-                  <Plus className="w-4 h-4" />
-                  Nueva
+                  <Plus className="w-5 h-5" />
+                  Crear Mi Propia Meditación
                 </Button>
+              </div>
+              
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+                  Mis Meditaciones Guardadas
+                </h4>
               </div>
               
               {meditacionesPersonalizadas.length === 0 ? (
@@ -499,11 +520,17 @@ export default function Meditaciones() {
       <Dialog open={showCustomDialog} onOpenChange={setShowCustomDialog}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {editingCustomId ? "Editar Meditación" : "Nueva Meditación Personalizada"}
+            <DialogTitle className="text-xl">
+              {editingCustomId ? "Editar Meditación" : "Crea Tu Meditación a Medida"}
             </DialogTitle>
-            <DialogDescription>
-              Escribe el texto de tu meditación. Puedes incluir pausas usando (5 seg), (10 seg), etc.
+            <DialogDescription className="text-sm space-y-2 pt-2">
+              <p>
+                <strong>Instrucciones:</strong> Escribe tu meditación guiada personalizada.
+              </p>
+              <p className="text-xs bg-amber-50 dark:bg-amber-900/20 p-2 rounded border border-amber-200 dark:border-amber-800">
+                💡 <strong>Pausas automáticas:</strong> Después de cada línea habrá una pausa de 3 segundos. 
+                Los saltos de línea (dobles) añaden 2 segundos extra (total 5 seg).
+              </p>
             </DialogDescription>
           </DialogHeader>
           
@@ -551,11 +578,11 @@ export default function Meditaciones() {
               <Textarea
                 value={customForm.texto}
                 onChange={(e) => setCustomForm(prev => ({ ...prev, texto: e.target.value }))}
-                placeholder="Respira profundamente...(5 seg)&#10;Siente tu cuerpo...(7 seg)&#10;Suelta la tensión..."
+                placeholder="Respira profundamente.&#10;Siente tu cuerpo relajándose.&#10;&#10;Deja ir cualquier tensión.&#10;Estás en paz..."
                 className="w-full min-h-[300px] font-mono text-sm"
               />
               <p className="text-xs text-stone-500 dark:text-stone-400 mt-1.5">
-                Tip: Usa (X seg) para indicar pausas. Ej: "Respira...(5 seg)"
+                💡 Escribe cada frase en una línea. Usa líneas en blanco (Enter doble) para pausas más largas.
               </p>
             </div>
           </div>
