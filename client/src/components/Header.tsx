@@ -27,32 +27,26 @@ export default function Header() {
           </div>
 
           <nav className="flex gap-2">
-            <Link href="/">
-              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                location === '/'
-                  ? 'bg-amber-500 text-white shadow-lg'
-                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
-              }`}>
-                Mantras
-              </a>
+            <Link href="/" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              location === '/'
+                ? 'bg-amber-500 text-white shadow-lg'
+                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+            }`}>
+              Mantras
             </Link>
-            <Link href="/nombres-sagrados">
-              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                location === '/nombres-sagrados'
-                  ? 'bg-amber-500 text-white shadow-lg'
-                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
-              }`}>
-                Nombres Sagrados
-              </a>
+            <Link href="/nombres-sagrados" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              location === '/nombres-sagrados'
+                ? 'bg-amber-500 text-white shadow-lg'
+                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+            }`}>
+              Nombres Sagrados
             </Link>
-            <Link href="/meditaciones">
-              <a className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                location === '/meditaciones'
-                  ? 'bg-amber-500 text-white shadow-lg'
-                  : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
-              }`}>
-                Meditaciones
-              </a>
+            <Link href="/meditaciones" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              location === '/meditaciones'
+                ? 'bg-amber-500 text-white shadow-lg'
+                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+            }`}>
+              Meditaciones
             </Link>
           </nav>
 
