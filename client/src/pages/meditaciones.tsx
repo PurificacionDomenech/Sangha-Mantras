@@ -388,7 +388,7 @@ export default function Meditaciones() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'url(/bg-meditaciones.jpg)' }}>
+    <div className="min-h-screen bg-cover bg-center bg-fixed relative bg-[url('/bg-meditaciones.jpg')]">
       <div className="absolute inset-0 bg-violet-900/5 dark:bg-violet-950/20"></div>
       <div className="relative z-10">
       <Header />
