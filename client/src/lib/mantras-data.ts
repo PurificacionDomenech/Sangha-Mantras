@@ -613,238 +613,54 @@ export const meditacionesGuiadas: MeditacionesGuiadas = {
     color: "from-purple-100 to-indigo-100",
     meditaciones: [
       {
-        titulo: "Sensaciones Profundas",
-        categoria: "Viaje Sensorial",
-        duracion: "15 min",
-        descripcion: "Explora las sensaciones del mundo físico y emocional con pausas guiadas.",
-        texto: `Respira.
-Inhala... siente el aire llenándote.
-Exhala... suelta todo.
-Otra vez... inhala... exhala.
-Suelta el cuerpo.
-Suelta el nombre.
-Suelta lo que crees saber.
-Solo queda espacio... quieto... abierto.
-
-No pienses.
-Solo siente.
-Estás ahí... dentro de lo que llaman "realidad".
-Pero no hay palabras... solo esta sensación.
-Cierra todo... y déjate caer en el primero.
-
-La Sensación del Mundo Sólido.
-Sientes el suelo bajo ti... pesado... firme.
-El aire toca tu piel.
-Fresco.
-Real.
-Tus pies se hunden ligeramente.
-La tierra te sostiene.
-Escuchas el latido de tu corazón.
-Fuerte.
-Constante.
-Todo parece estable.
-
-Tocas algo sólido.
-Se siente...
-Frío.
-Tuyo.
-Respira.
-Inhala esa certeza.
-Exhala cualquier duda.
-Eres parte de esto.
-Lo sientes.
-Lo vives.
-
-El mundo se acerca.
-Se hace más tuyo.
-Sientes los colores.
-No como luz, sino como emoción dentro de ti.
-
-El sonido.
-Siente su vibración en tu pecho.
-Todo se construye en tu interior.
-Dentro.
-
-Respira una última vez.
-Y cuando abras los ojos.
-Verás el mundo de nuevo.
-Pero ahora sabes.
-Que todo vive en ti.`,
-      },
-      {
-        titulo: "Los 7 Niveles de la Realidad",
-        categoria: "Viaje Místico",
-        duracion: "20 min",
-        descripcion: "Un viaje filosófico que te lleva desde lo físico hasta lo inefable.",
-        texto: `Respira...
-Inhala... siente el aire llenándote...
-Exhala... suelta todo...
-
-Otra vez... inhala... exhala...
-
-Suelta el cuerpo... suelta el nombre... suelta lo que crees saber...
-Solo queda espacio... quieto... abierto...
-Listo.
-
-[pausa 10 seg - Campanas Tibetanas suaves de fondo]
-
-No pienses... solo siente...
-Estás ahí... dentro de lo que llaman "realidad"...
-Pero no hay palabras... solo esta sensación...
-
-Cierra todo... y déjate caer en el primero.
-
-[pausa 6 seg - Campanas Graves profundas]
-
-**Nivel 1: La Sensación del Mundo Sólido**
-
-Sientes el suelo bajo ti... pesado... firme...
-El aire toca tu piel... fresco... real...
-
-Tus pies se hunden ligeramente... la tierra te sostiene...
-Escuchas el latido de tu corazón... fuerte... constante...
-
-Todo parece estable... obvio...
-Tocas algo... se siente sólido... frío... tuyo...
-
-Respira aquí... inhala esa certeza... exhala cualquier duda...
-Eres parte de esto... lo sientes... lo vives...
-
-[pausa 8 seg - Cuencos Profundos graves]
-
-Ahora... algo cambia...
-El mundo se acerca... se hace más tuyo...
-
-Sientes los colores... no como luz... sino como emoción dentro de ti...
-El sonido... vibra en tu pecho...
-Todo se construye... dentro...
-
-[pausa 7 seg - Campanas Agudas altas]
-
-**Nivel 2: La Percepción que Crea**
-
-Sientes cómo las ondas llegan... luz... sonido...
-Pero no son "allá fuera"...
-Se funden en ti...
-
-Tu mente las teje... las hace forma... las hace color...
-Tocas... y sientes la suavidad... pero es tu toque quien la crea...
-
-Respira... inhala el flujo... exhala la ilusión de separación...
-Todo nace aquí... dentro de tu sentir...
-
-Eres el que ve... el que oye... el que toca...
-
-[pausa 9 seg - Cuencos de Cristal cristalinos]
-
-Ahora... algo más profundo...
-Las ideas se cuelan...
-Sientes cómo una creencia... una palabra... moldea lo que tocas...
-
-[pausa 6 seg - Campanas Tibetanas suaves]
-
-**Nivel 3: La Creencia que Moldea**
-
-Sientes el peso de una idea...
-No son cosas... son sensaciones que te envuelven...
-Te aprietan... te liberan...
-
-Una creencia te hace pequeño... otra te hace vasto...
-
-Respira... inhala esa red invisible... exhala su poder...
-Todo lo que crees... se hace real en tu sentir...
-
-[pausa 10 seg - Gong Tibetano grave]
-
-El suelo tiembla...
-Algo se rompe...
-
-[pausa 5 seg - Gong Pequeño agudo]
-
-**Nivel 4: La Ciencia que Deshace**
-
-Sientes vacío...
-Lo que tocas... no es sólido...
-Átomos... repulsión... espacio...
-
-El tiempo se estira... se dobla...
-Una partícula... onda... probabilidad...
-Solo se define cuando la sientes...
-
-Respira... inhala la paradoja... exhala la rigidez...
-Todo vibra... todo espera tu mirada...
-
-[pausa 12 seg - Cuencos Profundos y Cuencos de Cristal mezclados]
-
-Ahora... el mundo parpadea...
-Como píxeles... como código...
-
-[pausa 7 seg - Metrónomo sutil]
-
-**Nivel 5: La Simulación que Envuelve**
-
-Sientes el renderizado...
-Lejos... borroso...
-Cerca... nítido...
-
-La gravedad... un tirón suave...
-El tiempo... un bucle...
-No sabes si hay "afuera"...
-
-Solo este juego... esta pantalla infinita...
-
-Respira... inhala la posibilidad... exhala el miedo...
-Eres el avatar... y el jugador... a la vez...
-
-[pausa 11 seg - Metrónomo suave]
-
-El velo se adelgaza...
-Se disuelve...
-
-[pausa 8 seg - Viento ligero, Agua fluyendo]
-
-**Nivel 6: La Unión Mística**
-
-Sientes cómo los límites se funden...
-Tu cuerpo... la silla... el aire...
-Todo se vuelve uno...
-
-No hay "yo"... solo flujo...
-El árbol... el viento... la semilla...
-Todo late en ti...
-
-Respira... inhala la interconexión... exhala separación...
-Eres el todo... vasto... indivisible...
-
-[pausa 13 seg - Lluvia suave, Océano lejano]
-
-Ahora... todo se calla...
-
-[pausa 15 seg - Campanas Tibetanas muy lejanas]
-
-**Nivel 7: Lo Inconocible**
-
-No hay nada que sentir...
-Solo silencio...
-El misterio...
-Detrás de todo...
-
-Respira... inhala el vacío luminoso... exhala... nada...
-Solo sé...
-
-[pausa 20 seg - Silencio absoluto]
-
-Ahora... sin prisa...
-Siente cómo todo regresa...
-Los niveles se apilan dentro de ti...
-Como capas que respiran juntas...
-
-Inhala unidad... exhala claridad...
-Cuando estés listo... abre los ojos...
-
-Llevas esto contigo... siempre.
-
-Namaste.`
+        titulo: "Atención Plena",
+        categoria: "Mindfulness",
+        duracion: "10 min",
+        descripcion: "Práctica de atención consciente a la respiración y al momento presente.",
+        texto: `Primero, encuentro un lugar cómodo y tranquilo donde pueda sentarme con la espalda recta.
+Puedo sentarme en una silla, en un cojín de meditación o en el suelo con las piernas cruzadas.
+
+Cierro mis ojos suavemente
+y llevo mi atención a mi respiración.
+
+Notaré el aire entrando
+y saliendo por mi nariz o boca,
+y también puedo sentir la sensación del movimiento de mi abdomen
+mientras respiro.
+
+Me concentro en las sensaciones de mi respiración en mi abdomen durante unos minutos,
+sin juzgarlas ni tratar de cambiarlas.
+
+Si mi mente comienza a divagar,
+reconozco los pensamientos
+los dejo pasar,
+volviendo mi atención a la respiración.
+
+Además amplío mi atención a las sensaciones físicas en mi abdomen
+mientras respiro.
+
+Notaré cómo mi abdomen se expande suavemente mientras inhala
+y se contrae ligeramente mientras exhala.
+
+Si mi mente se distrae con pensamientos,
+los reconozco
+y suavemente los dejo pasar,
+volviendo mi atención a las sensaciones físicas en mi abdomen mientras respiro.
+
+A medida que continúo respirando con atención plena,
+puedo notar que mi mente se calma
+se serena.
+
+Si me resulta útil,
+puedo repetir mentalmente una palabra o frase que me traiga calma y tranquilidad.
+
+Para finalizar la meditación,
+abro lentamente mis ojos
+y tomo un momento para sentirme presente
+consciente
+
+Reconzco mi entorno
+regreso sin prisa.`
       }
     ]
   }
