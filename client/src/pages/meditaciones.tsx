@@ -6,21 +6,27 @@ import MeditacionCard from "@/components/MeditacionCard";
 import NarrationControls from "@/components/NarrationControls";
 import AmbientSounds from "@/components/AmbientSounds";
 import { Button } from "@/components/ui/button";
-import { meditacionesGuiadas, estilosNarracion } from "@/lib/mantras-data";
+import { meditacionesGuiadas, estilosNarracion, ambientSounds } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
 // Mapeo de palabras clave a sonidos ambientales
 const soundKeywords: Record<string, string[]> = {
-  'water': ['agua', 'río', 'arroyo', 'lluvia', 'gotas', 'cascada'],
+  'water': ['agua', 'río', 'arroyo'],
   'ocean': ['océano', 'mar', 'olas', 'playa'],
-  'nature': ['naturaleza', 'bosque', 'árboles', 'hojas', 'viento suave'],
-  'bells': ['campana', 'campanas', 'tañido'],
-  'bowls': ['cuenco', 'cuencos tibetanos', 'bol cantante'],
-  'wind': ['viento', 'brisa'],
-  'rain': ['lluvia', 'lloviendo'],
-  'birds': ['pájaros', 'aves', 'canto de pájaros'],
-  'fire': ['fuego', 'hoguera', 'llamas'],
-  'gong': ['gong'],
+  'nature': ['naturaleza', 'bosque', 'árboles', 'hojas'],
+  'bells': ['campanas tibetanas'],
+  'bells-high': ['campanas agudas', 'tintineando'],
+  'bells-low': ['campanas graves'],
+  'bowls': ['cuencos tibetanos'],
+  'bowls-crystal': ['cuencos de cristal', 'cristalinos'],
+  'bowls-deep': ['cuencos profundos'],
+  'wind': ['viento'],
+  'rain': ['lluvia'],
+  'birds': ['pájaros', 'aves'],
+  'fire': ['fuego', 'hoguera'],
+  'gong': ['gong tibetano'],
+  'gong-small': ['gong pequeño'],
+  'metronome': ['metrónomo', 'digital', 'código'],
 };
 
 export default function Meditaciones() {
@@ -117,17 +123,22 @@ export default function Meditaciones() {
 
     const cleanedText = cleanText(currentMeditacion.texto);
     
-    // Detectar y activar sonidos mencionados en el texto
+    // Detectar y activar sonidos mencionados en el texto (volumen bajo: 0.15)
     const soundsToActivate = detectSoundsInText(cleanedText);
     if (soundsToActivate.length > 0 && ambientSoundsRef.current) {
       soundsToActivate.forEach(soundId => {
-        ambientSoundsRef.current?.activateSound(soundId);
+        ambientSoundsRef.current?.activateSound(soundId, 0.15);
       });
       setAutoActivatedSounds(soundsToActivate);
       
+      const soundNames = soundsToActivate.map(id => {
+        const sound = ambientSounds.find(s => s.id === id);
+        return sound?.nombre || id;
+      }).join(', ');
+      
       toast({
-        title: "Sonidos ambientales activados",
-        description: `Se han activado automáticamente: ${soundsToActivate.join(', ')}`,
+        title: "Sonidos de fondo activados",
+        description: soundNames,
       });
     }
     

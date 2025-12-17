@@ -506,8 +506,9 @@ class OscillatorSound {
 }
 
 export interface AmbientSoundsRef {
-  activateSound: (soundId: string) => void;
+  activateSound: (soundId: string, volume?: number) => void;
   deactivateSound: (soundId: string) => void;
+  setVolume: (soundId: string, volume: number) => void;
 }
 
 const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSessionActive }, ref) => {
@@ -639,14 +640,14 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
 
   // Exponer métodos para control externo
   useImperativeHandle(ref, () => ({
-    activateSound: (soundId: string) => {
+    activateSound: (soundId: string, volume: number = 0.2) => {
       setSounds(prev => {
-        const newState = { ...prev, [soundId]: { ...prev[soundId], active: true } };
+        const newState = { ...prev, [soundId]: { active: true, volume } };
         
         if (!soundRefs.current[soundId]) {
           soundRefs.current[soundId] = new OscillatorSound();
         }
-        soundRefs.current[soundId].start(soundId, newState[soundId].volume);
+        soundRefs.current[soundId].start(soundId, volume);
         
         return newState;
       });
@@ -657,6 +658,15 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
         ...prev,
         [soundId]: { ...prev[soundId], active: false }
       }));
+    },
+    setVolume: (soundId: string, volume: number) => {
+      setSounds(prev => {
+        const newState = { ...prev, [soundId]: { ...prev[soundId], volume } };
+        if (soundRefs.current[soundId]) {
+          soundRefs.current[soundId].setVolume(volume);
+        }
+        return newState;
+      });
     }
   }), []);
 

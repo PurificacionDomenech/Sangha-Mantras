@@ -613,170 +613,177 @@ export const meditacionesGuiadas: MeditacionesGuiadas = {
     color: "from-purple-100 to-indigo-100",
     meditaciones: [
       {
-        titulo: "Viaje a Través de los 7 Niveles de la Realidad",
+        titulo: "Los 7 Niveles de la Realidad",
         categoria: "Viaje Místico",
-        duracion: "18-22 min",
-        descripcion: "Un viaje guiado desde la realidad cotidiana hasta lo inconocible, explorando la percepción, creencia, ciencia cuántica, simulación y unión mística.",
-        texto: `Bueno, gente... ¿qué tal? ¿Cómo estáis todos?
+        duracion: "20 min",
+        descripcion: "Un viaje filosófico que te lleva desde lo físico hasta lo inefable.",
+        texto: `Respira...
+Inhala... siente el aire llenándote...
+Exhala... suelta todo...
 
-Hoy vamos a hacer algo especial. Un viaje guiado a través de los 7 niveles de la realidad que no alcanzarás... hasta que lo hagas.
+Otra vez... inhala... exhala...
 
-Encuentra un lugar cómodo. Siéntate o acuéstate. Cierra los ojos.
+Suelta el cuerpo... suelta el nombre... suelta lo que crees saber...
+Solo queda espacio... quieto... abierto...
+Listo.
 
-Respira conmigo: inhala... [pausa 3 seg]
-exhala... [pausa 4 seg]
-Una vez más... inhala... [pausa] exhala... [pausa]
+[pausa 10 seg - Campanas Tibetanas suaves de fondo]
 
-Estás seguro. Estás aquí. Y estás listo para despertar.
+No pienses... solo siente...
+Estás ahí... dentro de lo que llaman "realidad"...
+Pero no hay palabras... solo esta sensación...
 
-[pausa 5 seg]
+Cierra todo... y déjate caer en el primero.
 
-Imagina que estás de pie en un vasto paisaje al amanecer.
-El sol naciente tiñe el cielo de dorado.
-Ante ti se extiende un camino luminoso... que serpentea hacia horizontes desconocidos.
-Cada paso te llevará a un nuevo nivel.
+[pausa 6 seg - Campanas Graves profundas]
 
-Toma una respiración profunda... y da el primer paso.
+**Nivel 1: La Sensación del Mundo Sólido**
 
-[pausa 5 seg]
+Sientes el suelo bajo ti... pesado... firme...
+El aire toca tu piel... fresco... real...
 
-Nivel 1: La Realidad del Consenso
+Tus pies se hunden ligeramente... la tierra te sostiene...
+Escuchas el latido de tu corazón... fuerte... constante...
 
-Siente el suelo firme bajo tus pies.
-Este es el mundo que conoces.
-Toca el aire: fresco, tangible.
-Escucha tus pasos... el viento entre árboles que se mecen con certeza.
-El agua moja tus dedos. El dolor de un golpe es real.
+Todo parece estable... obvio...
+Tocas algo... se siente sólido... frío... tuyo...
 
-Aquí todo parece obvio, sólido.
-Respira profundamente... ancla tu cuerpo aquí.
-Nota la comodidad... pero también la sutil curiosidad: ¿es esto todo?
+Respira aquí... inhala esa certeza... exhala cualquier duda...
+Eres parte de esto... lo sientes... lo vives...
 
-[pausa 6 seg]
+[pausa 8 seg - Cuencos Profundos graves]
 
-Da un paso adelante... el camino se ilumina más.
+Ahora... algo cambia...
+El mundo se acerca... se hace más tuyo...
 
-[pausa 4 seg]
+Sientes los colores... no como luz... sino como emoción dentro de ti...
+El sonido... vibra en tu pecho...
+Todo se construye... dentro...
 
-Nivel 2: El Reino de la Percepción
+[pausa 7 seg - Campanas Agudas altas]
 
-Los colores se intensifican.
-¿Son reales... o es tu mente quien los pinta?
-Tus sentidos capturan fragmentos: ondas de luz, vibraciones de aire.
-Tu cerebro edita en tiempo real... tejiendo caos en coherencia.
+**Nivel 2: La Percepción que Crea**
 
-Imagina una ilusión óptica: una figura que cambia según cómo la mires.
-Toca una flor... ¿su suavidad es absoluta... o tu interpretación?
+Sientes cómo las ondas llegan... luz... sonido...
+Pero no son "allá fuera"...
+Se funden en ti...
 
-Aquí la realidad se construye dentro de ti.
-Respira... siente la fluidez.
+Tu mente las teje... las hace forma... las hace color...
+Tocas... y sientes la suavidad... pero es tu toque quien la crea...
 
-[pausa 7 seg]
+Respira... inhala el flujo... exhala la ilusión de separación...
+Todo nace aquí... dentro de tu sentir...
 
-El velo se adelgaza... avanza.
+Eres el que ve... el que oye... el que toca...
 
-[pausa 4 seg]
+[pausa 9 seg - Cuencos de Cristal cristalinos]
 
-Nivel 3: El Reino de la Creencia
+Ahora... algo más profundo...
+Las ideas se cuelan...
+Sientes cómo una creencia... una palabra... moldea lo que tocas...
 
-El camino se bifurca en redes invisibles de significado.
-Siente cómo creencias intangibles dan forma a tu mundo:
-El dinero, un simple papel... dicta tu libertad.
-Fronteras imaginarias... te confinan o liberan.
+[pausa 6 seg - Campanas Tibetanas suaves]
 
-Visualiza esa red luminosa a tu alrededor... tejida de ideas colectivas.
-Toca la red... es tan sólida como la tierra.
-¿Qué creencias te suspenden?
+**Nivel 3: La Creencia que Moldea**
 
-Respira... abraza el poder de tus convicciones.
+Sientes el peso de una idea...
+No son cosas... son sensaciones que te envuelven...
+Te aprietan... te liberan...
 
-[pausa 8 seg]
+Una creencia te hace pequeño... otra te hace vasto...
 
-El viaje se profundiza... da un paso más.
+Respira... inhala esa red invisible... exhala su poder...
+Todo lo que crees... se hace real en tu sentir...
 
-[pausa 4 seg]
+[pausa 10 seg - Gong Tibetano grave]
 
-Nivel 4: El Nivel de la Ciencia
+El suelo tiembla...
+Algo se rompe...
 
-El suelo se vuelve etéreo... revela paradojas.
-Lo que tocas es mayormente vacío.
-Extiende tu mano... no tocas realmente la mesa.
-Solo sientes repulsión de campos invisibles.
+[pausa 5 seg - Gong Pequeño agudo]
 
-El tiempo se estira... se dobla.
-Las partículas bailan como ondas de probabilidad... colapsan cuando las observas.
-La luz: ¿onda o partícula? Depende de tu mirada.
+**Nivel 4: La Ciencia que Deshace**
 
-Siente la extrañeza onírica del universo.
-Respira... abraza esta estructura paradójica.
+Sientes vacío...
+Lo que tocas... no es sólido...
+Átomos... repulsión... espacio...
 
-[pausa 9 seg]
+El tiempo se estira... se dobla...
+Una partícula... onda... probabilidad...
+Solo se define cuando la sientes...
 
-El camino brilla con código cuántico... avanza.
+Respira... inhala la paradoja... exhala la rigidez...
+Todo vibra... todo espera tu mirada...
 
-[pausa 4 seg]
+[pausa 12 seg - Cuencos Profundos y Cuencos de Cristal mezclados]
 
-Nivel 5: La Capa de la Simulación
+Ahora... el mundo parpadea...
+Como píxeles... como código...
 
-El paisaje se digitaliza... píxeles en una pantalla infinita.
-La gravedad es un algoritmo.
-El tiempo... un renderizado.
+[pausa 7 seg - Metrónomo sutil]
 
-Imagina un videojuego vasto: la ciudad lejana no se carga hasta que te acercas.
-¿Qué pasa si nadie observa? ¿Existe aún?
+**Nivel 5: La Simulación que Envuelve**
 
-Siente la probabilidad: esto es más simulación que realidad base.
-Respira... cuestiona: ¿eres jugador... o avatar?
+Sientes el renderizado...
+Lejos... borroso...
+Cerca... nítido...
 
-[pausa 10 seg]
+La gravedad... un tirón suave...
+El tiempo... un bucle...
+No sabes si hay "afuera"...
 
-El velo se disuelve... prosigue.
+Solo este juego... esta pantalla infinita...
 
-[pausa 5 seg]
+Respira... inhala la posibilidad... exhala el miedo...
+Eres el avatar... y el jugador... a la vez...
 
-Nivel 6: La Realidad Mística
+[pausa 11 seg - Metrónomo suave]
 
-Los límites se funden... en unión vasta.
-El "yo" se disuelve.
-La silla, el suelo, tu cuerpo... todo es un campo continuo de conciencia.
-El velo de la ilusión se levanta: maya, samsara.
-Lo físico es solo el comienzo.
+El velo se adelgaza...
+Se disuelve...
 
-Siente la interconexión: eres el árbol, el viento, el cosmos.
-Paz absoluta te envuelve.
+[pausa 8 seg - Viento ligero, Agua fluyendo]
 
-Respira profundamente... fusionándote con esta unidad.
+**Nivel 6: La Unión Mística**
 
-[pausa 12 seg]
+Sientes cómo los límites se funden...
+Tu cuerpo... la silla... el aire...
+Todo se vuelve uno...
 
-Un paso final... hacia lo inefable.
+No hay "yo"... solo flujo...
+El árbol... el viento... la semilla...
+Todo late en ti...
 
-[pausa 5 seg]
+Respira... inhala la interconexión... exhala separación...
+Eres el todo... vasto... indivisible...
 
-Nivel 7: El Reino de lo Inconocible
+[pausa 13 seg - Lluvia suave, Océano lejano]
 
-Aquí... el camino se disuelve en silencio puro.
-No hay palabras. No hay descripciones.
-Solo el misterio detrás de la existencia.
+Ahora... todo se calla...
 
-Visualiza un vacío luminoso... el Tao eterno que no puede ser nombrado.
-Todo lo anterior se apila aquí... ocurriendo a la vez.
+[pausa 15 seg - Campanas Tibetanas muy lejanas]
 
-Respira en este espacio sin límites.
-No intentes capturarlo... solo sé.
+**Nivel 7: Lo Inconocible**
 
-[pausa 15 seg]
+No hay nada que sentir...
+Solo silencio...
+El misterio...
+Detrás de todo...
 
-Ahora... gentilmente regresa.
-Siente cómo los niveles se integran en ti... como capas de un pastel infinito.
-El camino reaparece... te guía de vuelta al paisaje inicial.
+Respira... inhala el vacío luminoso... exhala... nada...
+Solo sé...
 
-Inhala integración... exhala claridad.
+[pausa 20 seg - Silencio absoluto]
 
-Cuando estés listo... abre los ojos.
+Ahora... sin prisa...
+Siente cómo todo regresa...
+Los niveles se apilan dentro de ti...
+Como capas que respiran juntas...
 
-Has viajado a través de los siete niveles.
-Ahora el mundo es más vasto... más tuyo.
+Inhala unidad... exhala claridad...
+Cuando estés listo... abre los ojos...
+
+Llevas esto contigo... siempre.
 
 Namaste.`
       }
