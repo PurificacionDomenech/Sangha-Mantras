@@ -113,8 +113,9 @@ export default function Meditaciones() {
       isPlayingRef.current = true;
       speakMeditation();
     } else if (isPaused) {
-      // Reanudar
-      window.speechSynthesis.resume();
+      // Reanudar - reiniciar con parámetros actualizados
+      window.speechSynthesis.cancel();
+      speakMeditation();
       setIsPaused(false);
     } else {
       // Pausar
@@ -135,18 +136,8 @@ export default function Meditaciones() {
     }
   }, [voices]);
 
-  // Aplicar cambios en tiempo real
-  useEffect(() => {
-    if (currentUtteranceRef.current && isPlaying) {
-      // Cancelar y reiniciar con nuevos parámetros
-      const wasPlaying = !isPaused;
-      window.speechSynthesis.cancel();
-      
-      if (wasPlaying) {
-        speakMeditation();
-      }
-    }
-  }, [speed, pitch, volume]);
+  // Los cambios se aplicarán en la próxima reproducción o reanudación
+  // No reiniciamos la meditación actual para evitar interrupciones
 
   const handleSpeedChange = useCallback((value: number) => {
     setSpeed(value);
