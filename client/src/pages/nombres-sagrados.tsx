@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import Header from "@/components/Header";
 import NombreSagradoCard from "@/components/NombreSagradoCard";
@@ -43,11 +42,11 @@ export default function NombresSagrados() {
 
   useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     if (!('speechSynthesis' in window)) {
       toast({
         title: "Modo solo texto",
-        description: isMobile 
+        description: isMobile
           ? "Tu navegador móvil no soporta síntesis de voz. Usa Safari (iOS) o Chrome (Android) para audio, o continúa en modo lectura."
           : "Tu navegador no soporta síntesis de voz. Usa Chrome, Edge o Safari para mejor experiencia.",
         variant: "default",
@@ -274,7 +273,7 @@ export default function NombresSagrados() {
         <div className="grid lg:grid-cols-[420px,1fr] gap-4">
           {/* Panel izquierdo: Display actual y lista */}
           <div className="space-y-3">
-            <div 
+            <div
               className={`bg-gradient-to-br ${currentCategory.color} rounded-lg p-6 shadow-xl border-2 border-amber-300 dark:border-amber-600`}
               data-testid="nombre-display"
             >
@@ -282,7 +281,7 @@ export default function NombresSagrados() {
                 <div className="text-xs uppercase tracking-widest text-stone-600 dark:text-stone-700 mb-2 font-medium">
                   Nombre Sagrado Actual
                 </div>
-                <div 
+                <div
                   className={`text-5xl font-serif leading-tight mb-3 text-stone-800 dark:text-stone-900 ${isPlaying ? 'animate-pulse' : ''}`}
                   style={{ fontFamily: "'Frank Ruhl Libre', serif", direction: 'rtl' }}
                 >

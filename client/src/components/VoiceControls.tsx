@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Volume2, Mic, Music, Save, Star, Trash2 } from "lucide-react";
+import { Volume2, Mic, Save, Star, Trash2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { culturas, culturasJudias, chantingStyles } from "@/lib/mantras-data";
+import { culturas, culturasJudias } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
 interface VoicePreset {
@@ -15,7 +15,6 @@ interface VoicePreset {
   volume: number;
   culture: string;
   voiceURI: string;
-  chantingStyle?: string;
   createdAt: number;
 }
 
@@ -32,8 +31,6 @@ interface VoiceControlsProps {
   onCultureChange: (value: string) => void;
   onVoiceChange: (voiceURI: string) => void;
   useJewishCultures?: boolean;
-  chantingStyle?: string;
-  onChantingStyleChange?: (value: string) => void;
 }
 
 export default function VoiceControls({
@@ -49,12 +46,9 @@ export default function VoiceControls({
   onCultureChange,
   onVoiceChange,
   useJewishCultures = false,
-  chantingStyle = 'normal',
-  onChantingStyleChange,
 }: VoiceControlsProps) {
   const { toast } = useToast();
   const culturasToUse = useJewishCultures ? culturasJudias : culturas;
-  const currentStyle = chantingStyles.find(s => s.id === chantingStyle) || chantingStyles[0];
 
   const [presets, setPresets] = useState<VoicePreset[]>(() => {
     const saved = localStorage.getItem('voicePresets');
@@ -87,7 +81,6 @@ export default function VoiceControls({
       volume,
       culture: selectedCulture,
       voiceURI: selectedVoice?.voiceURI || '',
-      chantingStyle,
       createdAt: Date.now()
     };
 
@@ -108,9 +101,6 @@ export default function VoiceControls({
     onCultureChange(preset.culture);
     if (preset.voiceURI) {
       onVoiceChange(preset.voiceURI);
-    }
-    if (preset.chantingStyle && onChantingStyleChange) {
-      onChantingStyleChange(preset.chantingStyle);
     }
 
     toast({
@@ -264,30 +254,6 @@ export default function VoiceControls({
       </div>
 
       <div className="flex-1 space-y-2.5">
-        {!useJewishCultures && onChantingStyleChange && (
-          <div>
-            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1.5">
-              <Music className="w-3.5 h-3.5" />
-              Modo de Recitación (Lectura o Canto)
-            </label>
-            <Select value={chantingStyle} onValueChange={onChantingStyleChange}>
-              <SelectTrigger className="w-full h-8 text-xs" data-testid="chanting-style-select">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {chantingStyles.map((style) => (
-                  <SelectItem key={style.id} value={style.id} className="text-xs">
-                    <div>
-                      <div className="font-medium">{style.nombre}</div>
-                      <div className="text-[10px] text-stone-500">{style.descripcion}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
         {voicesToShow.length > 0 ? (
           <div>
             <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">

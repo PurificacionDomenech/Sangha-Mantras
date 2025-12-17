@@ -305,65 +305,7 @@ export const mantras: Mantras = {
   }
 };
 
-export interface ChantingStyle {
-  id: string;
-  nombre: string;
-  descripcion: string;
-  speedMultiplier: number;
-  pitchMultiplier: number;
-  vowelElongation: number;
-}
 
-export const chantingStyles: ChantingStyle[] = [
-  {
-    id: 'normal',
-    nombre: 'Lectura Normal',
-    descripcion: 'Recitación hablada estándar',
-    speedMultiplier: 1.0,
-    pitchMultiplier: 1.0,
-    vowelElongation: 1.0
-  },
-  {
-    id: 'melodic',
-    nombre: 'Canto Melódico',
-    descripcion: 'Estilo cantado suave con vocales prolongadas',
-    speedMultiplier: 0.55,
-    pitchMultiplier: 1.1,
-    vowelElongation: 3.0
-  },
-  {
-    id: 'japanese-zen',
-    nombre: 'Canto Zen (Japonés)',
-    descripcion: 'Vocales prolongadas con ritmo poético',
-    speedMultiplier: 0.5,
-    pitchMultiplier: 0.95,
-    vowelElongation: 3.5
-  },
-  {
-    id: 'tibetan-throat',
-    nombre: 'Canto de Garganta (Tibetano)',
-    descripcion: 'Vocales extremadamente alargadas con resonancia profunda',
-    speedMultiplier: 0.35,
-    pitchMultiplier: 0.65,
-    vowelElongation: 5.0
-  },
-  {
-    id: 'theravada',
-    nombre: 'Canto Theravada',
-    descripcion: 'Vocales alargadas con tono medio',
-    speedMultiplier: 0.6,
-    pitchMultiplier: 1.0,
-    vowelElongation: 2.8
-  },
-  {
-    id: 'vedic',
-    nombre: 'Canto Védico',
-    descripcion: 'Estilo tradicional de los Vedas, tono elevado y rítmico',
-    speedMultiplier: 0.65,
-    pitchMultiplier: 1.15,
-    vowelElongation: 2.5
-  }
-];
 
 export const culturas = [
   { id: 'hi-IN', nombre: 'Hindi (Sánscrito)', icon: 'ॐ' },

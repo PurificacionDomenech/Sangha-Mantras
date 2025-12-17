@@ -7,7 +7,7 @@ import VoiceControls from "@/components/VoiceControls";
 import TimerControls from "@/components/TimerControls";
 import AmbientSounds from "@/components/AmbientSounds";
 
-import { mantras, chantingStyles } from "@/lib/mantras-data";
+import { mantras, Mantra, culturas } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
@@ -25,7 +25,6 @@ export default function Home() {
   const [selectedCulture, setSelectedCulture] = useState("hi-IN");
   const [repetitions, setRepetitions] = useState(0);
   const [sessionFinished, setSessionFinished] = useState(false);
-  const [chantingStyle, setChantingStyle] = useState("normal"); // State for chanting style
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number | null>(null);
@@ -100,19 +99,10 @@ export default function Home() {
       }
 
       const utterance = new SpeechSynthesisUtterance(currentMantra.texto);
-      
-      // Obtener el estilo de canto desde mantras-data.ts
-      const currentStyle = chantingStyles.find(s => s.id === chantingStyle);
 
-      // Aplicar los multiplicadores del estilo de canto
-      if (currentStyle) {
-        utterance.rate = speed * currentStyle.speedMultiplier;
-        utterance.pitch = pitch * currentStyle.pitchMultiplier;
-      } else {
-        utterance.rate = speed;
-        utterance.pitch = pitch;
-      }
-
+      // Tono más alegre y natural para cantar
+      utterance.rate = speed;
+      utterance.pitch = pitch * 1.1; // Ligeramente más agudo para sonar más alegre
       utterance.volume = volume;
       utterance.lang = selectedCulture;
 
@@ -125,7 +115,7 @@ export default function Home() {
 
       window.speechSynthesis.speak(utterance);
     });
-  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice, chantingStyle]);
+  }, [currentMantra.texto, speed, pitch, volume, selectedCulture, selectedVoice]);
 
   const mantraLoop = useCallback(async () => {
     while (isPlayingRef.current) {
@@ -242,10 +232,6 @@ export default function Home() {
     }
   }, [voices]);
 
-  const handleChantingStyleChange = useCallback((style: string) => {
-    setChantingStyle(style);
-  }, []);
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
@@ -305,8 +291,6 @@ export default function Home() {
                 onVolumeChange={setVolume}
                 onCultureChange={handleCultureChange}
                 onVoiceChange={handleVoiceChange}
-                chantingStyle={chantingStyle}
-                onChantingStyleChange={handleChantingStyleChange}
               />
             </div>
 
