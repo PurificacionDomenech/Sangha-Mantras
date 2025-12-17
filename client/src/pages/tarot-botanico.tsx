@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from "react";
-import { Sparkles, RefreshCw, Volume2, VolumeX, BookOpen } from "lucide-react";
+import { Sparkles, RefreshCw, Volume2, VolumeX } from "lucide-react";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 
@@ -282,12 +282,20 @@ export default function TarotBotanico() {
     window.speechSynthesis.speak(utterance);
   };
 
+  const stopSpeaking = () => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  };
+
   const readCardAndInterpretation = () => {
     if (!selectedSpread) return;
     
+    const flippedCardsArray = Array.from(flippedCards).sort((a, b) => a - b);
+    
     let fullText = "Lectura del Tarot Botánico. ";
     
-    drawnCards.forEach((card, index) => {
+    flippedCardsArray.forEach((index) => {
+      const card = drawnCards[index];
       const position = spreads[selectedSpread].positions[index];
       
       fullText += `${position}: ${card.name}, también conocida como ${card.arcana}. `;
@@ -299,11 +307,6 @@ export default function TarotBotanico() {
     }
     
     speakText(fullText);
-  };
-
-  const stopSpeaking = () => {
-    window.speechSynthesis.cancel();
-    setIsSpeaking(false);
   };
 
   const reset = () => {
@@ -327,10 +330,6 @@ export default function TarotBotanico() {
             </h1>
             <p className="text-xl text-[#8ba888] italic tracking-wider">
               Del Loco al Mundo - Un viaje desde la semilla hasta el ecosistema
-            </p>
-            <p className="text-[#aaa] italic mt-4 max-w-3xl mx-auto leading-relaxed">
-              Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida.
-              Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.
             </p>
           </header>
 
@@ -391,31 +390,16 @@ export default function TarotBotanico() {
                         transform: flippedCards.has(index) ? 'rotateY(180deg)' : 'rotateY(0deg)'
                       }}
                     >
-                      {/* Card Back - Solo número y dibujo */}
-                      <div 
-                        className="absolute inset-0 backface-hidden rounded-lg p-5 flex flex-col items-center justify-center"
-                        style={{ 
-                          background: 'linear-gradient(135deg, rgba(26, 47, 26, 0.95) 0%, rgba(13, 26, 13, 0.98) 100%)',
-                          border: '3px solid rgba(212, 175, 55, 0.4)',
-                          boxShadow: 'inset 0 0 30px rgba(212, 175, 55, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4)'
-                        }}
-                      >
-                        <div className="text-center mb-6">
-                          <div className="text-4xl font-bold gold-text mb-2" style={{ fontFamily: "'Cinzel', serif", textShadow: '0 0 10px rgba(212, 175, 55, 0.5)' }}>
-                            {card.number}
-                          </div>
-                        </div>
-                        
-                        <div className="flex-1 flex items-center justify-center">
-                          <span className="text-9xl drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                            {card.image === 'seed' ? '🌱' : card.image === 'fruit' ? '🍎' : '🌿'}
-                          </span>
+                      {/* Card Back */}
+                      <div className="absolute inset-0 backface-hidden glass-effect border-2 border-[rgba(255,215,0,0.5)] rounded-lg p-4 flex items-center justify-center">
+                        <div className="w-full h-full border border-[rgba(255,215,0,0.3)] rounded flex items-center justify-center">
+                          <Sparkles className="w-16 h-16 gold-text" />
                         </div>
                       </div>
 
-                      {/* Card Front - Nombre, arcana y significado */}
+                      {/* Card Front */}
                       <div
-                        className="absolute inset-0 backface-hidden rounded-lg p-4 flex flex-col overflow-hidden"
+                        className="absolute inset-0 backface-hidden rounded-lg p-5 flex flex-col"
                         style={{ 
                           transform: 'rotateY(180deg)',
                           background: 'linear-gradient(135deg, rgba(26, 47, 26, 0.95) 0%, rgba(13, 26, 13, 0.98) 100%)',
@@ -432,7 +416,7 @@ export default function TarotBotanico() {
                             <div className="text-2xl font-bold gold-text mb-1" style={{ fontFamily: "'Cinzel', serif", textShadow: '0 0 10px rgba(212, 175, 55, 0.5)' }}>
                               {card.number}
                             </div>
-                            <div className="text-base font-semibold text-[#8ba888] uppercase tracking-wider leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
+                            <div className="text-lg font-semibold text-[#8ba888] uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                               {card.name}
                             </div>
                             <div className="text-xs text-[#d4af37] opacity-80 italic mt-1">
@@ -440,10 +424,15 @@ export default function TarotBotanico() {
                             </div>
                           </div>
                           
-                          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
-                            <div className="text-xs text-[#c0c0c0] text-center leading-relaxed px-2 py-3 bg-[rgba(0,0,0,0.3)] rounded-lg border border-[rgba(212,175,55,0.2)]">
-                              {card.meaning}
-                            </div>
+                          <div className="flex-1 flex items-center justify-center mb-3 relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#8ba888]/10 to-[#4a6741]/10 rounded-lg"></div>
+                            <span className="text-7xl relative z-10 drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                              {card.image === 'seed' ? '🌱' : card.image === 'fruit' ? '🍎' : '🌿'}
+                            </span>
+                          </div>
+                          
+                          <div className="text-sm text-[#c0c0c0] text-center leading-relaxed px-2 py-3 bg-[rgba(0,0,0,0.3)] rounded-lg border border-[rgba(212,175,55,0.2)]">
+                            {card.meaning}
                           </div>
                         </div>
                       </div>
@@ -456,7 +445,7 @@ export default function TarotBotanico() {
                 ))}
               </div>
 
-              {drawnCards.length > 0 && (
+              {flippedCards.size > 0 && (
                 <div className="glass-effect rounded-lg p-6 max-w-4xl mx-auto mb-6 animate-fadeIn">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-2xl font-semibold gold-text text-center flex-1" style={{ fontFamily: "'Cinzel', serif" }}>
@@ -485,12 +474,20 @@ export default function TarotBotanico() {
                     </Button>
                   </div>
                   {drawnCards.map((card, index) => (
-                    <p key={index} className="text-[#ddd] mb-4 leading-relaxed">
-                      <strong className="gold-text">{spreads[selectedSpread].positions[index]}: {card.name}</strong>
-                      <br />
-                      {card.fullMeaning}
-                    </p>
+                    flippedCards.has(index) && (
+                      <p key={index} className="text-[#ddd] mb-4 leading-relaxed">
+                        <strong className="gold-text">{spreads[selectedSpread].positions[index]}: {card.name}</strong>
+                        <br />
+                        {card.fullMeaning}
+                      </p>
+                    )
                   ))}
+                  {drawnCards.length > 1 && (
+                    <p className="text-[#aaa] italic mt-6 text-center">
+                      Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida.
+                      Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.
+                    </p>
+                  )}
                 </div>
               )}
 
