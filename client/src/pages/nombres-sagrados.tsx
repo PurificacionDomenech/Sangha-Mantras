@@ -328,15 +328,13 @@ export default function NombresSagrados() {
             <button
               key={key}
               onClick={() => handleCategoryChange(key)}
-              className={`py-3 px-3 rounded-lg transition-all text-center ${
+              className={`py-3 px-3 rounded-lg transition-all text-center uppercase tracking-wider ${
                 selectedCategory === key
-                  ? `bg-gradient-to-br ${categoria.color} shadow-lg border-2 border-amber-300 dark:border-amber-600`
-                  : 'bg-white/70 dark:bg-stone-800/70 hover:bg-white dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700'
+                  ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                  : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
               }`}
             >
-              <div className={`text-xs font-medium ${
-                selectedCategory === key ? 'text-stone-800 dark:text-stone-900' : 'text-stone-700 dark:text-stone-300'
-              }`}>
+              <div className="text-xs font-medium">
                 {categoria.nombre}
               </div>
             </button>
@@ -347,28 +345,28 @@ export default function NombresSagrados() {
           {/* Panel izquierdo: Display actual y lista */}
           <div className="space-y-3">
             <div
-              className={`bg-gradient-to-br ${currentCategory.color} rounded-lg p-6 shadow-xl border-2 border-amber-300 dark:border-amber-600`}
+              className="glass-effect rounded-lg p-6 shadow-[0_0_20px_rgba(255,215,0,0.3)]"
               data-testid="nombre-display"
             >
               <div className="text-center">
-                <div className="text-xs uppercase tracking-widest text-stone-600 dark:text-stone-700 mb-2 font-medium">
+                <div className="text-xs uppercase tracking-[0.2em] text-[#bf953f] mb-2 font-medium">
                   Nombre Sagrado Actual
                 </div>
                 <div
-                  className={`text-5xl font-serif leading-tight mb-3 text-stone-800 dark:text-stone-900 ${isPlaying ? 'animate-pulse' : ''}`}
+                  className={`text-5xl font-serif leading-tight mb-3 gold-text ${isPlaying ? 'animate-pulse' : ''}`}
                   style={{ fontFamily: "'Frank Ruhl Libre', serif", direction: 'rtl' }}
                 >
                   {currentNombre.hebreo}
                 </div>
-                <div className="text-lg mb-2 font-semibold text-stone-800 dark:text-stone-900">
+                <div className="text-lg mb-2 font-semibold text-[#ddd]">
                   {currentNombre.nombre}
                 </div>
-                <div className="text-sm border-t border-stone-800/20 pt-3 text-stone-700 dark:text-stone-800 leading-relaxed">
+                <div className="text-sm border-t border-[rgba(255,215,0,0.2)] pt-3 text-[#aaa] leading-relaxed">
                   {currentNombre.significado}
                 </div>
                 {repetitions > 0 && (
-                  <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white/50 dark:bg-white/30 rounded-full">
-                    <span className="text-xs font-medium text-amber-800 dark:text-amber-900" data-testid="repetition-counter">
+                  <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-[rgba(191,149,63,0.2)] rounded-full border border-[rgba(255,215,0,0.3)]">
+                    <span className="text-xs font-medium gold-text" data-testid="repetition-counter">
                       {repetitions} repeticiones
                     </span>
                   </div>

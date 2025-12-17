@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import CategorySelector from "@/components/CategorySelector";
 import MantraCard from "@/components/MantraCard";
@@ -6,6 +7,8 @@ import MantraDisplay from "@/components/MantraDisplay";
 import VoiceControls from "@/components/VoiceControls";
 import TimerControls from "@/components/TimerControls";
 import AmbientSounds from "@/components/AmbientSounds";
+import CardGame from "@/components/CardGame";
+import { Button } from "@/components/ui/button";
 
 import { mantras, Mantra, culturas } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
@@ -25,6 +28,7 @@ export default function Home() {
   const [selectedCulture, setSelectedCulture] = useState("hi-IN");
   const [repetitions, setRepetitions] = useState(0);
   const [sessionFinished, setSessionFinished] = useState(false);
+  const [showCardGame, setShowCardGame] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number | null>(null);
@@ -283,12 +287,36 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-mantras)' }}>
-      <div className="absolute inset-0 bg-rose-900/5 dark:bg-rose-950/20"></div>
-      <div className="relative z-10">
-      <Header />
+    <>
+      {showCardGame && (
+        <CardGame
+          nombres={Object.values(mantras).flatMap(cat => cat.mantras.map(m => ({
+            nombre: m.nombre,
+            hebreo: m.texto,
+            significado: m.significado,
+            audioVersiones: [m.deidad]
+          })))}
+          onClose={() => setShowCardGame(false)}
+        />
+      )}
+      <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-mantras)' }}>
+        <div className="absolute inset-0 bg-rose-900/5 dark:bg-rose-950/20"></div>
+        <div className="relative z-10">
+        <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
+        {/* Botón de Juego de Cartas */}
+        <div className="mb-6 text-center">
+          <Button
+            onClick={() => setShowCardGame(true)}
+            className="glass-effect gold-text text-lg px-8 py-6 hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] uppercase tracking-[0.2em] border-2"
+            size="lg"
+          >
+            <Sparkles className="w-5 h-5 mr-2" />
+            Juego de Cartas Místico
+          </Button>
+        </div>
+
         <CategorySelector
           selectedCategory={selectedCategory}
           onSelectCategory={handleCategoryChange}
@@ -350,6 +378,7 @@ export default function Home() {
         </div>
       </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

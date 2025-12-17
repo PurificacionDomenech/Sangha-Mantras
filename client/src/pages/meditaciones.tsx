@@ -448,8 +448,7 @@ export default function Meditaciones() {
                 <Button
                   onClick={togglePlayPause}
                   size="lg"
-                  className="flex-1"
-                  variant={isPlaying ? "secondary" : "default"}
+                  className="flex-1 glass-effect gold-text border-2 hover:shadow-[0_0_15px_rgba(255,215,0,0.4)]"
                 >
                   {isPaused ? (
                     <>
@@ -469,7 +468,7 @@ export default function Meditaciones() {
                   )}
                 </Button>
                 {isPlaying && (
-                  <Button onClick={stopMeditation} size="lg" variant="destructive">
+                  <Button onClick={stopMeditation} size="lg" className="glass-effect border-2 border-red-500/50 text-red-400 hover:shadow-[0_0_15px_rgba(255,0,0,0.4)]">
                     <Square className="w-5 h-5" />
                   </Button>
                 )}
@@ -495,7 +494,7 @@ export default function Meditaciones() {
                 <Button
                   onClick={() => openCustomDialog()}
                   size="lg"
-                  className="w-full gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg"
+                  className="w-full gap-2 glass-effect gold-text border-2 hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] uppercase tracking-[0.15em]"
                 >
                   <Plus className="w-5 h-5" />
                   Crear Mi Propia Meditación
