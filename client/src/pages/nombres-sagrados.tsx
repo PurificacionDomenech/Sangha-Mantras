@@ -245,7 +245,7 @@ export default function NombresSagrados() {
   }, [voices]);
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-fixed relative bg-[url('/bg-nombres.jpg')]">
+    <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-nombres)' }}>
       <div className="absolute inset-0 bg-amber-900/5 dark:bg-amber-950/20"></div>
       <div className="relative z-10">
       <Header />
