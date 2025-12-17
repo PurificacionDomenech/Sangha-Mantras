@@ -49,9 +49,23 @@ export default function Meditaciones() {
   const ambientSoundsRef = useRef<{ activateSound: (soundId: string) => void; deactivateSound: (soundId: string) => void } | null>(null);
 
   const currentCategory = meditacionesGuiadas[selectedCategory];
-  const currentMeditacion = isCustomMeditation 
-    ? meditacionesPersonalizadas[selectedCustomIndex]
-    : currentCategory.meditaciones[selectedMeditacionIndex];
+  
+  // Validación robusta para evitar undefined
+  let currentMeditacion;
+  if (isCustomMeditation) {
+    currentMeditacion = meditacionesPersonalizadas[selectedCustomIndex];
+    // Si no existe, cambiar a meditaciones guiadas
+    if (!currentMeditacion) {
+      setIsCustomMeditation(false);
+      currentMeditacion = currentCategory.meditaciones[0];
+    }
+  } else {
+    currentMeditacion = currentCategory.meditaciones[selectedMeditacionIndex];
+    // Si no existe, usar la primera
+    if (!currentMeditacion) {
+      currentMeditacion = currentCategory.meditaciones[0];
+    }
+  }
 
   // Validar que currentMeditacion existe
   if (!currentMeditacion) {
@@ -59,7 +73,7 @@ export default function Meditaciones() {
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
         <Header />
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-          <p className="text-stone-600 dark:text-stone-400">Cargando...</p>
+          <p className="text-stone-600 dark:text-stone-400">Cargando meditaciones...</p>
         </div>
       </div>
     );
@@ -142,6 +156,10 @@ export default function Meditaciones() {
 
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
+    if (!currentMeditacion || !currentMeditacion.texto) {
+      console.warn('No hay meditación o texto disponible');
+      return;
+    }
 
     const cleanedText = cleanText(currentMeditacion.texto);
     
