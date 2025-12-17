@@ -294,9 +294,11 @@ export default function Home() {
             nombre: m.nombre,
             hebreo: m.texto,
             significado: m.significado,
-            audioVersiones: [m.deidad]
+            audioVersiones: [m.deidad],
+            categoria: cat.nombre
           })))}
           onClose={() => setShowCardGame(false)}
+          categoria="Mantra"
         />
       )}
       <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-mantras)' }}>

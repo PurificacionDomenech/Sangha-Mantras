@@ -300,8 +300,12 @@ export default function NombresSagrados() {
     <>
       {showCardGame && (
         <CardGame
-          nombres={Object.values(nombresSagrados).flatMap(cat => cat.nombres)}
+          nombres={Object.values(nombresSagrados).flatMap(cat => cat.nombres.map(n => ({
+            ...n,
+            categoria: cat.nombre
+          })))}
           onClose={() => setShowCardGame(false)}
+          categoria="Sefirá"
         />
       )}
       <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-nombres)' }}>

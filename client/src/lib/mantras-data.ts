@@ -16,6 +16,7 @@ export interface NombreSagrado {
   hebreo: string;
   significado: string;
   audioVersiones: string[]; // Opciones: 'hebreo', 'melodico', 'significado', 'shofar-tekiah', etc.
+  categoria?: string; // Para indicar la categoría o sefirá
 }
 
 export interface CategoriaNombres {

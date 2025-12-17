@@ -1,17 +1,20 @@
 
 import { useState } from "react";
+import { Volume2, X } from "lucide-react";
 import type { NombreSagrado } from "@/lib/mantras-data";
+import { Button } from "@/components/ui/button";
 
 interface CardGameProps {
   nombres: NombreSagrado[];
   onClose: () => void;
+  categoria?: string;
 }
 
-export default function CardGame({ nombres, onClose }: CardGameProps) {
+export default function CardGame({ nombres, onClose, categoria }: CardGameProps) {
   const [selectedCard, setSelectedCard] = useState<NombreSagrado | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [shuffledDeck, setShuffledDeck] = useState(() => {
-    const deck = [...nombres].filter(n => n.audioVersiones.length > 0);
+    const deck = [...nombres].filter(n => n.audioVersiones && n.audioVersiones.length > 0);
     return deck.sort(() => Math.random() - 0.5);
   });
 
@@ -23,8 +26,28 @@ export default function CardGame({ nombres, onClose }: CardGameProps) {
   const resetGame = () => {
     setSelectedCard(null);
     setIsFlipped(false);
-    const deck = [...nombres].filter(n => n.audioVersiones.length > 0);
+    const deck = [...nombres].filter(n => n.audioVersiones && n.audioVersiones.length > 0);
     setShuffledDeck(deck.sort(() => Math.random() - 0.5));
+  };
+
+  const readCard = () => {
+    if (!selectedCard) return;
+    
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      
+      const textToRead = isFlipped 
+        ? `${selectedCard.nombre}. ${selectedCard.significado}`
+        : selectedCard.nombre;
+      
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.8;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   const totalCards = Math.min(shuffledDeck.length, 20);
@@ -32,7 +55,21 @@ export default function CardGame({ nombres, onClose }: CardGameProps) {
   const baseAngle = -((totalCards - 1) * angleStep) / 2;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "radial-gradient(circle at center, #1a0b2e 0%, #000000 100%)" }}>
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center" style={{ background: "radial-gradient(circle at center, #1a0b2e 0%, #000000 100%)" }}>
+      {/* Logo en la esquina superior */}
+      <div className="absolute top-6 left-6 text-4xl gold-text" style={{ fontFamily: "'Cinzel', serif" }}>
+        ༀ
+      </div>
+
+      {/* Botón de cerrar en la esquina superior derecha */}
+      <Button
+        onClick={onClose}
+        className="absolute top-6 right-6 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)]"
+        size="icon"
+      >
+        <X className="w-5 h-5" />
+      </Button>
+
       {!selectedCard ? (
         <div className="text-center">
           <h3 className="text-xl gold-text uppercase tracking-[0.3em] mb-12 opacity-70">
@@ -98,7 +135,15 @@ export default function CardGame({ nombres, onClose }: CardGameProps) {
                 borderColor: "rgba(255, 255, 255, 0.1)"
               }}
             >
-              <div className="text-xl gold-text mb-6 pb-3 border-b border-[#bf953f] uppercase tracking-wider">
+              <div className="text-xl gold-text mb-3 pb-2 border-b border-[#bf953f] uppercase tracking-wider">
+                {selectedCard.nombre}
+              </div>
+              {categoria && (
+                <div className="text-xs text-[#bf953f] mb-3 uppercase tracking-wide opacity-80">
+                  {categoria}
+                </div>
+              )}
+              <div className="text-xl gold-text mb-4 pb-3 border-b border-[#bf953f] uppercase tracking-wider">
                 Significado
               </div>
               <div className="text-sm text-[#e0e0e0] leading-relaxed">
@@ -107,12 +152,21 @@ export default function CardGame({ nombres, onClose }: CardGameProps) {
             </div>
           </div>
 
-          <button
-            onClick={resetGame}
-            className="mt-8 px-6 py-2 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)] uppercase tracking-[0.2em] transition-all"
-          >
-            Elegir otra carta
-          </button>
+          <div className="flex gap-3 mt-8 justify-center">
+            <button
+              onClick={readCard}
+              className="px-6 py-2 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)] uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+            >
+              <Volume2 className="w-4 h-4" />
+              Leer Carta
+            </button>
+            <button
+              onClick={resetGame}
+              className="px-6 py-2 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)] uppercase tracking-[0.2em] transition-all"
+            >
+              Elegir otra carta
+            </button>
+          </div>
         </div>
       )}
     </div>
