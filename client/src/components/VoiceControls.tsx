@@ -268,7 +268,7 @@ export default function VoiceControls({
           <div>
             <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1.5">
               <Music className="w-3.5 h-3.5" />
-              Estilo de Canto
+              Modo de Recitación (Lectura o Canto)
             </label>
             <Select value={chantingStyle} onValueChange={onChantingStyleChange}>
               <SelectTrigger className="w-full h-8 text-xs" data-testid="chanting-style-select">
