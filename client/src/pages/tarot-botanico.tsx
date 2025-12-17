@@ -399,7 +399,7 @@ export default function TarotBotanico() {
 
                       {/* Card Front */}
                       <div
-                        className="absolute inset-0 backface-hidden rounded-lg p-5 flex flex-col"
+                        className="absolute inset-0 backface-hidden rounded-lg p-4 flex flex-col overflow-hidden"
                         style={{ 
                           transform: 'rotateY(180deg)',
                           background: 'linear-gradient(135deg, rgba(26, 47, 26, 0.95) 0%, rgba(13, 26, 13, 0.98) 100%)',
@@ -412,26 +412,26 @@ export default function TarotBotanico() {
                         }}></div>
                         
                         <div className="relative z-10 flex flex-col h-full">
-                          <div className="text-center mb-3 pb-3 border-b-2 border-[rgba(212,175,55,0.3)]">
-                            <div className="text-2xl font-bold gold-text mb-1" style={{ fontFamily: "'Cinzel', serif", textShadow: '0 0 10px rgba(212, 175, 55, 0.5)' }}>
+                          <div className="text-center mb-2 pb-2 border-b border-[rgba(212,175,55,0.3)]">
+                            <div className="text-lg font-bold gold-text mb-0.5" style={{ fontFamily: "'Cinzel', serif", textShadow: '0 0 8px rgba(212, 175, 55, 0.5)' }}>
                               {card.number}
                             </div>
-                            <div className="text-lg font-semibold text-[#8ba888] uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+                            <div className="text-sm font-semibold text-[#8ba888] uppercase tracking-wide leading-tight" style={{ fontFamily: "'Cinzel', serif" }}>
                               {card.name}
                             </div>
-                            <div className="text-xs text-[#d4af37] opacity-80 italic mt-1">
+                            <div className="text-xs text-[#d4af37] opacity-70 italic mt-0.5">
                               {card.arcana}
                             </div>
                           </div>
                           
-                          <div className="flex-1 flex items-center justify-center mb-3 relative">
+                          <div className="flex-1 flex items-center justify-center mb-2 relative min-h-0">
                             <div className="absolute inset-0 bg-gradient-to-br from-[#8ba888]/10 to-[#4a6741]/10 rounded-lg"></div>
-                            <span className="text-7xl relative z-10 drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                            <span className="text-6xl relative z-10 drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
                               {card.image === 'seed' ? '🌱' : card.image === 'fruit' ? '🍎' : '🌿'}
                             </span>
                           </div>
                           
-                          <div className="text-sm text-[#c0c0c0] text-center leading-relaxed px-2 py-3 bg-[rgba(0,0,0,0.3)] rounded-lg border border-[rgba(212,175,55,0.2)]">
+                          <div className="text-xs text-[#c0c0c0] text-center leading-snug px-2 py-2 bg-[rgba(0,0,0,0.3)] rounded-lg border border-[rgba(212,175,55,0.2)] overflow-y-auto max-h-[120px]">
                             {card.meaning}
                           </div>
                         </div>
