@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Sparkles, RefreshCw } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Sparkles, RefreshCw, Volume2, VolumeX } from "lucide-react";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 
@@ -223,6 +223,23 @@ export default function TarotBotanico() {
   const [selectedSpread, setSelectedSpread] = useState<keyof typeof spreads | null>(null);
   const [drawnCards, setDrawnCards] = useState<TarotCard[]>([]);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      setAvailableVoices(voices);
+    };
+
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
 
   const shuffleAndDraw = (spreadType: keyof typeof spreads) => {
     const spread = spreads[spreadType];
@@ -243,7 +260,58 @@ export default function TarotBotanico() {
     setFlippedCards(newFlipped);
   };
 
+  const speakText = (text: string) => {
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    const spanishVoice = availableVoices.find(voice => voice.lang.startsWith('es'));
+    
+    if (spanishVoice) {
+      utterance.voice = spanishVoice;
+    }
+    
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+    
+    utteranceRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopSpeaking = () => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  };
+
+  const readCardAndInterpretation = () => {
+    if (!selectedSpread) return;
+    
+    const flippedCardsArray = Array.from(flippedCards).sort((a, b) => a - b);
+    
+    let fullText = "Lectura del Tarot Botánico. ";
+    
+    flippedCardsArray.forEach((index) => {
+      const card = drawnCards[index];
+      const position = spreads[selectedSpread].positions[index];
+      
+      fullText += `${position}: ${card.name}, también conocida como ${card.arcana}. `;
+      fullText += `${card.fullMeaning} `;
+    });
+    
+    if (drawnCards.length > 1) {
+      fullText += "Esta lectura te invita a contemplar cómo estas energías botánicas se entrelazan en tu vida. Como un árbol que crece desde la raíz hasta el fruto, tu camino es un proceso orgánico de transformación y florecimiento.";
+    }
+    
+    speakText(fullText);
+  };
+
   const reset = () => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
     setSelectedSpread(null);
     setDrawnCards([]);
     setFlippedCards(new Set());
@@ -331,20 +399,41 @@ export default function TarotBotanico() {
 
                       {/* Card Front */}
                       <div
-                        className="absolute inset-0 backface-hidden bg-[#f5f1e8] border-4 border-[#3d2817] rounded-lg p-4 flex flex-col"
-                        style={{ transform: 'rotateY(180deg)' }}
+                        className="absolute inset-0 backface-hidden rounded-lg p-5 flex flex-col"
+                        style={{ 
+                          transform: 'rotateY(180deg)',
+                          background: 'linear-gradient(135deg, rgba(26, 47, 26, 0.95) 0%, rgba(13, 26, 13, 0.98) 100%)',
+                          border: '3px solid rgba(212, 175, 55, 0.4)',
+                          boxShadow: 'inset 0 0 30px rgba(212, 175, 55, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4)'
+                        }}
                       >
-                        <div className="text-sm font-semibold text-[#d4af37] text-center mb-2" style={{ fontFamily: "'Cinzel', serif" }}>
-                          {card.number}
-                        </div>
-                        <div className="text-base font-semibold text-[#3d2817] text-center mb-3" style={{ fontFamily: "'Cinzel', serif" }}>
-                          {card.name}
-                        </div>
-                        <div className="flex-1 flex items-center justify-center mb-3 bg-gradient-to-br from-[#8ba888]/20 to-[#4a6741]/20 rounded">
-                          <span className="text-6xl">{card.image === 'seed' ? '🌱' : card.image === 'fruit' ? '🍎' : '🌿'}</span>
-                        </div>
-                        <div className="text-xs text-[#4a6741] text-center italic leading-snug">
-                          {card.meaning}
+                        <div className="absolute inset-0 rounded-lg opacity-10" style={{ 
+                          background: 'radial-gradient(circle at 30% 20%, rgba(138, 168, 136, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(74, 103, 65, 0.3) 0%, transparent 50%)'
+                        }}></div>
+                        
+                        <div className="relative z-10 flex flex-col h-full">
+                          <div className="text-center mb-3 pb-3 border-b-2 border-[rgba(212,175,55,0.3)]">
+                            <div className="text-2xl font-bold gold-text mb-1" style={{ fontFamily: "'Cinzel', serif", textShadow: '0 0 10px rgba(212, 175, 55, 0.5)' }}>
+                              {card.number}
+                            </div>
+                            <div className="text-lg font-semibold text-[#8ba888] uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+                              {card.name}
+                            </div>
+                            <div className="text-xs text-[#d4af37] opacity-80 italic mt-1">
+                              {card.arcana}
+                            </div>
+                          </div>
+                          
+                          <div className="flex-1 flex items-center justify-center mb-3 relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#8ba888]/10 to-[#4a6741]/10 rounded-lg"></div>
+                            <span className="text-7xl relative z-10 drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                              {card.image === 'seed' ? '🌱' : card.image === 'fruit' ? '🍎' : '🌿'}
+                            </span>
+                          </div>
+                          
+                          <div className="text-sm text-[#c0c0c0] text-center leading-relaxed px-2 py-3 bg-[rgba(0,0,0,0.3)] rounded-lg border border-[rgba(212,175,55,0.2)]">
+                            {card.meaning}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -358,9 +447,32 @@ export default function TarotBotanico() {
 
               {flippedCards.size > 0 && (
                 <div className="glass-effect rounded-lg p-6 max-w-4xl mx-auto mb-6 animate-fadeIn">
-                  <h3 className="text-2xl font-semibold gold-text mb-4 text-center" style={{ fontFamily: "'Cinzel', serif" }}>
-                    Interpretación de tu Tirada
-                  </h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-2xl font-semibold gold-text text-center flex-1" style={{ fontFamily: "'Cinzel', serif" }}>
+                      Interpretación de tu Tirada
+                    </h3>
+                    <Button
+                      onClick={isSpeaking ? stopSpeaking : readCardAndInterpretation}
+                      className={`glass-effect border-2 ${
+                        isSpeaking 
+                          ? 'border-red-500 text-red-500 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]' 
+                          : 'gold-text hover:shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                      }`}
+                      size="sm"
+                    >
+                      {isSpeaking ? (
+                        <>
+                          <VolumeX className="w-4 h-4 mr-2" />
+                          Detener
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="w-4 h-4 mr-2" />
+                          Escuchar
+                        </>
+                      )}
+                    </Button>
+                  </div>
                   {drawnCards.map((card, index) => (
                     flippedCards.has(index) && (
                       <p key={index} className="text-[#ddd] mb-4 leading-relaxed">
