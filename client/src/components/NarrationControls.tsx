@@ -106,7 +106,11 @@ export default function NarrationControls({
   };
 
   const deletePreset = (presetId: string) => {
-    setPresets(prev => prev.filter(p => p.id !== presetId));
+    setPresets(prev => {
+      const newPresets = prev.filter(p => p.id !== presetId);
+      localStorage.setItem('narrationPresets', JSON.stringify(newPresets));
+      return newPresets;
+    });
     toast({
       title: "Favorito eliminado",
       description: "El favorito se ha eliminado correctamente",

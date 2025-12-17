@@ -133,12 +133,6 @@ export default function Meditaciones() {
 
     const cleanedText = cleanText(currentMeditacion.texto);
     
-    // Activar el metrónomo por defecto (volumen bajo: 0.08)
-    if (ambientSoundsRef.current) {
-      ambientSoundsRef.current.activateSound('metronome', 0.08);
-      setAutoActivatedSounds(['metronome']);
-    }
-    
     // Dividir el texto por saltos de línea y oraciones
     const lines = cleanedText.split('\n');
     const segments: Array<{ text: string; hasLineBreakAfter: boolean }> = [];

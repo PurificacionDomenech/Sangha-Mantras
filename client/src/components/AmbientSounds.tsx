@@ -614,7 +614,11 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
   }, [toast]);
 
   const deletePreset = useCallback((presetId: string) => {
-    setPresets(prev => prev.filter(p => p.id !== presetId));
+    setPresets(prev => {
+      const newPresets = prev.filter(p => p.id !== presetId);
+      localStorage.setItem('soundPresets', JSON.stringify(newPresets));
+      return newPresets;
+    });
     toast({
       title: "Favorito eliminado",
       description: "El favorito se ha eliminado correctamente",
