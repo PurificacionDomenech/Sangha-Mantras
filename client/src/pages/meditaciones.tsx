@@ -1,12 +1,15 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Play, Pause, Square } from "lucide-react";
+import { Play, Pause, Square, Plus, Edit, Trash2, Save, X } from "lucide-react";
 import Header from "@/components/Header";
 import MeditacionCard from "@/components/MeditacionCard";
 import NarrationControls from "@/components/NarrationControls";
 import AmbientSounds from "@/components/AmbientSounds";
 import { Button } from "@/components/ui/button";
-import { meditacionesGuiadas, estilosNarracion, ambientSounds } from "@/lib/mantras-data";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { meditacionesGuiadas, estilosNarracion, ambientSounds, type Meditacion } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
 // Mapeo de palabras clave a sonidos ambientales
@@ -29,6 +32,10 @@ const soundKeywords: Record<string, string[]> = {
   'metronome': ['metrónomo', 'digital', 'código'],
 };
 
+interface MeditacionPersonalizada extends Meditacion {
+  id: string;
+}
+
 export default function Meditaciones() {
   const { toast } = useToast();
   const [selectedCategory] = useState("viajes");
@@ -42,13 +49,28 @@ export default function Meditaciones() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [autoActivatedSounds, setAutoActivatedSounds] = useState<string[]>([]);
+  
+  // Estados para meditaciones personalizadas
+  const [meditacionesPersonalizadas, setMeditacionesPersonalizadas] = useState<MeditacionPersonalizada[]>([]);
+  const [showCustomDialog, setShowCustomDialog] = useState(false);
+  const [editingCustomId, setEditingCustomId] = useState<string | null>(null);
+  const [customForm, setCustomForm] = useState({
+    titulo: "",
+    descripcion: "",
+    texto: "",
+    duracion: "10 min"
+  });
+  const [isCustomMeditation, setIsCustomMeditation] = useState(false);
+  const [selectedCustomIndex, setSelectedCustomIndex] = useState(0);
 
   const isPlayingRef = useRef(false);
   const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const ambientSoundsRef = useRef<{ activateSound: (soundId: string) => void; deactivateSound: (soundId: string) => void } | null>(null);
 
   const currentCategory = meditacionesGuiadas[selectedCategory];
-  const currentMeditacion = currentCategory.meditaciones[selectedMeditacionIndex];
+  const currentMeditacion = isCustomMeditation 
+    ? meditacionesPersonalizadas[selectedCustomIndex]
+    : currentCategory.meditaciones[selectedMeditacionIndex];
 
   // Función para limpiar el texto (eliminar corchetes y paréntesis con contenido)
   const cleanText = (text: string): string => {
@@ -68,6 +90,25 @@ export default function Meditaciones() {
       setSelectedVoice(defaultVoice);
     }
   }, []);
+
+  // Cargar meditaciones personalizadas del localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('meditacionesPersonalizadas');
+    if (saved) {
+      try {
+        setMeditacionesPersonalizadas(JSON.parse(saved));
+      } catch (e) {
+        console.error('Error cargando meditaciones personalizadas:', e);
+      }
+    }
+  }, []);
+
+  // Guardar meditaciones personalizadas en localStorage
+  useEffect(() => {
+    if (meditacionesPersonalizadas.length > 0) {
+      localStorage.setItem('meditacionesPersonalizadas', JSON.stringify(meditacionesPersonalizadas));
+    }
+  }, [meditacionesPersonalizadas]);
 
   useEffect(() => {
     if (!('speechSynthesis' in window)) {
@@ -209,8 +250,94 @@ export default function Meditaciones() {
 
   const handleMeditacionChange = useCallback((index: number) => {
     stopMeditation();
+    setIsCustomMeditation(false);
     setSelectedMeditacionIndex(index);
   }, [stopMeditation]);
+
+  const handleCustomMeditacionChange = useCallback((index: number) => {
+    stopMeditation();
+    setIsCustomMeditation(true);
+    setSelectedCustomIndex(index);
+  }, [stopMeditation]);
+
+  const openCustomDialog = useCallback((editId?: string) => {
+    if (editId) {
+      const medToEdit = meditacionesPersonalizadas.find(m => m.id === editId);
+      if (medToEdit) {
+        setCustomForm({
+          titulo: medToEdit.titulo,
+          descripcion: medToEdit.descripcion,
+          texto: medToEdit.texto,
+          duracion: medToEdit.duracion
+        });
+        setEditingCustomId(editId);
+      }
+    } else {
+      setCustomForm({
+        titulo: "",
+        descripcion: "",
+        texto: "",
+        duracion: "10 min"
+      });
+      setEditingCustomId(null);
+    }
+    setShowCustomDialog(true);
+  }, [meditacionesPersonalizadas]);
+
+  const saveCustomMeditation = useCallback(() => {
+    if (!customForm.titulo.trim() || !customForm.texto.trim()) {
+      toast({
+        title: "Campos requeridos",
+        description: "Por favor completa el título y el texto de la meditación",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (editingCustomId) {
+      // Editar existente
+      setMeditacionesPersonalizadas(prev => 
+        prev.map(m => m.id === editingCustomId 
+          ? { ...customForm, id: editingCustomId, categoria: "Personalizada" }
+          : m
+        )
+      );
+      toast({
+        title: "Meditación actualizada",
+        description: `"${customForm.titulo}" se ha actualizado correctamente`
+      });
+    } else {
+      // Crear nueva
+      const newMed: MeditacionPersonalizada = {
+        ...customForm,
+        id: Date.now().toString(),
+        categoria: "Personalizada"
+      };
+      setMeditacionesPersonalizadas(prev => [...prev, newMed]);
+      toast({
+        title: "Meditación guardada",
+        description: `"${customForm.titulo}" se ha guardado correctamente`
+      });
+    }
+
+    setShowCustomDialog(false);
+    setEditingCustomId(null);
+  }, [customForm, editingCustomId, toast]);
+
+  const deleteCustomMeditation = useCallback((id: string) => {
+    const medToDelete = meditacionesPersonalizadas.find(m => m.id === id);
+    setMeditacionesPersonalizadas(prev => prev.filter(m => m.id !== id));
+    
+    // Si estamos reproduciendo la que se borra, detener
+    if (isCustomMeditation && meditacionesPersonalizadas[selectedCustomIndex]?.id === id) {
+      stopMeditation();
+    }
+    
+    toast({
+      title: "Meditación eliminada",
+      description: `"${medToDelete?.titulo}" se ha eliminado correctamente`
+    });
+  }, [meditacionesPersonalizadas, isCustomMeditation, selectedCustomIndex, stopMeditation, toast]);
 
   const handleVoiceChange = useCallback((voiceURI: string) => {
     const voice = voices.find(v => v.voiceURI === voiceURI);
@@ -290,17 +417,82 @@ export default function Meditaciones() {
               </div>
             </div>
 
-            {/* Lista de meditaciones */}
-            <div className="space-y-2 max-h-[520px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-stone-100">
+            {/* Lista de meditaciones predefinidas */}
+            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-stone-100">
               {currentCategory.meditaciones.map((meditacion, idx) => (
                 <MeditacionCard
                   key={idx}
                   meditacion={meditacion}
-                  isSelected={selectedMeditacionIndex === idx}
+                  isSelected={!isCustomMeditation && selectedMeditacionIndex === idx}
                   categoryColor={currentCategory.color}
                   onClick={() => handleMeditacionChange(idx)}
                 />
               ))}
+            </div>
+
+            {/* Sección de Meditaciones Personalizadas */}
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+                  Mis Meditaciones
+                </h4>
+                <Button
+                  onClick={() => openCustomDialog()}
+                  size="sm"
+                  variant="outline"
+                  className="h-8 gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Nueva
+                </Button>
+              </div>
+              
+              {meditacionesPersonalizadas.length === 0 ? (
+                <div className="text-center py-6 bg-white/50 dark:bg-stone-800/50 rounded-lg">
+                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                    Aún no tienes meditaciones personalizadas.
+                    <br />
+                    Crea una para que se lea con tu voz preferida.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-stone-100">
+                  {meditacionesPersonalizadas.map((meditacion, idx) => (
+                    <div key={meditacion.id} className="relative group">
+                      <MeditacionCard
+                        meditacion={meditacion}
+                        isSelected={isCustomMeditation && selectedCustomIndex === idx}
+                        categoryColor="from-amber-100 to-orange-100"
+                        onClick={() => handleCustomMeditacionChange(idx)}
+                      />
+                      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openCustomDialog(meditacion.id);
+                          }}
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 w-7 p-0 bg-white/90 dark:bg-stone-700/90"
+                        >
+                          <Edit className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteCustomMeditation(meditacion.id);
+                          }}
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 w-7 p-0 bg-white/90 dark:bg-stone-700/90 hover:bg-red-50 dark:hover:bg-red-900/20"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -324,6 +516,90 @@ export default function Meditaciones() {
           </div>
         </div>
       </div>
+
+      {/* Diálogo para crear/editar meditación personalizada */}
+      <Dialog open={showCustomDialog} onOpenChange={setShowCustomDialog}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingCustomId ? "Editar Meditación" : "Nueva Meditación Personalizada"}
+            </DialogTitle>
+            <DialogDescription>
+              Escribe el texto de tu meditación. Puedes incluir pausas usando (5 seg), (10 seg), etc.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+                Título
+              </label>
+              <Input
+                value={customForm.titulo}
+                onChange={(e) => setCustomForm(prev => ({ ...prev, titulo: e.target.value }))}
+                placeholder="Ej: Mi meditación de gratitud"
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+                Descripción breve
+              </label>
+              <Input
+                value={customForm.descripcion}
+                onChange={(e) => setCustomForm(prev => ({ ...prev, descripcion: e.target.value }))}
+                placeholder="Ej: Una meditación para cultivar gratitud diaria"
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+                Duración estimada
+              </label>
+              <Input
+                value={customForm.duracion}
+                onChange={(e) => setCustomForm(prev => ({ ...prev, duracion: e.target.value }))}
+                placeholder="Ej: 10 min"
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+                Texto de la meditación
+              </label>
+              <Textarea
+                value={customForm.texto}
+                onChange={(e) => setCustomForm(prev => ({ ...prev, texto: e.target.value }))}
+                placeholder="Respira profundamente...(5 seg)&#10;Siente tu cuerpo...(7 seg)&#10;Suelta la tensión..."
+                className="w-full min-h-[300px] font-mono text-sm"
+              />
+              <p className="text-xs text-stone-500 dark:text-stone-400 mt-1.5">
+                Tip: Usa (X seg) para indicar pausas. Ej: "Respira...(5 seg)"
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-2 justify-end">
+            <Button
+              onClick={() => {
+                setShowCustomDialog(false);
+                setEditingCustomId(null);
+              }}
+              variant="outline"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Cancelar
+            </Button>
+            <Button onClick={saveCustomMeditation}>
+              <Save className="w-4 h-4 mr-2" />
+              {editingCustomId ? "Actualizar" : "Guardar"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
