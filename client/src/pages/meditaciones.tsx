@@ -12,26 +12,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { meditacionesGuiadas, estilosNarracion, ambientSounds, type Meditacion } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
-// Mapeo de palabras clave a sonidos ambientales
-const soundKeywords: Record<string, string[]> = {
-  'water': ['agua', 'río', 'arroyo'],
-  'ocean': ['océano', 'mar', 'olas', 'playa'],
-  'nature': ['naturaleza', 'bosque', 'árboles', 'hojas'],
-  'bells': ['campanas tibetanas'],
-  'bells-high': ['campanas agudas', 'tintineando'],
-  'bells-low': ['campanas graves'],
-  'bowls': ['cuencos tibetanos'],
-  'bowls-crystal': ['cuencos de cristal', 'cristalinos'],
-  'bowls-deep': ['cuencos profundos'],
-  'wind': ['viento'],
-  'rain': ['lluvia'],
-  'birds': ['pájaros', 'aves'],
-  'fire': ['fuego', 'hoguera'],
-  'gong': ['gong tibetano'],
-  'gong-small': ['gong pequeño'],
-  'metronome': ['metrónomo', 'digital', 'código'],
-};
-
 interface MeditacionPersonalizada extends Meditacion {
   id: string;
 }
@@ -146,42 +126,17 @@ export default function Meditaciones() {
     }
   }, [autoActivatedSounds]);
 
-  // Detectar sonidos mencionados en el texto
-  const detectSoundsInText = useCallback((text: string): string[] => {
-    const lowerText = text.toLowerCase();
-    const detectedSounds: string[] = [];
-
-    Object.entries(soundKeywords).forEach(([soundId, keywords]) => {
-      if (keywords.some(keyword => lowerText.includes(keyword))) {
-        detectedSounds.push(soundId);
-      }
-    });
-
-    return detectedSounds;
-  }, []);
+  
 
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
 
     const cleanedText = cleanText(currentMeditacion.texto);
     
-    // Detectar y activar sonidos mencionados en el texto (volumen muy bajo: 0.08)
-    const soundsToActivate = detectSoundsInText(cleanedText);
-    if (soundsToActivate.length > 0 && ambientSoundsRef.current) {
-      soundsToActivate.forEach(soundId => {
-        ambientSoundsRef.current?.activateSound(soundId, 0.08);
-      });
-      setAutoActivatedSounds(soundsToActivate);
-      
-      const soundNames = soundsToActivate.map(id => {
-        const sound = ambientSounds.find(s => s.id === id);
-        return sound?.nombre || id;
-      }).join(', ');
-      
-      toast({
-        title: "Sonidos de fondo activados (muy suaves)",
-        description: soundNames,
-      });
+    // Activar el metrónomo por defecto (volumen bajo: 0.08)
+    if (ambientSoundsRef.current) {
+      ambientSoundsRef.current.activateSound('metronome', 0.08);
+      setAutoActivatedSounds(['metronome']);
     }
     
     // Dividir el texto por saltos de línea y oraciones
@@ -255,7 +210,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, detectSoundsInText, pauseBetweenPhrases]);
+  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
