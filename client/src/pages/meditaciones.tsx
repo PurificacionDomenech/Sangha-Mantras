@@ -49,6 +49,7 @@ export default function Meditaciones() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [autoActivatedSounds, setAutoActivatedSounds] = useState<string[]>([]);
+  const [pauseBetweenPhrases, setPauseBetweenPhrases] = useState(3); // Pausa en segundos entre frases
   
   // Estados para meditaciones personalizadas
   const [meditacionesPersonalizadas, setMeditacionesPersonalizadas] = useState<MeditacionPersonalizada[]>([]);
@@ -183,14 +184,31 @@ export default function Meditaciones() {
       });
     }
     
-    // Dividir el texto en segmentos (por oraciones)
-    const segments = cleanedText
-      .split(/(?<=[.!?])\s+/)
-      .filter(s => s.trim().length > 0);
+    // Dividir el texto por saltos de línea y oraciones
+    const lines = cleanedText.split('\n');
+    const segments: Array<{ text: string; hasLineBreakAfter: boolean }> = [];
+    
+    lines.forEach((line, lineIndex) => {
+      const trimmedLine = line.trim();
+      if (trimmedLine.length === 0) return;
+      
+      // Dividir cada línea en oraciones
+      const sentences = trimmedLine.split(/(?<=[.!?…])\s+/).filter(s => s.trim().length > 0);
+      
+      sentences.forEach((sentence, sentIndex) => {
+        const isLastSentenceInLine = sentIndex === sentences.length - 1;
+        const hasLineBreakAfter = isLastSentenceInLine && lineIndex < lines.length - 1;
+        
+        segments.push({
+          text: sentence.trim(),
+          hasLineBreakAfter
+        });
+      });
+    });
     
     let currentSegmentIndex = 0;
 
-    const speakNextSegment = () => {
+    const speakNextSegment = async () => {
       if (!isPlayingRef.current || currentSegmentIndex >= segments.length) {
         if (currentSegmentIndex >= segments.length) {
           stopMeditation();
@@ -202,9 +220,10 @@ export default function Meditaciones() {
         return;
       }
 
-      const utterance = new SpeechSynthesisUtterance(segments[currentSegmentIndex]);
+      const segment = segments[currentSegmentIndex];
+      const utterance = new SpeechSynthesisUtterance(segment.text);
       
-      // Aplicar parámetros ACTUALES (se actualizarán en cada segmento)
+      // Aplicar parámetros ACTUALES
       utterance.rate = speed;
       utterance.pitch = pitch;
       utterance.volume = volume;
@@ -214,7 +233,15 @@ export default function Meditaciones() {
         utterance.voice = selectedVoice;
       }
 
-      utterance.onend = () => {
+      utterance.onend = async () => {
+        // Calcular pausa: base + 2 segundos extra si hay salto de línea
+        const pauseDuration = segment.hasLineBreakAfter 
+          ? (pauseBetweenPhrases + 2) * 1000 
+          : pauseBetweenPhrases * 1000;
+        
+        // Esperar la pausa antes de continuar
+        await new Promise(resolve => setTimeout(resolve, pauseDuration));
+        
         currentSegmentIndex++;
         speakNextSegment();
       };
@@ -228,7 +255,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, detectSoundsInText]);
+  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, detectSoundsInText, pauseBetweenPhrases]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
@@ -504,10 +531,12 @@ export default function Meditaciones() {
               volume={volume}
               voices={voices}
               selectedVoice={selectedVoice}
+              pauseBetweenPhrases={pauseBetweenPhrases}
               onSpeedChange={handleSpeedChange}
               onPitchChange={handlePitchChange}
               onVolumeChange={handleVolumeChange}
               onVoiceChange={handleVoiceChange}
+              onPauseBetweenPhrasesChange={setPauseBetweenPhrases}
             />
             <AmbientSounds 
               isSessionActive={isPlaying} 

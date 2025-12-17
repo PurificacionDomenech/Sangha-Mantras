@@ -9,10 +9,12 @@ interface NarrationControlsProps {
   volume: number;
   voices: SpeechSynthesisVoice[];
   selectedVoice: SpeechSynthesisVoice | null;
+  pauseBetweenPhrases: number;
   onSpeedChange: (value: number) => void;
   onPitchChange: (value: number) => void;
   onVolumeChange: (value: number) => void;
   onVoiceChange: (voiceURI: string) => void;
+  onPauseBetweenPhrasesChange: (value: number) => void;
 }
 
 export default function NarrationControls({
@@ -21,10 +23,12 @@ export default function NarrationControls({
   volume,
   voices,
   selectedVoice,
+  pauseBetweenPhrases,
   onSpeedChange,
   onPitchChange,
   onVolumeChange,
   onVoiceChange,
+  onPauseBetweenPhrasesChange,
 }: NarrationControlsProps) {
   const spanishVoices = voices.filter(v => v.lang.startsWith('es'));
   const voicesToShow = spanishVoices.length > 0 ? spanishVoices : voices;
@@ -57,6 +61,21 @@ export default function NarrationControls({
       )}
 
       <div className="space-y-2">
+        <div>
+          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+            <span>Pausa entre frases</span>
+            <span className="text-xs text-stone-500">{pauseBetweenPhrases}s (+2s en saltos de línea)</span>
+          </label>
+          <Slider
+            value={[pauseBetweenPhrases]}
+            onValueChange={([v]) => onPauseBetweenPhrasesChange(v)}
+            min={1}
+            max={10}
+            step={0.5}
+            className="mt-1"
+          />
+        </div>
+
         <div>
           <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
             <span>Velocidad</span>

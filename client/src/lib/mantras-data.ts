@@ -617,65 +617,59 @@ export const meditacionesGuiadas: MeditacionesGuiadas = {
         categoria: "Viaje Sensorial",
         duracion: "15 min",
         descripcion: "Explora las sensaciones del mundo físico y emocional con pausas guiadas.",
-        texto: `Respira...(7 seg)
-Inhala... siente el aire llenándote...(7 seg)
-Exhala... suelta todo...(10 seg)
-Otra vez... inhala... exhala...(7 seg)
-Suelta el cuerpo...(5 seg)
-suelta el nombre...(7 seg)
-suelta lo que crees saber...(7 seg)
-Solo queda espacio... quieto... abierto...
+        texto: `Respira.
+Inhala... siente el aire llenándote.
+Exhala... suelta todo.
+Otra vez... inhala... exhala.
+Suelta el cuerpo.
+Suelta el nombre.
+Suelta lo que crees saber.
+Solo queda espacio... quieto... abierto.
 
-(pausa 15 seg)
-No pienses...(5 seg)
-solo siente...(7 seg)
-Estás ahí... dentro de lo que llaman "realidad"...(5 seg)
-Pero no hay palabras... solo esta sensación...(5 seg)
+No pienses.
+Solo siente.
+Estás ahí... dentro de lo que llaman "realidad".
+Pero no hay palabras... solo esta sensación.
 Cierra todo... y déjate caer en el primero.
 
-[pausa 10 seg - metrónomo suave]
+La Sensación del Mundo Sólido.
+Sientes el suelo bajo ti... pesado... firme.
+El aire toca tu piel.
+Fresco.
+Real.
+Tus pies se hunden ligeramente.
+La tierra te sostiene.
+Escuchas el latido de tu corazón.
+Fuerte.
+Constante.
+Todo parece estable.
 
-La Sensación del Mundo Sólido(7 seg)
-Sientes el suelo bajo ti... pesado... firme...(5 seg)
-El aire toca tu piel...(5 seg)
-fresco...(3 seg)
-real...(3 seg)
-Tus pies se hunden ligeramente...(5 seg)
-la tierra te sostiene...(4 seg)
-Escuchas el latido de tu corazón...(7 seg)
-fuerte...(4 seg)
-constante...(4 seg)
-Todo parece estable...(5 seg)
+Tocas algo sólido.
+Se siente...
+Frío.
+Tuyo.
+Respira.
+Inhala esa certeza.
+Exhala cualquier duda.
+Eres parte de esto.
+Lo sientes.
+Lo vives.
 
-Tocas algo sólido...(3 seg)
-se siente...
-frío...(3 seg)
-tuyo...(3 seg)
-Respira...(4 seg)
-inhala esa certeza...(5 seg)
-exhala cualquier duda...(3 seg)
-Eres parte de esto...(3 seg)
-lo sientes...(3 seg)
-lo vives...
+El mundo se acerca.
+Se hace más tuyo.
+Sientes los colores.
+No como luz, sino como emoción dentro de ti.
 
-(pausa 8 seg - metrónomo)
+El sonido.
+Siente su vibración en tu pecho.
+Todo se construye en tu interior.
+Dentro.
 
-El mundo se acerca...(3 seg)
-se hace más tuyo...(4 seg)
-Sientes los colores...(5 seg)
-no como luz, sino como emoción dentro de ti...(7 seg)
-
-El sonido(3 seg)
-siente su vibración en tu pecho...(5 seg)
-Todo se construye en tu interior,(2 seg) dentro...(2 seg)
-
-(pausa 7 seg - metrónomo)
-
-Respira una última vez...(5 seg)
-Y cuando abras los ojos...(3 seg)
-verás el mundo de nuevo...(4 seg)
-pero ahora sabes...(3 seg)
-que todo vive en ti.`,
+Respira una última vez.
+Y cuando abras los ojos.
+Verás el mundo de nuevo.
+Pero ahora sabes.
+Que todo vive en ti.`,
       },
       {
         titulo: "Los 7 Niveles de la Realidad",
