@@ -1,7 +1,21 @@
-
-import { Volume2, Mic2 } from "lucide-react";
+import { Volume2, Mic2, Star, Trash2, Save } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useState } from "react";
+
+interface NarrationPreset {
+  id: string;
+  nombre: string;
+  speed: number;
+  pitch: number;
+  volume: number;
+  voiceURI: string;
+  pauseBetweenPhrases: number;
+  createdAt: number;
+}
 
 interface NarrationControlsProps {
   speed: number;
@@ -30,11 +44,167 @@ export default function NarrationControls({
   onVoiceChange,
   onPauseBetweenPhrasesChange,
 }: NarrationControlsProps) {
+  const { toast } = useToast();
+
+  const [presets, setPresets] = useState<NarrationPreset[]>(() => {
+    const saved = localStorage.getItem('narrationPresets');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [presetName, setPresetName] = useState('');
+  const [showSaveInput, setShowSaveInput] = useState(false);
+
+  useEffect(() => {
+    if (presets.length > 0) {
+      localStorage.setItem('narrationPresets', JSON.stringify(presets));
+    }
+  }, [presets]);
+
+  const savePreset = () => {
+    if (!presetName.trim()) {
+      toast({
+        title: "Nombre requerido",
+        description: "Por favor ingresa un nombre para tu favorito",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newPreset: NarrationPreset = {
+      id: Date.now().toString(),
+      nombre: presetName.trim(),
+      speed,
+      pitch,
+      volume,
+      voiceURI: selectedVoice?.voiceURI || '',
+      pauseBetweenPhrases,
+      createdAt: Date.now()
+    };
+
+    setPresets(prev => [...prev, newPreset]);
+    setPresetName('');
+    setShowSaveInput(false);
+
+    toast({
+      title: "Favorito guardado",
+      description: `"${newPreset.nombre}" se ha guardado correctamente`,
+    });
+  };
+
+  const loadPreset = (preset: NarrationPreset) => {
+    onSpeedChange(preset.speed);
+    onPitchChange(preset.pitch);
+    onVolumeChange(preset.volume);
+    if (preset.voiceURI) {
+      onVoiceChange(preset.voiceURI);
+    }
+    onPauseBetweenPhrasesChange(preset.pauseBetweenPhrases);
+
+    toast({
+      title: "Favorito cargado",
+      description: `"${preset.nombre}" activado`,
+    });
+  };
+
+  const deletePreset = (presetId: string) => {
+    setPresets(prev => prev.filter(p => p.id !== presetId));
+    toast({
+      title: "Favorito eliminado",
+      description: "El favorito se ha eliminado correctamente",
+    });
+  };
+
   const spanishVoices = voices.filter(v => v.lang.startsWith('es'));
   const voicesToShow = spanishVoices.length > 0 ? spanishVoices : voices;
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3">
+    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3" data-testid="narration-controls">
+      {/* Sección de Favoritos */}
+      {presets.length > 0 && (
+        <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
+          <div className="flex items-center gap-2 mb-2">
+            <Star className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+              Favoritos de Narración
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {presets.map((preset) => (
+              <div
+                key={preset.id}
+                className="flex items-center gap-2 bg-white dark:bg-stone-800 rounded px-2.5 py-2"
+              >
+                <Button
+                  onClick={() => loadPreset(preset)}
+                  variant="ghost"
+                  className="flex-1 justify-start h-auto p-0 text-xs text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 font-normal"
+                >
+                  {preset.nombre}
+                </Button>
+                <Button
+                  onClick={() => deletePreset(preset.id)}
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  title="Eliminar favorito"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Guardar nuevo favorito */}
+      <div>
+        {!showSaveInput ? (
+          <Button
+            onClick={() => setShowSaveInput(true)}
+            size="sm"
+            variant="outline"
+            className="w-full h-8 text-xs gap-2"
+          >
+            <Save className="w-3.5 h-3.5" />
+            Guardar como favorito
+          </Button>
+        ) : (
+          <div className="flex gap-1.5">
+            <Input
+              value={presetName}
+              onChange={(e) => setPresetName(e.target.value)}
+              placeholder="Nombre del favorito..."
+              className="h-8 text-xs"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') savePreset();
+                if (e.key === 'Escape') {
+                  setShowSaveInput(false);
+                  setPresetName('');
+                }
+              }}
+              autoFocus
+            />
+            <Button
+              onClick={savePreset}
+              size="sm"
+              className="h-8 px-3"
+            >
+              <Save className="w-3.5 h-3.5" />
+            </Button>
+            <Button
+              onClick={() => {
+                setShowSaveInput(false);
+                setPresetName('');
+              }}
+              size="sm"
+              variant="ghost"
+              className="h-8 px-3"
+            >
+              ✕
+            </Button>
+          </div>
+        )}
+      </div>
+
       <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">
         Controles de Narración
       </h3>

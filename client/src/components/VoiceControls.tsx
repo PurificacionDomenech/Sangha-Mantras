@@ -1,7 +1,23 @@
-import { Volume2, Mic, Music } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Volume2, Mic, Music, Save, Star, Trash2 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { culturas, culturasJudias, chantingStyles } from "@/lib/mantras-data";
+import { useToast } from "@/hooks/use-toast";
+
+interface VoicePreset {
+  id: string;
+  nombre: string;
+  speed: number;
+  pitch: number;
+  volume: number;
+  culture: string;
+  voiceURI: string;
+  chantingStyle?: string;
+  createdAt: number;
+}
 
 interface VoiceControlsProps {
   speed: number;
@@ -36,8 +52,80 @@ export default function VoiceControls({
   chantingStyle = 'normal',
   onChantingStyleChange,
 }: VoiceControlsProps) {
+  const { toast } = useToast();
   const culturasToUse = useJewishCultures ? culturasJudias : culturas;
   const currentStyle = chantingStyles.find(s => s.id === chantingStyle) || chantingStyles[0];
+
+  const [presets, setPresets] = useState<VoicePreset[]>(() => {
+    const saved = localStorage.getItem('voicePresets');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [presetName, setPresetName] = useState('');
+  const [showSaveInput, setShowSaveInput] = useState(false);
+
+  useEffect(() => {
+    if (presets.length > 0) {
+      localStorage.setItem('voicePresets', JSON.stringify(presets));
+    }
+  }, [presets]);
+
+  const savePreset = () => {
+    if (!presetName.trim()) {
+      toast({
+        title: "Nombre requerido",
+        description: "Por favor ingresa un nombre para tu favorito",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newPreset: VoicePreset = {
+      id: Date.now().toString(),
+      nombre: presetName.trim(),
+      speed,
+      pitch,
+      volume,
+      culture: selectedCulture,
+      voiceURI: selectedVoice?.voiceURI || '',
+      chantingStyle,
+      createdAt: Date.now()
+    };
+
+    setPresets(prev => [...prev, newPreset]);
+    setPresetName('');
+    setShowSaveInput(false);
+    
+    toast({
+      title: "Favorito guardado",
+      description: `"${newPreset.nombre}" se ha guardado correctamente`,
+    });
+  };
+
+  const loadPreset = (preset: VoicePreset) => {
+    onSpeedChange(preset.speed);
+    onPitchChange(preset.pitch);
+    onVolumeChange(preset.volume);
+    onCultureChange(preset.culture);
+    if (preset.voiceURI) {
+      onVoiceChange(preset.voiceURI);
+    }
+    if (preset.chantingStyle && onChantingStyleChange) {
+      onChantingStyleChange(preset.chantingStyle);
+    }
+
+    toast({
+      title: "Favorito cargado",
+      description: `"${preset.nombre}" activado`,
+    });
+  };
+
+  const deletePreset = (presetId: string) => {
+    setPresets(prev => prev.filter(p => p.id !== presetId));
+    toast({
+      title: "Favorito eliminado",
+      description: "El favorito se ha eliminado correctamente",
+    });
+  };
 
   const filteredVoices = voices.filter(v => {
     if (selectedCulture === 'hi-IN') return v.lang.startsWith('hi') || v.lang.startsWith('sa');
@@ -60,6 +148,93 @@ export default function VoiceControls({
 
   return (
     <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3 h-full flex flex-col" data-testid="voice-controls">
+      {/* Sección de Favoritos */}
+      {presets.length > 0 && (
+        <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
+          <div className="flex items-center gap-2 mb-2">
+            <Star className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+              Favoritos de Voz
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {presets.map((preset) => (
+              <div
+                key={preset.id}
+                className="flex items-center gap-2 bg-white dark:bg-stone-800 rounded px-2.5 py-2"
+              >
+                <Button
+                  onClick={() => loadPreset(preset)}
+                  variant="ghost"
+                  className="flex-1 justify-start h-auto p-0 text-xs text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 font-normal"
+                >
+                  {preset.nombre}
+                </Button>
+                <Button
+                  onClick={() => deletePreset(preset.id)}
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  title="Eliminar favorito"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Guardar nuevo favorito */}
+      <div>
+        {!showSaveInput ? (
+          <Button
+            onClick={() => setShowSaveInput(true)}
+            size="sm"
+            variant="outline"
+            className="w-full h-8 text-xs gap-2"
+          >
+            <Save className="w-3.5 h-3.5" />
+            Guardar como favorito
+          </Button>
+        ) : (
+          <div className="flex gap-1.5">
+            <Input
+              value={presetName}
+              onChange={(e) => setPresetName(e.target.value)}
+              placeholder="Nombre del favorito..."
+              className="h-8 text-xs"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') savePreset();
+                if (e.key === 'Escape') {
+                  setShowSaveInput(false);
+                  setPresetName('');
+                }
+              }}
+              autoFocus
+            />
+            <Button
+              onClick={savePreset}
+              size="sm"
+              className="h-8 px-3"
+            >
+              <Save className="w-3.5 h-3.5" />
+            </Button>
+            <Button
+              onClick={() => {
+                setShowSaveInput(false);
+                setPresetName('');
+              }}
+              size="sm"
+              variant="ghost"
+              className="h-8 px-3"
+            >
+              ✕
+            </Button>
+          </div>
+        )}
+      </div>
+
       <div>
         <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center gap-2">
           <Mic className="w-4 h-4" />
