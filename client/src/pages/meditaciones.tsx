@@ -159,7 +159,7 @@ export default function Meditaciones() {
     // Obtener la meditación actual dentro del callback
     const meditacion = isCustomMeditation 
       ? meditacionesPersonalizadas[selectedCustomIndex]
-      : currentCategory.meditaciones[selectedMeditacionIndex];
+      : meditacionesGuiadas[selectedCategory].meditaciones[selectedMeditacionIndex];
 
     // Validación robusta
     if (!meditacion) {
@@ -247,7 +247,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [isCustomMeditation, meditacionesPersonalizadas, selectedCustomIndex, currentCategory, selectedMeditacionIndex, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
+  }, [isCustomMeditation, meditacionesPersonalizadas, selectedCustomIndex, selectedCategory, selectedMeditacionIndex, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
