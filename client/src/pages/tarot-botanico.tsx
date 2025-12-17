@@ -223,7 +223,6 @@ export default function TarotBotanico() {
   const [selectedSpread, setSelectedSpread] = useState<keyof typeof spreads | null>(null);
   const [drawnCards, setDrawnCards] = useState<TarotCard[]>([]);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
-  const [showInterpretation, setShowInterpretation] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -249,7 +248,6 @@ export default function TarotBotanico() {
     setSelectedSpread(spreadType);
     setDrawnCards(drawn);
     setFlippedCards(new Set());
-    setShowInterpretation(false);
   };
 
   const toggleFlip = (index: number) => {
@@ -287,12 +285,9 @@ export default function TarotBotanico() {
   const readCardAndInterpretation = () => {
     if (!selectedSpread) return;
     
-    const flippedCardsArray = Array.from(flippedCards).sort((a, b) => a - b);
-    
     let fullText = "Lectura del Tarot Botánico. ";
     
-    flippedCardsArray.forEach((index) => {
-      const card = drawnCards[index];
+    drawnCards.forEach((card, index) => {
       const position = spreads[selectedSpread].positions[index];
       
       fullText += `${position}: ${card.name}, también conocida como ${card.arcana}. `;
@@ -317,7 +312,6 @@ export default function TarotBotanico() {
     setSelectedSpread(null);
     setDrawnCards([]);
     setFlippedCards(new Set());
-    setShowInterpretation(false);
   };
 
   return (
@@ -462,19 +456,7 @@ export default function TarotBotanico() {
                 ))}
               </div>
 
-              {flippedCards.size > 0 && (
-                <div className="text-center mb-6">
-                  <Button
-                    onClick={() => setShowInterpretation(!showInterpretation)}
-                    className="glass-effect gold-text border-2 hover:shadow-[0_0_15px_rgba(255,215,0,0.4)] px-6 py-4 text-base uppercase tracking-wider"
-                  >
-                    <BookOpen className="w-5 h-5 mr-2" />
-                    {showInterpretation ? 'Ocultar Interpretación' : 'Ver Interpretación Completa'}
-                  </Button>
-                </div>
-              )}
-
-              {showInterpretation && flippedCards.size > 0 && (
+              {drawnCards.length > 0 && (
                 <div className="glass-effect rounded-lg p-6 max-w-4xl mx-auto mb-6 animate-fadeIn">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-2xl font-semibold gold-text text-center flex-1" style={{ fontFamily: "'Cinzel', serif" }}>
@@ -503,13 +485,11 @@ export default function TarotBotanico() {
                     </Button>
                   </div>
                   {drawnCards.map((card, index) => (
-                    flippedCards.has(index) && (
-                      <p key={index} className="text-[#ddd] mb-4 leading-relaxed">
-                        <strong className="gold-text">{spreads[selectedSpread].positions[index]}: {card.name}</strong>
-                        <br />
-                        {card.fullMeaning}
-                      </p>
-                    )
+                    <p key={index} className="text-[#ddd] mb-4 leading-relaxed">
+                      <strong className="gold-text">{spreads[selectedSpread].positions[index]}: {card.name}</strong>
+                      <br />
+                      {card.fullMeaning}
+                    </p>
                   ))}
                 </div>
               )}
