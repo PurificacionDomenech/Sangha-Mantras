@@ -640,7 +640,7 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
 
   // Exponer métodos para control externo
   useImperativeHandle(ref, () => ({
-    activateSound: (soundId: string, volume: number = 0.2) => {
+    activateSound: (soundId: string, volume: number = 0.08) => {
       setSounds(prev => {
         const newState = { ...prev, [soundId]: { active: true, volume } };
         

@@ -123,11 +123,11 @@ export default function Meditaciones() {
 
     const cleanedText = cleanText(currentMeditacion.texto);
     
-    // Detectar y activar sonidos mencionados en el texto (volumen bajo: 0.15)
+    // Detectar y activar sonidos mencionados en el texto (volumen muy bajo: 0.08)
     const soundsToActivate = detectSoundsInText(cleanedText);
     if (soundsToActivate.length > 0 && ambientSoundsRef.current) {
       soundsToActivate.forEach(soundId => {
-        ambientSoundsRef.current?.activateSound(soundId, 0.15);
+        ambientSoundsRef.current?.activateSound(soundId, 0.08);
       });
       setAutoActivatedSounds(soundsToActivate);
       
@@ -137,7 +137,7 @@ export default function Meditaciones() {
       }).join(', ');
       
       toast({
-        title: "Sonidos de fondo activados",
+        title: "Sonidos de fondo activados (muy suaves)",
         description: soundNames,
       });
     }
