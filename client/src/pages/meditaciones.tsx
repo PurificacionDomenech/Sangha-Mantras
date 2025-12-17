@@ -9,6 +9,20 @@ import { Button } from "@/components/ui/button";
 import { meditacionesGuiadas, estilosNarracion } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
+// Mapeo de palabras clave a sonidos ambientales
+const soundKeywords: Record<string, string[]> = {
+  'water': ['agua', 'río', 'arroyo', 'lluvia', 'gotas', 'cascada'],
+  'ocean': ['océano', 'mar', 'olas', 'playa'],
+  'nature': ['naturaleza', 'bosque', 'árboles', 'hojas', 'viento suave'],
+  'bells': ['campana', 'campanas', 'tañido'],
+  'bowls': ['cuenco', 'cuencos tibetanos', 'bol cantante'],
+  'wind': ['viento', 'brisa'],
+  'rain': ['lluvia', 'lloviendo'],
+  'birds': ['pájaros', 'aves', 'canto de pájaros'],
+  'fire': ['fuego', 'hoguera', 'llamas'],
+  'gong': ['gong'],
+};
+
 export default function Meditaciones() {
   const { toast } = useToast();
   const [selectedCategory] = useState("viajes");
@@ -21,9 +35,11 @@ export default function Meditaciones() {
   const [volume, setVolume] = useState(0.9);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [autoActivatedSounds, setAutoActivatedSounds] = useState<string[]>([]);
 
   const isPlayingRef = useRef(false);
   const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const ambientSoundsRef = useRef<{ activateSound: (soundId: string) => void; deactivateSound: (soundId: string) => void } | null>(null);
 
   const currentCategory = meditacionesGuiadas[selectedCategory];
   const currentMeditacion = currentCategory.meditaciones[selectedMeditacionIndex];
@@ -72,12 +88,48 @@ export default function Meditaciones() {
     setIsPaused(false);
     setProgress(0);
     currentUtteranceRef.current = null;
+    
+    // Desactivar sonidos que fueron auto-activados
+    if (autoActivatedSounds.length > 0 && ambientSoundsRef.current) {
+      autoActivatedSounds.forEach(soundId => {
+        ambientSoundsRef.current?.deactivateSound(soundId);
+      });
+      setAutoActivatedSounds([]);
+    }
+  }, [autoActivatedSounds]);
+
+  // Detectar sonidos mencionados en el texto
+  const detectSoundsInText = useCallback((text: string): string[] => {
+    const lowerText = text.toLowerCase();
+    const detectedSounds: string[] = [];
+
+    Object.entries(soundKeywords).forEach(([soundId, keywords]) => {
+      if (keywords.some(keyword => lowerText.includes(keyword))) {
+        detectedSounds.push(soundId);
+      }
+    });
+
+    return detectedSounds;
   }, []);
 
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
 
     const cleanedText = cleanText(currentMeditacion.texto);
+    
+    // Detectar y activar sonidos mencionados en el texto
+    const soundsToActivate = detectSoundsInText(cleanedText);
+    if (soundsToActivate.length > 0 && ambientSoundsRef.current) {
+      soundsToActivate.forEach(soundId => {
+        ambientSoundsRef.current?.activateSound(soundId);
+      });
+      setAutoActivatedSounds(soundsToActivate);
+      
+      toast({
+        title: "Sonidos ambientales activados",
+        description: `Se han activado automáticamente: ${soundsToActivate.join(', ')}`,
+      });
+    }
     
     // Dividir el texto en segmentos (por oraciones)
     const segments = cleanedText
@@ -124,7 +176,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast]);
+  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, detectSoundsInText]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
@@ -254,7 +306,10 @@ export default function Meditaciones() {
               onVolumeChange={handleVolumeChange}
               onVoiceChange={handleVoiceChange}
             />
-            <AmbientSounds isSessionActive={isPlaying} />
+            <AmbientSounds 
+              isSessionActive={isPlaying} 
+              ref={ambientSoundsRef}
+            />
           </div>
         </div>
       </div>

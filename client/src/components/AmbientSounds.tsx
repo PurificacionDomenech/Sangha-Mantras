@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from "react";
 import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX, Flame } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
@@ -505,7 +505,12 @@ class OscillatorSound {
   }
 }
 
-export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
+export interface AmbientSoundsRef {
+  activateSound: (soundId: string) => void;
+  deactivateSound: (soundId: string) => void;
+}
+
+const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSessionActive }, ref) => {
   const { toast } = useToast();
   const [sounds, setSounds] = useState<Record<string, SoundState>>(() => {
     const initialState: Record<string, SoundState> = {};
@@ -631,6 +636,29 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
       description: "Todos los sonidos ambientales han sido desactivados",
     });
   }, [toast]);
+
+  // Exponer métodos para control externo
+  useImperativeHandle(ref, () => ({
+    activateSound: (soundId: string) => {
+      setSounds(prev => {
+        const newState = { ...prev, [soundId]: { ...prev[soundId], active: true } };
+        
+        if (!soundRefs.current[soundId]) {
+          soundRefs.current[soundId] = new OscillatorSound();
+        }
+        soundRefs.current[soundId].start(soundId, newState[soundId].volume);
+        
+        return newState;
+      });
+    },
+    deactivateSound: (soundId: string) => {
+      soundRefs.current[soundId]?.stop();
+      setSounds(prev => ({
+        ...prev,
+        [soundId]: { ...prev[soundId], active: false }
+      }));
+    }
+  }), []);
 
   const renderSound = (sound: AmbientSound) => {
     const IconComponent = iconMap[sound.icon];
@@ -837,4 +865,8 @@ export default function AmbientSounds({ isSessionActive }: AmbientSoundsProps) {
       </Accordion>
     </div>
   );
-}
+});
+
+AmbientSounds.displayName = 'AmbientSounds';
+
+export default AmbientSounds;
