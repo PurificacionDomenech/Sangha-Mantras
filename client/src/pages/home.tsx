@@ -234,7 +234,9 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-800">
+    <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'url(/bg-mantras.jpg)' }}>
+      <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60"></div>
+      <div className="relative z-10">
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
@@ -297,6 +299,7 @@ export default function Home() {
             <AmbientSounds isSessionActive={isPlaying} />
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
