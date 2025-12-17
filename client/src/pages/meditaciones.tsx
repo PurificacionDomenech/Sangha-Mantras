@@ -19,7 +19,6 @@ export default function Meditaciones() {
   const [speed, setSpeed] = useState(0.75);
   const [pitch, setPitch] = useState(1.0);
   const [volume, setVolume] = useState(0.9);
-  const [narrationStyle, setNarrationStyle] = useState("normal");
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
 
@@ -81,19 +80,11 @@ export default function Meditaciones() {
     const cleanedText = cleanText(currentMeditacion.texto);
     const utterance = new SpeechSynthesisUtterance(cleanedText);
 
-    // Aplicar estilo de narración
-    const currentStyle = estilosNarracion.find(s => s.id === narrationStyle);
-    if (currentStyle) {
-      utterance.rate = speed * currentStyle.speedMultiplier;
-      utterance.pitch = pitch * currentStyle.pitchMultiplier;
-      utterance.volume = volume * currentStyle.volumeMultiplier;
-    } else {
-      utterance.rate = speed;
-      utterance.pitch = pitch;
-      utterance.volume = volume;
-    }
-
+    utterance.rate = speed;
+    utterance.pitch = pitch;
+    utterance.volume = volume;
     utterance.lang = 'es-ES';
+    
     if (selectedVoice) {
       utterance.voice = selectedVoice;
     }
@@ -112,7 +103,7 @@ export default function Meditaciones() {
 
     currentUtteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
-  }, [currentMeditacion.texto, speed, pitch, volume, narrationStyle, selectedVoice, stopMeditation, toast]);
+  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
@@ -144,8 +135,29 @@ export default function Meditaciones() {
     }
   }, [voices]);
 
-  const handleNarrationStyleChange = useCallback((style: string) => {
-    setNarrationStyle(style);
+  // Aplicar cambios en tiempo real
+  useEffect(() => {
+    if (currentUtteranceRef.current && isPlaying) {
+      // Cancelar y reiniciar con nuevos parámetros
+      const wasPlaying = !isPaused;
+      window.speechSynthesis.cancel();
+      
+      if (wasPlaying) {
+        speakMeditation();
+      }
+    }
+  }, [speed, pitch, volume]);
+
+  const handleSpeedChange = useCallback((value: number) => {
+    setSpeed(value);
+  }, []);
+
+  const handlePitchChange = useCallback((value: number) => {
+    setPitch(value);
+  }, []);
+
+  const handleVolumeChange = useCallback((value: number) => {
+    setVolume(value);
   }, []);
 
   return (
@@ -226,12 +238,10 @@ export default function Meditaciones() {
               volume={volume}
               voices={voices}
               selectedVoice={selectedVoice}
-              narrationStyle={narrationStyle}
-              onSpeedChange={setSpeed}
-              onPitchChange={setPitch}
-              onVolumeChange={setVolume}
+              onSpeedChange={handleSpeedChange}
+              onPitchChange={handlePitchChange}
+              onVolumeChange={handleVolumeChange}
               onVoiceChange={handleVoiceChange}
-              onNarrationStyleChange={handleNarrationStyleChange}
             />
             <AmbientSounds isSessionActive={isPlaying} />
           </div>
