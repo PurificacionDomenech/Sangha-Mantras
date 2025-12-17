@@ -61,20 +61,18 @@ export default function CardGame({ nombres, onClose, categoria }: CardGameProps)
         ༀ
       </div>
 
-      {/* Botón de cerrar en la esquina superior derecha */}
-      <Button
-        onClick={onClose}
-        className="absolute top-6 right-6 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)]"
-        size="icon"
-      >
-        <X className="w-5 h-5" />
-      </Button>
-
       {!selectedCard ? (
         <div className="text-center">
-          <h3 className="text-xl gold-text uppercase tracking-[0.3em] mb-12 opacity-70">
+          <h3 className="text-xl gold-text uppercase tracking-[0.3em] mb-4 opacity-70">
             SHEM HAMEPHORASH
           </h3>
+          <Button
+            onClick={onClose}
+            className="mb-8 px-6 py-2 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)] uppercase tracking-[0.2em] transition-all"
+          >
+            <X className="w-4 h-4 mr-2" />
+            Volver
+          </Button>
           <div className="relative w-[300px] h-[200px]" style={{ perspective: "1000px" }}>
             {shuffledDeck.slice(0, totalCards).map((nombre, index) => {
               const rotation = baseAngle + (index * angleStep);
@@ -91,12 +89,6 @@ export default function CardGame({ nombres, onClose, categoria }: CardGameProps)
               );
             })}
           </div>
-          <button
-            onClick={onClose}
-            className="mt-12 px-6 py-2 glass-effect text-[#bf953f] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.8)] hover:bg-[rgba(191,149,63,0.1)] uppercase tracking-[0.2em] transition-all"
-          >
-            Volver
-          </button>
         </div>
       ) : (
         <div className="text-center" style={{ perspective: "1000px" }}>
