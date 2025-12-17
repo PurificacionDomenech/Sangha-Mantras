@@ -157,20 +157,25 @@ export default function Meditaciones() {
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
     
+    // Obtener la meditación actual dentro del callback
+    const meditacion = isCustomMeditation 
+      ? meditacionesPersonalizadas[selectedCustomIndex]
+      : currentCategory.meditaciones[selectedMeditacionIndex];
+    
     // Validación robusta
-    if (!currentMeditacion) {
+    if (!meditacion) {
       console.warn('No hay meditación disponible');
       stopMeditation();
       return;
     }
     
-    if (!currentMeditacion.texto || typeof currentMeditacion.texto !== 'string') {
+    if (!meditacion.texto || typeof meditacion.texto !== 'string') {
       console.warn('No hay texto disponible en la meditación');
       stopMeditation();
       return;
     }
 
-    const cleanedText = cleanText(currentMeditacion.texto);
+    const cleanedText = cleanText(meditacion.texto);
     
     // Dividir el texto por saltos de línea y oraciones
     const lines = cleanedText.split('\n');
@@ -243,7 +248,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [currentMeditacion, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
+  }, [isCustomMeditation, meditacionesPersonalizadas, selectedCustomIndex, currentCategory, selectedMeditacionIndex, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
