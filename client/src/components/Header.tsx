@@ -48,6 +48,13 @@ export default function Header() {
             }`}>
               Meditaciones
             </Link>
+            <Link href="/tarot-botanico" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
+              location === '/tarot-botanico'
+                ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
+            }`}>
+              Tarot Botánico
+            </Link>
           </nav>
 
           <Dialog open={open} onOpenChange={setOpen}>

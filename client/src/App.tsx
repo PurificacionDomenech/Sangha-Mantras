@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import NombresSagrados from "@/pages/nombres-sagrados";
 import Meditaciones from "@/pages/meditaciones";
+import TarotBotanico from "@/pages/tarot-botanico";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/nombres-sagrados" component={NombresSagrados} />
       <Route path="/meditaciones" component={Meditaciones} />
+      <Route path="/tarot-botanico" component={TarotBotanico} />
       <Route component={NotFound} />
     </Switch>
   );
