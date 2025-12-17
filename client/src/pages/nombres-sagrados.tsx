@@ -332,23 +332,23 @@ export default function NombresSagrados() {
                 onPlayOnce={playOnce}
                 sessionFinished={sessionFinished}
               />
-              <VoiceControls
-                speed={speed}
-                pitch={pitch}
-                volume={volume}
-                selectedCulture={selectedCulture}
-                voices={voices}
-                selectedVoice={selectedVoice}
-                onSpeedChange={setSpeed}
-                onPitchChange={setPitch}
-                onVolumeChange={setVolume}
-                onCultureChange={handleCultureChange}
-                onVoiceChange={handleVoiceChange}
-                useJewishCultures={true}
-              />
+              <AmbientSounds isSessionActive={isPlaying} />
             </div>
 
-            <AmbientSounds isSessionActive={isPlaying} />
+            <VoiceControls
+              speed={speed}
+              pitch={pitch}
+              volume={volume}
+              selectedCulture={selectedCulture}
+              voices={voices}
+              selectedVoice={selectedVoice}
+              onSpeedChange={setSpeed}
+              onPitchChange={setPitch}
+              onVolumeChange={setVolume}
+              onCultureChange={handleCultureChange}
+              onVoiceChange={handleVoiceChange}
+              useJewishCultures={true}
+            />
           </div>
         </div>
       </div>
