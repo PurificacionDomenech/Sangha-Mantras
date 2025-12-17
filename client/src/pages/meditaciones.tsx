@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Play, Pause, Square, Plus, Edit, Trash2, Save, X } from "lucide-react";
 import Header from "@/components/Header";
@@ -30,7 +29,7 @@ export default function Meditaciones() {
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [autoActivatedSounds, setAutoActivatedSounds] = useState<string[]>([]);
   const [pauseBetweenPhrases, setPauseBetweenPhrases] = useState(3); // Pausa en segundos entre frases
-  
+
   // Estados para meditaciones personalizadas
   const [meditacionesPersonalizadas, setMeditacionesPersonalizadas] = useState<MeditacionPersonalizada[]>([]);
   const [showCustomDialog, setShowCustomDialog] = useState(false);
@@ -49,7 +48,7 @@ export default function Meditaciones() {
   const ambientSoundsRef = useRef<{ activateSound: (soundId: string) => void; deactivateSound: (soundId: string) => void } | null>(null);
 
   const currentCategory = meditacionesGuiadas[selectedCategory];
-  
+
   // Validación robusta para evitar undefined
   let currentMeditacion;
   if (isCustomMeditation) {
@@ -142,7 +141,7 @@ export default function Meditaciones() {
     setIsPaused(false);
     setProgress(0);
     currentUtteranceRef.current = null;
-    
+
     // Desactivar sonidos que fueron auto-activados
     if (autoActivatedSounds.length > 0 && ambientSoundsRef.current) {
       autoActivatedSounds.forEach(soundId => {
@@ -152,23 +151,23 @@ export default function Meditaciones() {
     }
   }, [autoActivatedSounds]);
 
-  
+
 
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
-    
+
     // Obtener la meditación actual dentro del callback
     const meditacion = isCustomMeditation 
       ? meditacionesPersonalizadas[selectedCustomIndex]
       : currentCategory.meditaciones[selectedMeditacionIndex];
-    
+
     // Validación robusta
     if (!meditacion) {
       console.warn('No hay meditación disponible');
       stopMeditation();
       return;
     }
-    
+
     if (!meditacion.texto || typeof meditacion.texto !== 'string') {
       console.warn('No hay texto disponible en la meditación');
       stopMeditation();
@@ -176,29 +175,29 @@ export default function Meditaciones() {
     }
 
     const cleanedText = cleanText(meditacion.texto);
-    
+
     // Dividir el texto por saltos de línea y oraciones
     const lines = cleanedText.split('\n');
     const segments: Array<{ text: string; hasLineBreakAfter: boolean }> = [];
-    
+
     lines.forEach((line, lineIndex) => {
       const trimmedLine = line.trim();
       if (trimmedLine.length === 0) return;
-      
+
       // Dividir cada línea en oraciones
       const sentences = trimmedLine.split(/(?<=[.!?…])\s+/).filter(s => s.trim().length > 0);
-      
+
       sentences.forEach((sentence, sentIndex) => {
         const isLastSentenceInLine = sentIndex === sentences.length - 1;
         const hasLineBreakAfter = isLastSentenceInLine && lineIndex < lines.length - 1;
-        
+
         segments.push({
           text: sentence.trim(),
           hasLineBreakAfter
         });
       });
     });
-    
+
     let currentSegmentIndex = 0;
 
     const speakNextSegment = async () => {
@@ -215,13 +214,13 @@ export default function Meditaciones() {
 
       const segment = segments[currentSegmentIndex];
       const utterance = new SpeechSynthesisUtterance(segment.text);
-      
+
       // Aplicar parámetros ACTUALES
       utterance.rate = speed;
       utterance.pitch = pitch;
       utterance.volume = volume;
       utterance.lang = 'es-ES';
-      
+
       if (selectedVoice) {
         utterance.voice = selectedVoice;
       }
@@ -231,10 +230,10 @@ export default function Meditaciones() {
         const pauseDuration = segment.hasLineBreakAfter 
           ? (pauseBetweenPhrases + 2) * 1000 
           : pauseBetweenPhrases * 1000;
-        
+
         // Esperar la pausa antes de continuar
         await new Promise(resolve => setTimeout(resolve, pauseDuration));
-        
+
         currentSegmentIndex++;
         speakNextSegment();
       };
@@ -346,20 +345,20 @@ export default function Meditaciones() {
 
   const deleteCustomMeditation = useCallback((id: string) => {
     const medToDelete = meditacionesPersonalizadas.find(m => m.id === id);
-    
+
     // Si estamos reproduciendo la que se borra, detener y volver a predefinidas
     if (isCustomMeditation && meditacionesPersonalizadas[selectedCustomIndex]?.id === id) {
       stopMeditation();
       setIsCustomMeditation(false);
       setSelectedMeditacionIndex(0);
     }
-    
+
     setMeditacionesPersonalizadas(prev => {
       const newMeds = prev.filter(m => m.id !== id);
       localStorage.setItem('meditacionesPersonalizadas', JSON.stringify(newMeds));
       return newMeds;
     });
-    
+
     toast({
       title: "Meditación eliminada",
       description: `"${medToDelete?.titulo}" se ha eliminado correctamente`
@@ -469,13 +468,13 @@ export default function Meditaciones() {
                   Crear Mi Propia Meditación
                 </Button>
               </div>
-              
+
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
                   Mis Meditaciones Guardadas
                 </h4>
               </div>
-              
+
               {meditacionesPersonalizadas.length === 0 ? (
                 <div className="text-center py-6 bg-white/50 dark:bg-stone-800/50 rounded-lg">
                   <p className="text-xs text-stone-500 dark:text-stone-400">
@@ -565,7 +564,7 @@ export default function Meditaciones() {
               </p>
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4 py-4">
             <div>
               <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
