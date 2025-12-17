@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from "react";
 import { Droplets, TreePine, Bell, Wind, CloudRain, Volume2, Circle, Disc3, Star, Save, Trash2, VolumeX, Flame } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -586,7 +585,7 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
     setPresets(prev => [...prev, newPreset]);
     setPresetName('');
     setShowSaveInput(false);
-    
+
     toast({
       title: "Favorito guardado",
       description: `"${newPreset.nombre}" se ha guardado correctamente`,
@@ -627,7 +626,7 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
 
   const stopAllSounds = useCallback(() => {
     Object.values(soundRefs.current).forEach(s => s.stop());
-    
+
     setSounds(prev => {
       const newState = { ...prev };
       Object.keys(newState).forEach(soundId => {
@@ -647,12 +646,12 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
     activateSound: (soundId: string, volume: number = 0.08) => {
       setSounds(prev => {
         const newState = { ...prev, [soundId]: { active: true, volume } };
-        
+
         if (!soundRefs.current[soundId]) {
           soundRefs.current[soundId] = new OscillatorSound();
         }
         soundRefs.current[soundId].start(soundId, volume);
-        
+
         return newState;
       });
     },
@@ -677,7 +676,7 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
   const renderSound = (sound: AmbientSound) => {
     const IconComponent = iconMap[sound.icon];
     const soundState = sounds[sound.id];
-    
+
     if (!soundState) return null;
 
     return (
@@ -697,7 +696,7 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
             data-testid={`ambient-toggle-${sound.id}`}
           />
         </div>
-        
+
         {soundState.active && (
           <div className="px-3">
             <Slider
@@ -719,26 +718,11 @@ const AmbientSounds = forwardRef<AmbientSoundsRef, AmbientSoundsProps>(({ isSess
   const rhythmSounds = ambientSounds.filter(s => s.category === 'rhythm');
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-4" data-testid="ambient-sounds">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 flex items-center gap-2">
-          <Volume2 className="w-4 h-4" />
-          Sonidos Ambientales
-        </h3>
-        {Object.values(sounds).some(s => s.active) && (
-          <Button
-            onClick={stopAllSounds}
-            size="sm"
-            variant="ghost"
-            className="h-7 px-2 text-xs gap-1.5"
-            title="Detener todos los sonidos"
-          >
-            <VolumeX className="w-3.5 h-3.5" />
-            Detener todos
-          </Button>
-        )}
-      </div>
+    <div className="glass-effect rounded-lg p-4">
+      <h3 className="text-sm font-semibold gold-text mb-3 flex items-center gap-2 uppercase tracking-wider">
+        <Volume2 className="w-4 h-4" />
+        Sonidos Ambientales
+      </h3>
 
       <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">
         Puedes activar los sonidos solos o junto con los mantras

@@ -1,4 +1,4 @@
-import { Volume2, Mic2, Star, Trash2, Save } from "lucide-react";
+import { Volume2, Mic2, Star, Trash2, Save, Settings } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -121,13 +121,18 @@ export default function NarrationControls({
   const voicesToShow = spanishVoices.length > 0 ? spanishVoices : voices;
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3" data-testid="narration-controls">
+    <div className="glass-effect rounded-lg p-4">
+      <h3 className="text-sm font-semibold gold-text mb-3 flex items-center gap-2 uppercase tracking-wider">
+        <Settings className="w-4 h-4" />
+        Control de Narración
+      </h3>
+
       {/* Sección de Favoritos */}
       {presets.length > 0 && (
         <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
           <div className="flex items-center gap-2 mb-2">
             <Star className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+            <span className="text-xs font-medium text-amber-700 dark:text-amber-400 uppercase tracking-wider">
               Favoritos de Narración
             </span>
           </div>
@@ -209,13 +214,9 @@ export default function NarrationControls({
         )}
       </div>
 
-      <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">
-        Controles de Narración
-      </h3>
-
       {voicesToShow.length > 0 && (
         <div>
-          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1.5">
+          <label className="text-xs font-medium text-[#aaa] mb-1.5 flex items-center gap-1.5 uppercase tracking-wide">
             <Mic2 className="w-3.5 h-3.5" />
             Voz del Narrador
           </label>
@@ -236,7 +237,7 @@ export default function NarrationControls({
 
       <div className="space-y-2">
         <div>
-          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+          <label className="text-xs font-medium text-[#aaa] flex items-center justify-between uppercase tracking-wide">
             <span>Pausa entre frases</span>
             <span className="text-xs text-stone-500">{pauseBetweenPhrases}s (+2s en saltos de línea)</span>
           </label>
@@ -251,7 +252,7 @@ export default function NarrationControls({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+          <label className="text-xs font-medium text-[#aaa] flex items-center justify-between uppercase tracking-wide">
             <span>Velocidad</span>
             <span className="text-xs text-stone-500">{speed.toFixed(2)}x</span>
           </label>
@@ -266,7 +267,7 @@ export default function NarrationControls({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+          <label className="text-xs font-medium text-[#aaa] flex items-center justify-between uppercase tracking-wide">
             <span>Tono</span>
             <span className="text-xs text-stone-500">{pitch.toFixed(2)}</span>
           </label>
@@ -281,7 +282,7 @@ export default function NarrationControls({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between gap-2">
+          <label className="text-xs font-medium text-[#aaa] flex items-center justify-between gap-2 uppercase tracking-wide">
             <span className="flex items-center gap-1.5">
               <Volume2 className="w-3.5 h-3.5" />
               Volumen

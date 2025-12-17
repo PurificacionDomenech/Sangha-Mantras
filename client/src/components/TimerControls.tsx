@@ -1,4 +1,4 @@
-import { Clock, Play, Pause, Volume2 } from "lucide-react";
+import { Clock, Play, Pause, Volume2, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
@@ -28,14 +28,15 @@ export default function TimerControls({
   sessionFinished,
 }: TimerControlsProps) {
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-2" data-testid="timer-controls">
+    <div className="glass-effect rounded-lg p-4">
+      <h3 className="text-sm font-semibold gold-text mb-3 flex items-center gap-2 uppercase tracking-wider">
+        <Clock className="w-4 h-4" />
+        Configuración de Sesión
+      </h3>
+
       <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-1.5 flex items-center justify-between gap-2">
-          <span className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            Duración
-          </span>
-          <span className="text-xs text-stone-500">{durationMinutes} min</span>
+        <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
+          Duración: {durationMinutes} min
         </label>
         <Slider
           value={[durationMinutes]}
@@ -50,11 +51,11 @@ export default function TimerControls({
       </div>
 
       {timeRemaining > 0 && (
-        <div className="text-center py-1.5">
-          <div className="text-2xl font-light text-amber-800 dark:text-amber-300 font-mono" data-testid="time-display">
+        <div className="text-center py-2 bg-[rgba(191,149,63,0.1)] rounded-lg border border-[rgba(255,215,0,0.2)]">
+          <div className="text-xs text-[#aaa] mb-1 uppercase tracking-wide">Tiempo restante</div>
+          <div className="text-2xl font-bold gold-text">
             {formatTime(timeRemaining)}
           </div>
-          <div className="text-xs text-stone-500">restante</div>
         </div>
       )}
 
@@ -72,34 +73,32 @@ export default function TimerControls({
       <div className="space-y-1.5 pt-1">
         <Button
           onClick={onToggleSession}
-          className="w-full text-sm"
-          size="sm"
-          variant={isPlaying ? "destructive" : "default"}
+          className="w-full glass-effect gold-text hover:shadow-[0_0_15px_rgba(255,215,0,0.4)] uppercase tracking-wider border-2"
+          size="lg"
           data-testid="toggle-session-button"
         >
           {isPlaying ? (
             <>
-              <Pause className="w-4 h-4 mr-2" />
-              DETENER
+              <Square className="w-4 h-4 mr-2" />
+              Detener
             </>
           ) : (
             <>
               <Play className="w-4 h-4 mr-2" />
-              INICIAR
+              Iniciar Sesión
             </>
           )}
         </Button>
 
         <Button
           onClick={onPlayOnce}
-          variant="outline"
-          className="w-full text-sm"
+          className="w-full bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)] uppercase tracking-wider"
           size="sm"
           disabled={isPlaying}
           data-testid="play-once-button"
         >
           <Volume2 className="w-4 h-4 mr-2" />
-          ESCUCHAR
+          Reproducir una vez
         </Button>
       </div>
     </div>

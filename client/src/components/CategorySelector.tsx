@@ -8,19 +8,20 @@ interface CategorySelectorProps {
 export default function CategorySelector({ selectedCategory, onSelectCategory }: CategorySelectorProps) {
   return (
     <div className="mb-8" data-testid="category-selector">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {Object.keys(mantras).map((cat) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+        {Object.entries(mantras).map(([key, categoria]) => (
           <button
-            key={cat}
-            onClick={() => onSelectCategory(cat)}
-            data-testid={`category-${cat}`}
-            className={`py-4 px-4 rounded-lg font-light tracking-wide transition-all border ${
-              selectedCategory === cat
-                ? 'bg-white dark:bg-stone-800 shadow-lg border-amber-300 dark:border-amber-600 text-amber-900 dark:text-amber-200'
-                : 'bg-white/50 dark:bg-stone-800/50 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:border-amber-200 dark:hover:border-amber-700'
+            key={key}
+            onClick={() => onSelectCategory(key)}
+            className={`py-3 px-3 rounded-lg transition-all text-center uppercase tracking-wider ${
+              selectedCategory === key
+                ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}
           >
-            {mantras[cat].nombre}
+            <div className="text-xs font-medium">
+              {categoria.nombre}
+            </div>
           </button>
         ))}
       </div>

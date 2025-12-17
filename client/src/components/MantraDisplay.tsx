@@ -9,23 +9,28 @@ interface MantraDisplayProps {
 
 export default function MantraDisplay({ mantra, categoryColor, isPlaying, repetitions }: MantraDisplayProps) {
   return (
-    <div 
-      className={`bg-gradient-to-br ${categoryColor} rounded-lg p-3 shadow-md border border-amber-200 dark:border-amber-700`}
+    <div
+      className="glass-effect rounded-lg p-6 shadow-[0_0_20px_rgba(255,215,0,0.3)]"
       data-testid="mantra-display"
     >
       <div className="text-center">
-        <div className="text-[10px] uppercase tracking-wide text-stone-600 dark:text-stone-700 mb-1">
-          Mantra Actual
-        </div>
-        <div className={`text-base font-serif text-stone-800 dark:text-stone-900 leading-snug tracking-wide ${isPlaying ? 'animate-pulse' : ''}`}>
-          ༀ {mantra.texto} ༀ
-        </div>
-        <div className="mt-1 text-[10px] text-stone-600 dark:text-stone-700">
+        <div className="text-xs uppercase tracking-[0.2em] text-[#bf953f] mb-2 font-medium">
           {mantra.deidad}
         </div>
+        <div
+          className={`text-4xl font-light leading-tight mb-3 gold-text ${isPlaying ? 'animate-pulse' : ''}`}
+        >
+          {mantra.nombre}
+        </div>
+        <div className="text-xl mb-2 font-serif italic text-[#ddd]">
+          {mantra.texto}
+        </div>
+        <div className="text-sm border-t border-[rgba(255,215,0,0.2)] pt-3 text-[#aaa] leading-relaxed">
+          {mantra.significado}
+        </div>
         {repetitions > 0 && (
-          <div className="mt-1.5 inline-flex items-center gap-1.5 px-2 py-0.5 bg-white/50 dark:bg-white/30 rounded-full">
-            <span className="text-[10px] font-medium text-amber-800 dark:text-amber-900" data-testid="repetition-counter">
+          <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-[rgba(191,149,63,0.2)] rounded-full border border-[rgba(255,215,0,0.3)]">
+            <span className="text-xs font-medium gold-text" data-testid="repetition-counter">
               {repetitions} repeticiones
             </span>
           </div>

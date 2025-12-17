@@ -20,20 +20,20 @@ export default function MeditacionCard({
       onClick={onClick}
       className={`w-full text-left p-4 rounded-lg transition-all mb-2 ${
         isSelected
-          ? `bg-gradient-to-r ${categoryColor} shadow-lg scale-[1.02]`
-          : 'bg-white/70 dark:bg-stone-800/70 hover:bg-white/90 dark:hover:bg-stone-800/90'
+          ? 'glass-effect shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+          : 'bg-[rgba(30,30,40,0.5)] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
       }`}
     >
-      <h3 className="font-semibold text-stone-800 dark:text-stone-200 mb-2">
+      <h3 className={`font-semibold mb-2 ${isSelected ? 'gold-text' : 'text-[#ddd]'}`}>
         {meditacion.titulo}
       </h3>
-      <p className="text-xs text-stone-600 dark:text-stone-400 mb-2">
+      <p className="text-xs text-[#aaa] mb-2">
         {meditacion.descripcion}
       </p>
-      <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-500">
+      <div className="flex items-center gap-2 text-xs text-[#aaa]">
         <Clock className="w-3 h-3" />
         <span>{meditacion.duracion}</span>
-        <span className="ml-2 px-2 py-0.5 bg-stone-100 dark:bg-stone-700 rounded-full">
+        <span className="ml-2 px-2 py-0.5 bg-[rgba(191,149,63,0.2)] border border-[rgba(255,215,0,0.2)] rounded-full text-[#bf953f]">
           {meditacion.categoria}
         </span>
       </div>

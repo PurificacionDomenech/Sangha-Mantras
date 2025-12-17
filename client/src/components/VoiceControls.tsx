@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Volume2, Mic, Save, Star, Trash2 } from "lucide-react";
+import { Volume2, Mic, Save, Star, Trash2, Settings } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -87,7 +87,7 @@ export default function VoiceControls({
     setPresets(prev => [...prev, newPreset]);
     setPresetName('');
     setShowSaveInput(false);
-    
+
     toast({
       title: "Favorito guardado",
       description: `"${newPreset.nombre}" se ha guardado correctamente`,
@@ -134,14 +134,18 @@ export default function VoiceControls({
   });
 
   const voicesToShow = filteredVoices.length > 0 ? filteredVoices : voices;
-  
+
   const getCultureName = () => {
     const cultura = culturasToUse.find(c => c.id === selectedCulture);
     return cultura?.nombre || 'esta cultura';
   };
 
   return (
-    <div className="bg-white/70 dark:bg-stone-800/70 rounded-lg p-3 space-y-3 h-full flex flex-col" data-testid="voice-controls">
+    <div className="glass-effect rounded-lg p-4" data-testid="voice-controls">
+      <h3 className="text-sm font-semibold gold-text mb-3 flex items-center gap-2 uppercase tracking-wider">
+        <Settings className="w-4 h-4" />
+        Control de Voz
+      </h3>
       {/* Sección de Favoritos */}
       {presets.length > 0 && (
         <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800">
@@ -230,8 +234,8 @@ export default function VoiceControls({
       </div>
 
       <div>
-        <label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 flex items-center gap-2">
-          <Mic className="w-4 h-4" />
+        <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
+          <Mic className="w-4 h-4 inline-block mr-1" />
           Tradición
         </label>
         <div className="grid grid-cols-2 gap-1.5">
@@ -256,7 +260,7 @@ export default function VoiceControls({
       <div className="flex-1 space-y-2.5">
         {voicesToShow.length > 0 ? (
           <div>
-            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 mb-1.5 block">
+            <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
               Voz
             </label>
             <Select 
@@ -279,9 +283,8 @@ export default function VoiceControls({
 
         <div className="space-y-2">
           <div>
-            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
-              <span>Velocidad</span>
-              <span className="text-xs text-stone-500">{speed.toFixed(1)}x</span>
+            <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
+              Velocidad: {speed.toFixed(1)}x
             </label>
             <Slider
               value={[speed]}
@@ -295,9 +298,8 @@ export default function VoiceControls({
           </div>
 
           <div>
-            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
-              <span>Tono</span>
-              <span className="text-xs text-stone-500">{pitch.toFixed(1)}</span>
+            <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
+              Tono: {pitch.toFixed(1)}
             </label>
             <Slider
               value={[pitch]}
@@ -311,12 +313,9 @@ export default function VoiceControls({
           </div>
 
           <div>
-            <label className="text-xs font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between gap-2">
-              <span className="flex items-center gap-1.5">
-                <Volume2 className="w-3.5 h-3.5" />
-                Volumen
-              </span>
-              <span className="text-xs text-stone-500">{Math.round(volume * 100)}%</span>
+            <label className="text-xs text-[#aaa] mb-2 block uppercase tracking-wide">
+              <Volume2 className="w-3.5 h-3.5 inline-block mr-1" />
+              Volumen: {Math.round(volume * 100)}%
             </label>
             <Slider
               value={[volume]}
