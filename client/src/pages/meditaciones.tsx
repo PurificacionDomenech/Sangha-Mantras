@@ -156,8 +156,17 @@ export default function Meditaciones() {
 
   const speakMeditation = useCallback(() => {
     if (!('speechSynthesis' in window)) return;
-    if (!currentMeditacion || !currentMeditacion.texto) {
-      console.warn('No hay meditación o texto disponible');
+    
+    // Validación robusta
+    if (!currentMeditacion) {
+      console.warn('No hay meditación disponible');
+      stopMeditation();
+      return;
+    }
+    
+    if (!currentMeditacion.texto || typeof currentMeditacion.texto !== 'string') {
+      console.warn('No hay texto disponible en la meditación');
+      stopMeditation();
       return;
     }
 
@@ -234,7 +243,7 @@ export default function Meditaciones() {
     };
 
     speakNextSegment();
-  }, [currentMeditacion.texto, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
+  }, [currentMeditacion, speed, pitch, volume, selectedVoice, stopMeditation, toast, pauseBetweenPhrases]);
 
   const togglePlayPause = useCallback(() => {
     if (!isPlaying) {
