@@ -16,35 +16,35 @@ export default function Header() {
   const [location] = useLocation();
 
   return (
-    <header className="bg-white/80 dark:bg-stone-900/80 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 mb-8">
+    <header className="glass-effect border-b-2 border-[rgba(255,215,0,0.3)] mb-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="text-3xl">ༀ</div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <div className="text-3xl gold-text">ༀ</div>
+            <h1 className="text-2xl font-bold gold-text tracking-[0.3em]">
               MEDIT@
             </h1>
           </div>
 
           <nav className="flex gap-2">
-            <Link href="/" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            <Link href="/" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
               location === '/'
-                ? 'bg-amber-500 text-white shadow-lg'
-                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+                ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Mantras
             </Link>
-            <Link href="/nombres-sagrados" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            <Link href="/nombres-sagrados" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
               location === '/nombres-sagrados'
-                ? 'bg-amber-500 text-white shadow-lg'
-                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+                ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Nombres Sagrados
             </Link>
-            <Link href="/meditaciones" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            <Link href="/meditaciones" className={`px-4 py-2 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
               location === '/meditaciones'
-                ? 'bg-amber-500 text-white shadow-lg'
-                : 'bg-white/50 dark:bg-stone-800/50 text-stone-700 dark:text-stone-300 hover:bg-amber-100 dark:hover:bg-stone-700'
+                ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Meditaciones
             </Link>
@@ -52,7 +52,7 @@ export default function Header() {
 
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2 glass-effect text-[#bf953f] hover:text-[#fcf6ba] border-[rgba(255,215,0,0.3)] hover:border-[rgba(255,215,0,0.6)] uppercase tracking-wider">
                 <HelpCircle className="w-4 h-4" />
                 Instrucciones
               </Button>

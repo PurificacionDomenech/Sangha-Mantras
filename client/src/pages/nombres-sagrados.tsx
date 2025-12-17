@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import NombreSagradoCard from "@/components/NombreSagradoCard";
 import TimerControls from "@/components/TimerControls";
 import VoiceControls from "@/components/VoiceControls";
 import AmbientSounds from "@/components/AmbientSounds";
+import CardGame from "@/components/CardGame";
+import { Button } from "@/components/ui/button";
 import { nombresSagrados } from "@/lib/mantras-data";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,6 +25,7 @@ export default function NombresSagrados() {
   const [selectedCulture, setSelectedCulture] = useState("he-IL");
   const [repetitions, setRepetitions] = useState(0);
   const [sessionFinished, setSessionFinished] = useState(false);
+  const [showCardGame, setShowCardGame] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number | null>(null);
@@ -293,12 +297,31 @@ export default function NombresSagrados() {
   }, [voices]);
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-nombres)' }}>
-      <div className="absolute inset-0 bg-amber-900/5 dark:bg-amber-950/20"></div>
-      <div className="relative z-10">
-      <Header />
+    <>
+      {showCardGame && (
+        <CardGame
+          nombres={Object.values(nombresSagrados).flatMap(cat => cat.nombres)}
+          onClose={() => setShowCardGame(false)}
+        />
+      )}
+      <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-nombres)' }}>
+        <div className="absolute inset-0 bg-amber-900/5 dark:bg-amber-950/20"></div>
+        <div className="relative z-10">
+        <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
+        {/* Botón de Juego de Cartas */}
+        <div className="mb-6 text-center">
+          <Button
+            onClick={() => setShowCardGame(true)}
+            className="glass-effect gold-text text-lg px-8 py-6 hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] uppercase tracking-[0.2em] border-2"
+            size="lg"
+          >
+            <Sparkles className="w-5 h-5 mr-2" />
+            Juego de Cartas Místico
+          </Button>
+        </div>
+
         {/* Selector de Categorías - 10 Sefirot */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
           {Object.entries(nombresSagrados).map(([key, categoria]) => (
@@ -401,6 +424,6 @@ export default function NombresSagrados() {
         </div>
       </div>
       </div>
-    </div>
+    </>
   );
 }

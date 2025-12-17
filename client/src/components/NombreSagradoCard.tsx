@@ -25,29 +25,29 @@ export default function NombreSagradoCard({
       disabled={isYHWH}
       className={`w-full text-left p-2 rounded-lg transition-all ${
         isYHWH 
-          ? `bg-gradient-to-br ${categoryColor} shadow-lg border-2 border-amber-400 dark:border-amber-500 opacity-90 cursor-not-allowed`
+          ? 'glass-effect opacity-60 cursor-not-allowed'
           : isSelected
-          ? `bg-gradient-to-br ${categoryColor} shadow-lg border-2 border-amber-300 dark:border-amber-600`
-          : 'bg-white/70 dark:bg-stone-800/70 hover:bg-white dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700'
+          ? 'glass-effect shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+          : 'bg-[rgba(30,30,40,0.5)] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
       }`}
     >
-      <div className="text-[10px] uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-0.5 font-medium">
+      <div className="text-[10px] uppercase tracking-wide text-[#bf953f] mb-0.5 font-medium">
         {nombre.nombre}
       </div>
       
       <div 
-        className="text-xs font-light text-stone-800 dark:text-stone-200 mb-0.5" 
+        className={`text-xs font-light mb-0.5 ${isSelected ? 'gold-text' : 'text-[#ddd]'}`}
         style={{ fontFamily: "'Frank Ruhl Libre', serif", direction: 'rtl' }}
       >
         {nombre.hebreo}
       </div>
       
-      <div className="text-[10px] text-stone-600 dark:text-stone-400 leading-snug line-clamp-1">
+      <div className="text-[10px] text-[#aaa] leading-snug line-clamp-1">
         {nombre.significado}
       </div>
 
       {isYHWH && (
-        <div className="mt-0.5 text-[9px] italic text-amber-800 dark:text-amber-900">
+        <div className="mt-0.5 text-[9px] italic text-[#bf953f]">
           ✦ No reproducible por respeto
         </div>
       )}
