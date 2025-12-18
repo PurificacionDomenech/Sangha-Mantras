@@ -17,15 +17,15 @@ export default function Welcome() {
         <header className="text-center mb-12 animate-fadeInDown">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="text-5xl gold-text">ༀ</div>
-            <h1 className="text-5xl md:text-6xl font-bold gold-text-animated tracking-[0.3em]" style={{ fontFamily: "'Cinzel', serif" }}>
+            <h1 className="text-5xl md:text-6xl font-bold gold-text tracking-[0.3em]" style={{ fontFamily: "'Cinzel', serif" }}>
               MEDIT@
             </h1>
           </div>
-          <p className="text-2xl text-[#8ba888] italic tracking-wider mb-3">
-            Bienvenido/a a Meditación Guiada
+          <p className="text-2xl gold-text tracking-wider mb-3" style={{ fontFamily: "'Cinzel', serif" }}>
+            Bienvenid@
           </p>
-          <p className="text-lg text-[#aaa] max-w-3xl mx-auto">
-            Explora prácticas de sabiduría y bienestar desde diferentes tradiciones
+          <p className="text-base text-[#ddd] max-w-3xl mx-auto leading-relaxed">
+            Este es un espacio dedicado a nutrir y desarrollar tu lado espiritual. Entendemos que cada persona alimenta su espíritu desde perspectivas únicas y diversas, y nuestro único propósito es acompañarte en ese crecimiento, sin importar el camino, tradición o sendero que hayas elegido. Aquí todos los enfoques son bienvenidos y respetados.
           </p>
         </header>
 
