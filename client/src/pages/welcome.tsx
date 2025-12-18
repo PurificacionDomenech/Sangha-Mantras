@@ -5,7 +5,7 @@ export default function Welcome() {
   return (
     <div 
       className="min-h-screen bg-cover bg-center bg-fixed relative flex items-center justify-center"
-      style={{ backgroundImage: 'url(/galaxia-inicio.jpg)' }}
+      style={{ backgroundImage: 'var(--bg-galaxia)' }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/70 via-[#1a0b2e]/60 to-[#000000]/70"></div>
       
@@ -25,60 +25,60 @@ export default function Welcome() {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
           <Link href="/mantras-reflexiones">
-            <a className="glass-effect p-6 rounded-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.5)] transition-all group cursor-pointer h-full flex flex-col">
-              <h3 className="text-xl font-semibold gold-text mb-3 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <a className="glass-effect p-4 rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all group cursor-pointer h-full flex flex-col">
+              <h3 className="text-base font-semibold gold-text mb-2 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                 Mantras y Reflexiones Universales
               </h3>
-              <p className="text-[#aaa] text-sm flex-grow">
+              <p className="text-[#aaa] text-xs flex-grow leading-relaxed">
                 Meditaciones generales de conexión, mantras budistas e hindúes. Incluye prácticas de vacío, estrella y conexión con el todo.
               </p>
             </a>
           </Link>
 
           <Link href="/nombres-sagrados-path">
-            <a className="glass-effect p-6 rounded-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.5)] transition-all group cursor-pointer h-full flex flex-col">
-              <h3 className="text-xl font-semibold gold-text mb-3 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <a className="glass-effect p-4 rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all group cursor-pointer h-full flex flex-col">
+              <h3 className="text-base font-semibold gold-text mb-2 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                 72 Nombres Sagrados
               </h3>
-              <p className="text-[#aaa] text-sm flex-grow mb-2">
+              <p className="text-[#aaa] text-xs flex-grow mb-1 leading-relaxed">
                 Exploraciones espirituales desde la tradición cabalística y meditaciones contemplativas.
               </p>
-              <p className="text-xs text-[#888] italic">
+              <p className="text-[10px] text-[#888] italic">
                 Los 72 Nombres de Dios y prácticas meditativas
               </p>
             </a>
           </Link>
 
           <Link href="/meditaciones">
-            <a className="glass-effect p-6 rounded-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.5)] transition-all group cursor-pointer h-full flex flex-col">
-              <h3 className="text-xl font-semibold gold-text mb-3 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <a className="glass-effect p-4 rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all group cursor-pointer h-full flex flex-col">
+              <h3 className="text-base font-semibold gold-text mb-2 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                 Meditaciones Guiadas
               </h3>
-              <p className="text-[#aaa] text-sm flex-grow">
+              <p className="text-[#aaa] text-xs flex-grow leading-relaxed">
                 Viajes místicos y meditaciones narradas. Experiencias profundas de transformación interior.
               </p>
             </a>
           </Link>
 
           <Link href="/mundo-esoterico">
-            <a className="glass-effect p-6 rounded-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.5)] transition-all group cursor-pointer h-full flex flex-col">
-              <h3 className="text-xl font-semibold gold-text mb-3 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <a className="glass-effect p-4 rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all group cursor-pointer h-full flex flex-col">
+              <h3 className="text-base font-semibold gold-text mb-2 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                 Mundo Esotérico
               </h3>
-              <p className="text-[#aaa] text-sm flex-grow">
+              <p className="text-[#aaa] text-xs flex-grow leading-relaxed">
                 Tarot Botánico y prácticas de sabiduría ancestral. Explora los arcanos desde la naturaleza.
               </p>
             </a>
           </Link>
 
           <Link href="/todo">
-            <a className="glass-effect p-6 rounded-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.5)] transition-all group cursor-pointer h-full flex flex-col">
-              <h3 className="text-xl font-semibold gold-text mb-3 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <a className="glass-effect p-4 rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all group cursor-pointer h-full flex flex-col">
+              <h3 className="text-base font-semibold gold-text mb-2 group-hover:gold-text-animated uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
                 Todo (Explorar Libremente)
               </h3>
-              <p className="text-[#aaa] text-sm flex-grow">
+              <p className="text-[#aaa] text-xs flex-grow leading-relaxed">
                 Accede a todas las secciones sin restricciones. Explora libremente todas las prácticas.
               </p>
             </a>
