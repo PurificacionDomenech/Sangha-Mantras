@@ -21,6 +21,7 @@ function Router() {
       <Route path="/nombres-sagrados-path/meditaciones" component={NombresSagradosPath} />
       <Route path="/meditaciones" component={Meditaciones} />
       <Route path="/mundo-esoterico" component={MundoEsoterico} />
+      <Route path="/todo" component={Todo} />
       <Route path="/todo/:rest*" component={Todo} />
       <Route component={NotFound} />
     </Switch>

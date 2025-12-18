@@ -13,9 +13,11 @@ export default function Todo() {
       
       <Switch>
         <Route path="/todo" component={Home} />
+        <Route path="/todo/" component={Home} />
         <Route path="/todo/nombres-sagrados" component={NombresSagrados} />
         <Route path="/todo/meditaciones" component={Meditaciones} />
         <Route path="/todo/tarot-botanico" component={TarotBotanico} />
+        <Route component={Home} />
       </Switch>
     </div>
   );
