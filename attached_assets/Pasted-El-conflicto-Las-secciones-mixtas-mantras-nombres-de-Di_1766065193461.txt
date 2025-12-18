@@ -1,0 +1,14 @@
+El conflicto: Las secciones mixtas (mantras, nombres de Dios, tarot) podrían hacer que alguien sienta que la app "impone" creencias ajenas. Budistas podrían ver "Nombres de Dios" como teísta (aunque el budismo tiene sus figuras), judíos podrían rechazar tarot por asociaciones esotéricas (aunque el tarot moderno no es inherentemente religioso).
+La clave: Separar desde el principio para que cada usuario elija su "ruta" y no vea lo que no quiere. Esto hace la app inclusiva, no agresiva – como un menú personalizado donde nadie se siente forzado a "comer" algo que no le gusta.
+Objetivo: Una primera pantalla que actúe como "puerta de entrada" neutral, con opciones claras y respetuosas. Así, evitas interpretaciones negativas (no se ve como "una agresión" a creencias, sino como un espacio adaptable).
+
+2. Propuesta de Diseño para la Primera Pantalla Usemos un enfoque simple y neutral: la app empieza con una pantalla de "Bienvenida" que pregunta por preferencias sin etiquetas religiosas. (es Python/JS, así que puedes agregar lógica básica con if/else o botones).Pantalla Inicial (Bienvenida):Fondo neutro (como el actual: oscuro, relajante, con una imagen abstracta de luz o naturaleza – nada simbólico).
+Texto central: "Bienvenido/a a Meditación Guiada.
+"Explora prácticas de sabiduría y bienestar desde diferentes tradiciones"
+Botones de opciones (sin menciones religiosas explícitas para no ofender de entrada):"Meditaciones Neutras y de Conexión" (incluye tus meditaciones generales: vacío, estrella, conexión con todo – sin dioses o tarot).
+"Mantras y Reflexiones Universales" Aquí podemos añadir la sección meditaciones también, no crea conflicto.
+"Exploraciones Espirituales". en pequeño 72 nombre de dios.Aquí podemos añadir la sección meditaciones también, no crea conflicto
+"Mundo Esoterico" 
+"Todo (Explorar Libremente)" (para quien no le importe ver todo). como esta ahora.
+la pagina dice al final "Medit@ presenta diferentes tradiciones espirituales de forma separada y respetuosa. No promovemos el sincretismo ni la mezcla de prácticas. Cada camino mantiene su integridad y contexto cultural."
+ Mantenenos el diseño, pero cambiamos los nombres de las secciones. Te paso una foto para el inicio
