@@ -321,7 +321,7 @@ export default function NombresSagrados() {
             size="lg"
           >
             <Sparkles className="w-5 h-5 mr-2" />
-            Juego de Cartas Místico
+            Cartas Místicas
           </Button>
         </div>
 
