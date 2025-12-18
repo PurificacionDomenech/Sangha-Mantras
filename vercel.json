@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "top/medita-black-vercel.app/index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/top/medita-black-vercel.app/$1"
+    }
+  ]
+}
