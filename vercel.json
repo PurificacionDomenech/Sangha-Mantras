@@ -1,14 +1,27 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "top/medita-black-vercel.app/index.html",
-      "use": "@vercel/static"
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/public"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/top/medita-black-vercel.app/$1"
+      "dest": "dist/public/index.html"
     }
   ]
 }
+
