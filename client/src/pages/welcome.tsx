@@ -4,16 +4,14 @@ import { Link } from "wouter";
 export default function Welcome() {
   return (
     <div 
-      className="min-h-screen relative flex items-center justify-center"
-      style={{ 
-        backgroundImage: "url('/galaxia-inicio.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundColor: '#0a0a0a'
-      }}
+      className="min-h-screen relative flex items-center justify-center bg-black"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
+      <img 
+        src="/galaxia-inicio.jpg" 
+        alt="Background" 
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/10"></div>
       
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-12">
         <header className="text-center mb-12 animate-fadeInDown">
