@@ -7,7 +7,7 @@ export default function Welcome() {
       className="min-h-screen relative flex items-center justify-center bg-black"
     >
       <img 
-        src="/galaxia-inicio.jpg" 
+        src="/Galaxia.png" 
         alt="Background" 
         className="absolute inset-0 w-full h-full object-cover"
       />
