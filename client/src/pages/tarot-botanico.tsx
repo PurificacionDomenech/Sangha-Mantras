@@ -317,7 +317,6 @@ export default function TarotBotanico() {
     <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed relative" style={{ backgroundImage: 'url(/Arbol.png)' }}>
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a0b2e]/85 via-[#000000]/75 to-[#1a0b2e]/85"></div>
       <div className="relative z-10">
-        <Header />
 
         <div className="max-w-7xl mx-auto px-4 pb-12">
           <header className="text-center mb-8 animate-fadeInDown">

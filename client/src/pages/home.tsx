@@ -304,7 +304,6 @@ export default function Home() {
       <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-mantras)' }}>
         <div className="absolute inset-0 bg-rose-900/5 dark:bg-rose-950/20"></div>
         <div className="relative z-10">
-        <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
         {/* Botón de Juego de Cartas */}

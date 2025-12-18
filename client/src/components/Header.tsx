@@ -78,29 +78,29 @@ export default function Header() {
           </div>
 
           <nav className="flex flex-wrap gap-1.5 md:gap-2">
-            <Link href="/" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
-              location === '/'
+            <Link href="/todo" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
+              location === '/todo'
                 ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
                 : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Mantras
             </Link>
-            <Link href="/nombres-sagrados" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
-              location === '/nombres-sagrados'
+            <Link href="/todo/nombres-sagrados" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
+              location === '/todo/nombres-sagrados'
                 ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
                 : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Nombres
             </Link>
-            <Link href="/meditaciones" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
-              location === '/meditaciones'
+            <Link href="/todo/meditaciones" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
+              location === '/todo/meditaciones'
                 ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
                 : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>
               Meditaciones
             </Link>
-            <Link href="/tarot-botanico" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
-              location === '/tarot-botanico'
+            <Link href="/todo/tarot-botanico" className={`px-2 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all uppercase tracking-wide md:tracking-wider ${
+              location === '/todo/tarot-botanico'
                 ? 'glass-effect gold-text shadow-[0_0_15px_rgba(255,215,0,0.4)]'
                 : 'bg-[rgba(30,30,40,0.5)] text-[#ddd] border border-[rgba(255,215,0,0.2)] hover:border-[rgba(255,215,0,0.5)] hover:shadow-[0_0_10px_rgba(255,215,0,0.3)]'
             }`}>

@@ -311,7 +311,6 @@ export default function NombresSagrados() {
       <div className="min-h-screen bg-cover bg-center bg-fixed relative" style={{ backgroundImage: 'var(--bg-nombres)' }}>
         <div className="absolute inset-0 bg-amber-900/5 dark:bg-amber-950/20"></div>
         <div className="relative z-10">
-        <Header />
 
       <div className="max-w-7xl mx-auto px-4 pb-12">
         {/* Botón de Juego de Cartas */}
